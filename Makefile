@@ -30,15 +30,15 @@
 #---------------------------------------------------------------------------------------------------------------------
 TARGET      	:=  $(notdir $(CURDIR))
 BUILD       	:=  build
-LIBBUTANO   	:=  ../butano
+LIBBUTANO   	:=  ../butano/butano
 PYTHON      	:=  python
-SOURCES     	:=  src
-INCLUDES    	:=  include
+SOURCES     	:=  src ../butano/common/src
+INCLUDES    	:=  include ../butano/common/include
 DATA        	:=
-GRAPHICS    	:=  graphics
-AUDIO       	:=  audio
-DMGAUDIO    	:=  dmg_audio
-ROMTITLE    	:=  ROM TITLE
+GRAPHICS    	:=  graphics ../butano/common/graphics graphics/shape_group_textures
+AUDIO       	:=  audio ../butano/common/audio
+DMGAUDIO    	:=  dmg_audio ../butano/common/dmg_audio
+ROMTITLE    	:=  GBA JAM 2024
 ROMCODE     	:=  SBTP
 USERFLAGS   	:=  
 USERCXXFLAGS	:=  
