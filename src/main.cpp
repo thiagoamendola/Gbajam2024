@@ -12,6 +12,8 @@
 #include "bn_colors.h"
 #include "bn_sprite_animate_actions.h"
 #include "bn_regular_bg_ptr.h"
+#include "bn_display.h"
+#include "bn_math.h"
 #include "common_variable_8x16_sprite_font.h"
 
 // #include "fr_scene_type.h"
@@ -45,48 +47,48 @@ void controller_move_update(
     controller_spr.set_x(dir_input.x() * controller_distance);
 }
 
-// void controller_vfx_update(
-//     bn::fixed &base_degrees_angle,
-//     bn::array<bn::fixed, bn::display::height()> &horizontal_deltas,
-//     bn::sprite_position_hbe_ptr &horizontal_position_hbe)
-// {
-//     if (bn::keypad::a_held())
-//     {
-//         base_degrees_angle += 4;
+void controller_vfx_update(
+    bn::fixed &base_degrees_angle,
+    bn::array<bn::fixed, bn::display::height()> &horizontal_deltas,
+    bn::sprite_position_hbe_ptr &horizontal_position_hbe)
+{
+    if (bn::keypad::a_held())
+    {
+        base_degrees_angle += 4;
 
-//         if (base_degrees_angle >= 360)
-//         {
-//             base_degrees_angle -= 360;
-//         }
+        if (base_degrees_angle >= 360)
+        {
+            base_degrees_angle -= 360;
+        }
 
-//         bn::fixed degrees_angle = base_degrees_angle;
+        bn::fixed degrees_angle = base_degrees_angle;
 
-//         for (int index = 0, limit = bn::display::height() / 2; index < limit; ++index)
-//         {
-//             degrees_angle += 16;
+        for (int index = 0, limit = bn::display::height() / 2; index < limit; ++index)
+        {
+            degrees_angle += 16;
 
-//             if (degrees_angle >= 360)
-//             {
-//                 degrees_angle -= 360;
-//             }
+            if (degrees_angle >= 360)
+            {
+                degrees_angle -= 360;
+            }
 
-//             bn::fixed desp = bn::degrees_lut_sin(degrees_angle) * 6;
-//             horizontal_deltas[(bn::display::height() / 2) + index] = desp;
-//             horizontal_deltas[(bn::display::height() / 2) - index - 1] = desp;
-//         }
+            bn::fixed desp = bn::degrees_lut_sin(degrees_angle) * 6;
+            horizontal_deltas[(bn::display::height() / 2) + index] = desp;
+            horizontal_deltas[(bn::display::height() / 2) - index - 1] = desp;
+        }
 
-//         horizontal_position_hbe.reload_deltas_ref();
-//     }
-//     else
-//     {
-//         for (int index = 0, limit = bn::display::height() / 2; index < limit; ++index)
-//         {
-//             horizontal_deltas[(bn::display::height() / 2) + index] = 0;
-//             horizontal_deltas[(bn::display::height() / 2) - index - 1] = 0;
-//         }
-//         horizontal_position_hbe.reload_deltas_ref();
-//     }
-// }
+        horizontal_position_hbe.reload_deltas_ref();
+    }
+    else
+    {
+        for (int index = 0, limit = bn::display::height() / 2; index < limit; ++index)
+        {
+            horizontal_deltas[(bn::display::height() / 2) + index] = 0;
+            horizontal_deltas[(bn::display::height() / 2) - index - 1] = 0;
+        }
+        horizontal_position_hbe.reload_deltas_ref();
+    }
+}
 
 void arrow_update(bn::sprite_ptr &arrow_spr)
 {
@@ -200,10 +202,10 @@ int main()
             controller_spr.set_scale(2);
 
             // Set controller effect
-            // bn::array<bn::fixed, bn::display::height()> horizontal_deltas;
-            // bn::sprite_position_hbe_ptr horizontal_position_hbe =
-            //     bn::sprite_position_hbe_ptr::create_horizontal(controller_spr, horizontal_deltas);
-            // bn::fixed base_degrees_angle;
+            bn::array<bn::fixed, bn::display::height()> horizontal_deltas;
+            bn::sprite_position_hbe_ptr horizontal_position_hbe =
+                bn::sprite_position_hbe_ptr::create_horizontal(controller_spr, horizontal_deltas);
+            bn::fixed base_degrees_angle;
 
             // Set changeable sprite
             bn::sprite_ptr arrow_spr = bn::sprite_items::arrow.create_sprite(100, 60);
@@ -219,10 +221,10 @@ int main()
 
             while (!bn::keypad::start_pressed())
             {
-                // controller_vfx_update(
-                //     base_degrees_angle,
-                //     horizontal_deltas,
-                //     horizontal_position_hbe);
+                controller_vfx_update(
+                    base_degrees_angle,
+                    horizontal_deltas,
+                    horizontal_position_hbe);
 
                 // Move controller
                 controller_move_update(controller, controller_spr);
