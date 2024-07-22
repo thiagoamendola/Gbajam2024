@@ -7,23 +7,23 @@
 #define FR_SCENE_H
 
 #include "bn_optional.h"
+#include "scene_type.h"
+
+// enum class scene_type;
 
 namespace fr
 {
+    class scene
+    {
 
-enum class scene_type;
+    public:
+        virtual ~scene() = default;
 
-class scene
-{
+        [[nodiscard]] virtual bn::optional<scene_type> update() = 0;
 
-public:
-    virtual ~scene() = default;
-
-    [[nodiscard]] virtual bn::optional<scene_type> update() = 0;
-
-protected:
-    scene() = default;
-};
+    protected:
+        scene() = default;
+    };
 
 }
 

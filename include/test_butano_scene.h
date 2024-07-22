@@ -1,3 +1,5 @@
+#ifndef TEST_BUTANO_SCENE_H
+#define TEST_BUTANO_SCENE_H
 
 #include "bn_regular_bg_ptr.h"
 #include "bn_bg_palettes_actions.h"
@@ -11,6 +13,7 @@
 
 #include "fr_scene.h"
 
+#include "scene_type.h"
 #include "controller.h"
 
 class test_butano_scene : public fr::scene
@@ -19,7 +22,7 @@ class test_butano_scene : public fr::scene
 public:
     test_butano_scene();
 
-    [[nodiscard]] bn::optional<fr::scene_type> update() final;
+    [[nodiscard]] bn::optional<scene_type> update() final;
 
 private:
     void controller_move_update();
@@ -51,3 +54,5 @@ private:
     // Background
     bn::regular_bg_ptr floor_bg;
 };
+
+#endif

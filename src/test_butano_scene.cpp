@@ -43,23 +43,28 @@ test_butano_scene::test_butano_scene() : bgs_fade_in_action(bn::bg_palettes_fade
     controller_spr.set_scale(2);
 }
 
-bn::optional<fr::scene_type> test_butano_scene::update()
+bn::optional<scene_type> test_butano_scene::update()
 {
-    bn::optional<fr::scene_type> result;
+    bn::optional<scene_type> result;
 
-    // while (!bn::keypad::start_pressed())
+    if (!bn::keypad::start_pressed())
+    {
+        controller_vfx_update();
 
-    controller_vfx_update();
+        // Move controller
+        controller_move_update();
 
-    // Move controller
-    controller_move_update();
-
-    arrow_update();
-    ninja_update();
-    bg_upgrade();
+        arrow_update();
+        ninja_update();
+        bg_upgrade();
+    }
+    else
+    {
+        // <-- Point to next scene
+    }
 
     // Update frame
-    // bn::core::update(); // <-- REMOVE?
+    // bn::core::update(); // <-- REMOVE
 
     return result;
 }
