@@ -20,6 +20,8 @@ private:
     fr::models_3d _models;
     fr::model_3d *_model;
     // fr::model_3d *_trees[10];
+
+    bool prepare_to_leave;
 };
 
 #endif

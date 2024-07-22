@@ -18,7 +18,7 @@
 #include "models/shot.h"
 // #include "models/test.h"
 
-test_3d_scene::test_3d_scene()
+test_3d_scene::test_3d_scene() : prepare_to_leave(false)
 {
     _camera.set_position(fr::point_3d(0, 40, 0));
     // _models.load_colors(fr::model_3d_items::gba_colors);
@@ -48,9 +48,14 @@ bn::optional<scene_type> test_3d_scene::update()
 {
     bn::optional<scene_type> result;
 
-    if (bn::keypad::a_pressed())
+    if (prepare_to_leave)
     {
         result = scene_type::BUTANO_INTRO;
+    }
+    else if (bn::keypad::start_pressed())
+    {
+        _models.destroy_dynamic_model(*_model);
+        prepare_to_leave = true;
     }
     else
     {
