@@ -11,35 +11,32 @@
 #include "scene_type.h"
 #include "fr_model_colors.h"
 
-// #include "models/fr_model_3d_items_gba.h"
-// #include "models/fr_model_3d_items_butano.h"
-// #include "models/fr_model_3d_items_bush.h"
 // #include "models/cartoon_tree.h"
 #include "models/shot.h"
-// #include "models/test.h"
+#include "models/bush.h"
 
 test_3d_scene::test_3d_scene() : prepare_to_leave(false)
 {
     _camera.set_position(fr::point_3d(0, 40, 0));
-    // _models.load_colors(fr::model_3d_items::gba_colors);
-    // _models.load_colors(fr::model_3d_items::butano_colors);
-    // _models.load_colors(fr::model_3d_items::test_colors);
-    _models.load_colors(fr::model_3d_items::shot_colors);
+    // _models.load_colors(fr::model_3d_items::shot_colors);
+    _models.load_colors(fr::model_3d_items::bush_colors);
     // _models.load_colors(fr::default_model_colors);
 
-    _model = &_models.create_dynamic_model(fr::model_3d_items::shot_full);
+    // _model = &_models.create_dynamic_model(fr::model_3d_items::shot_full);
+    // _model->set_position(fr::point_3d(0, -80, 0));
+    _model = &_models.create_dynamic_model(fr::model_3d_items::bush_full);
     _model->set_position(fr::point_3d(0, -80, 0));
 
-    for (int i = 0; i < 3; i++)
-    {
-        // _model = &_models.create_dynamic_model(fr::model_3d_items::gba);
-        // _model = &_models.create_dynamic_model(fr::model_3d_items::butano);
-        // _trees[i] = &_models.create_dynamic_model(fr::model_3d_items::cartoon_tree_full);
-        // _model = &_models.create_dynamic_model(fr::model_3d_items::test_full);
-        // _model = &_models.create_dynamic_model(fr::model_3d_items::bush);
-        // _trees[i]->set_position(fr::point_3d(30 + i k* 35, 0 + i * 75, 0));
-        // _model->set_psi(900);
-    }
+    // for (int i = 0; i < 3; i++)
+    // {
+    // _model = &_models.create_dynamic_model(fr::model_3d_items::gba);
+    // _model = &_models.create_dynamic_model(fr::model_3d_items::butano);
+    // _trees[i] = &_models.create_dynamic_model(fr::model_3d_items::cartoon_tree_full);
+    // _model = &_models.create_dynamic_model(fr::model_3d_items::test_full);
+    // _model = &_models.create_dynamic_model(fr::model_3d_items::bush);
+    // _trees[i]->set_position(fr::point_3d(30 + i k* 35, 0 + i * 75, 0));
+    // _model->set_psi(900);
+    // }
 
     bn::bg_palettes::set_transparent_color(bn::color(25, 18, 25));
 }
