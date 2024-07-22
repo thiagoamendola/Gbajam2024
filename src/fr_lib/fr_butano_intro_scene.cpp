@@ -99,6 +99,7 @@ namespace fr
                         if (_butano_model)
                         {
                             _text_sprites.clear();
+                            bn::sprite_palettes::set_fade(bn::color(31, 31, 31), 0);
                             _models.destroy_dynamic_model(*_butano_model);
                             _butano_model = nullptr;
                             // Wait one frame for model destruction
