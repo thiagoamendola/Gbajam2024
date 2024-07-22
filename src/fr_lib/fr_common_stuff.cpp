@@ -10,19 +10,18 @@
 
 // <-- I might want to make my own common_stuff
 
-// #include "fr_big_sprite_font.h"
+#include "fr_big_sprite_font.h"
 // #include "fr_small_fixed_sprite_font.h"
 // #include "fr_small_variable_sprite_font.h"
 
 namespace fr
 {
 
-    // common_stuff::common_stuff() : big_text_generator(big_sprite_font),
+    common_stuff::common_stuff() : big_text_generator(big_sprite_font)
     // small_fixed_text_generator(small_fixed_sprite_font),
     // small_variable_text_generator(small_variable_sprite_font)
-    common_stuff::common_stuff()
     {
-        // big_text_generator.set_bg_priority(1);
+        big_text_generator.set_bg_priority(1);
         // small_fixed_text_generator.set_bg_priority(1);
         // small_variable_text_generator.set_bg_priority(1);
         // storage.init();

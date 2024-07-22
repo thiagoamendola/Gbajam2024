@@ -19,7 +19,7 @@
 #include "scene_type.h"
 #include "fr_common_stuff.h"
 // #include "fr_jam_intro_scene.h"
-// #include "fr_butano_intro_scene.h"
+#include "fr_butano_intro_scene.h"
 
 #include "test_butano_scene.h"
 
@@ -91,7 +91,7 @@ int main()
                     break;
 
                 case scene_type::BUTANO_INTRO:
-                    // scene.reset(new fr::butano_intro_scene(*common_stuff));
+                    scene.reset(new fr::butano_intro_scene(*common_stuff));
                     break;
 
                 default:

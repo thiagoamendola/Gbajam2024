@@ -17,7 +17,7 @@ namespace fr
     {
 
     public:
-        // bn::sprite_text_generator big_text_generator;
+        bn::sprite_text_generator big_text_generator;
         // bn::sprite_text_generator small_fixed_text_generator;
         // bn::sprite_text_generator small_variable_text_generator;
         // sram_data storage;

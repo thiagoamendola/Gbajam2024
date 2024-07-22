@@ -60,11 +60,8 @@ bn::optional<scene_type> test_butano_scene::update()
     }
     else
     {
-        // <-- Point to next scene
+        result = scene_type::BUTANO_INTRO;
     }
-
-    // Update frame
-    // bn::core::update(); // <-- REMOVE
 
     return result;
 }
