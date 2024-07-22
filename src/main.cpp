@@ -22,6 +22,7 @@
 #include "fr_butano_intro_scene.h"
 
 #include "test_butano_scene.h"
+#include "test_3d_scene.h"
 
 #include "bn_sprite_items_controller.h"
 #include "bn_sprite_items_arrow.h"
@@ -92,6 +93,10 @@ int main()
 
                 case scene_type::BUTANO_INTRO:
                     scene.reset(new fr::butano_intro_scene(*common_stuff));
+                    break;
+
+                case scene_type::TEST_3D:
+                    scene.reset(new test_3d_scene());
                     break;
 
                 default:
