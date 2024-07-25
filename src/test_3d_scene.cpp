@@ -17,35 +17,25 @@
 #include "models/bush.h"
 
 constexpr auto _bush_model =
-    fr::transformed_model_3d_item<fr::model_3d_items::bush_full>(0, -80, 0);
+    fr::transformed_model_3d_item<fr::model_3d_items::bush_full>(0, 40, 0); // x, z, theta
 
-test_3d_scene::test_3d_scene() : _model_items({
-                                     // _bush_model.item()
-                                 }),
+constexpr fr::model_3d_item static_model_items[] = {
+    _bush_model.item()};
+
+test_3d_scene::test_3d_scene() : _model_items(static_model_items),
                                  prepare_to_leave(false)
 {
     _camera.set_position(fr::point_3d(0, 40, 0));
-    _models.load_colors(fr::model_3d_items::shot_colors);
+    _models.load_colors(fr::model_3d_items::shot_colors); // <-- The entire scene shares the same pallette. I'll have to do something about it
     // _models.load_colors(fr::model_3d_items::bush_colors);
     // _models.load_colors(fr::default_model_colors);
 
     _model = &_models.create_dynamic_model(fr::model_3d_items::shot_full);
-    // _model->set_position(fr::point_3d(0, -80, 0));
-    // _model = &_models.create_dynamic_model(fr::model_3d_items::small_tree);
-    _model->set_position(fr::point_3d(0, -80, 20));
-
-    // for (int i = 0; i < 3; i++)
-    // {
-    // _model = &_models.create_dynamic_model(fr::model_3d_items::gba);
-    // _model = &_models.create_dynamic_model(fr::model_3d_items::butano);
-    // _trees[i] = &_models.create_dynamic_model(fr::model_3d_items::cartoon_tree_full);
-    // _model = &_models.create_dynamic_model(fr::model_3d_items::test_full);
-    // _model = &_models.create_dynamic_model(fr::model_3d_items::bush);
-    // _trees[i]->set_position(fr::point_3d(30 + i k* 35, 0 + i * 75, 0));
-    // _model->set_psi(900);
-    // }
+    _model->set_position(fr::point_3d(0, -80, 20)); // x, y (back/forward), z (down/up)
 
     bn::bg_palettes::set_transparent_color(bn::color(25, 18, 25));
+
+    BN_LOG("Constructor check list model. faces = ", _model_items[0].faces().size());
 }
 
 bn::optional<scene_type> test_3d_scene::update()
@@ -88,14 +78,7 @@ bn::optional<scene_type> test_3d_scene::update()
 
     const fr::model_3d_item *model_items_for_update = _model_items.data();
 
-    for (int i = 0; i < 1; i++)
-    {
-        const fr::model_3d_item &model_item = model_items_for_update[i];
-        _static_model_items[i] = &model_item;
-    }
-
-    BN_LOG("Vamos averiguar. faces = ", model_items_for_update[0].faces().size());
-    _models.set_static_model_items(_static_model_items, 1);
+    _models.set_static_model_items(&model_items_for_update, 1); // <-- BE WARY OF THIS CONSTANT
     _models.update(_camera);
 
     return result;
