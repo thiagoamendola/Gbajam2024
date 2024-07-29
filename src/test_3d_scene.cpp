@@ -17,9 +17,15 @@
 #include "models/bush.h"
 
 constexpr auto _bush_model =
+    fr::transformed_model_3d_item<fr::model_3d_items::bush_full>(20, 40, 0); // x, z, theta
+constexpr auto _bush_model_2 =
     fr::transformed_model_3d_item<fr::model_3d_items::bush_full>(0, 40, 0); // x, z, theta
+constexpr auto _bush_model_3 =
+    fr::transformed_model_3d_item<fr::model_3d_items::bush_full>(-30, 40, 0); // x, z, theta
 
 constexpr fr::model_3d_item static_model_items[] = {
+    _bush_model_3.item(),
+    _bush_model_2.item(),
     _bush_model.item()};
 
 test_3d_scene::test_3d_scene() : _model_items(static_model_items),
@@ -32,6 +38,9 @@ test_3d_scene::test_3d_scene() : _model_items(static_model_items),
 
     _model = &_models.create_dynamic_model(fr::model_3d_items::shot_full);
     _model->set_position(fr::point_3d(0, -80, 20)); // x, y (back/forward), z (down/up)
+
+    // _model2 = &_models.create_dynamic_model(fr::model_3d_items::shot_full);
+    // _model2->set_position(fr::point_3d(0, -80, -20)); // x, y (back/forward), z (down/up)
 
     bn::bg_palettes::set_transparent_color(bn::color(25, 18, 25));
 
@@ -76,9 +85,16 @@ bn::optional<scene_type> test_3d_scene::update()
         _model->set_phi(old_phi + 100);
     }
 
-    const fr::model_3d_item *model_items_for_update = _model_items.data();
+    // <-- I should separate this into my own rendering selection method
+    const int static_models_count = 3;
+    const fr::model_3d_item *model_items_for_update = _model_items.data(); // <-- Could the error be here?
 
-    _models.set_static_model_items(&model_items_for_update, 1); // <-- BE WARY OF THIS CONSTANT
+    for (int i = 0; i < static_models_count; i++)
+    {
+        _static_model_items[i] = &model_items_for_update[i];
+    }
+
+    _models.set_static_model_items(_static_model_items, static_models_count);
     _models.update(_camera);
 
     return result;

@@ -20,8 +20,11 @@ private:
     fr::camera_3d _camera;
     fr::models_3d _models;
     fr::model_3d *_model;
+    fr::model_3d *_model2;
     // fr::model_3d *_trees[10];
     bn::span<const fr::model_3d_item> _model_items;
+
+    const fr::model_3d_item *_static_model_items[fr::constants_3d::max_static_models];
 
     bool prepare_to_leave;
 };
