@@ -1,35 +1,33 @@
 
 #include "test_3d_scene.h"
 
-#include "bn_core.h"
-#include "bn_keypad.h"
-#include "bn_colors.h"
-#include "bn_fixed.h"
 #include "bn_bg_palettes_actions.h"
+#include "bn_colors.h"
+#include "bn_core.h"
+#include "bn_fixed.h"
+#include "bn_keypad.h"
 #include "bn_log.h"
 
-#include "scene_type.h"
-#include "fr_model_colors.h"
 #include "fr_model_3d_item.h"
+#include "fr_model_colors.h"
 #include "fr_transformed_model_3d_item.h"
+#include "scene_type.h"
+#include "static_model_3d_item.h"
 
-#include "models/shot.h"
 #include "models/bush.h"
+#include "models/shot.h"
 
-constexpr auto _bush_model =
-    fr::transformed_model_3d_item<fr::model_3d_items::bush_full>(20, 40, 0); // x, z, theta
-constexpr auto _bush_model_2 =
-    fr::transformed_model_3d_item<fr::model_3d_items::bush_full>(0, 40, 0); // x, z, theta
-constexpr auto _bush_model_3 =
-    fr::transformed_model_3d_item<fr::model_3d_items::bush_full>(-30, 40, 0); // x, z, theta
+constexpr auto _bush_model = static_model_3d_item<fr::model_3d_items::bush_full>(fr::point_3d(20, 0, 40), 100);
+constexpr auto _bush_model_2 = static_model_3d_item<fr::model_3d_items::bush_full>(fr::point_3d(0, 30, 40), 1000);
+constexpr auto _bush_model_3 = static_model_3d_item<fr::model_3d_items::bush_full>(fr::point_3d(-30, -90, 40), 10000);
 
 constexpr fr::model_3d_item static_model_items[] = {
     _bush_model_3.item(),
     _bush_model_2.item(),
     _bush_model.item()};
 
-test_3d_scene::test_3d_scene() : _model_items(static_model_items),
-                                 prepare_to_leave(false)
+test_3d_scene::test_3d_scene()
+    : _model_items(static_model_items), prepare_to_leave(false)
 {
     _camera.set_position(fr::point_3d(0, 40, 0));
     _models.load_colors(fr::model_3d_items::shot_colors); // <-- The entire scene shares the same pallette. I'll have to do something about it
