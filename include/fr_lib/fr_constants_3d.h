@@ -46,7 +46,7 @@ namespace fr::constants_3d
 {
     constexpr int focal_length_shift = 8;
 
-    constexpr int max_dynamic_models = 4;
+    constexpr int max_dynamic_models = 10;
     constexpr int max_static_models = 32 - max_dynamic_models;
     constexpr int max_stage_models = 1024;
     constexpr int max_sprites = 8;

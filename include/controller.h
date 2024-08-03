@@ -1,14 +1,19 @@
+#ifndef CONTROLLER_H
+#define CONTROLLER_H
+
 #include "bn_fixed.h"
 #include "bn_fixed_point.h"
 
 class controller
 {
-public:
+  public:
     bn::fixed_point get_norm_directional();
     bn::fixed_point get_smooth_directional();
 
-private:
+  private:
     bn::fixed_point _previous_raw_dir_input;
     bn::fixed_point _smooth_dir_input;
     bn::fixed _interp;
 };
+
+#endif
