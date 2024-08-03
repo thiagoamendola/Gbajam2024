@@ -27,7 +27,7 @@ constexpr fr::model_3d_item static_model_items[] = {
     _bush_model.item()};
 
 test_3d_scene::test_3d_scene()
-    : _model_items(static_model_items), prepare_to_leave(false)
+    : _model_items(static_model_items), _prepare_to_leave(false)
 {
     _camera.set_position(fr::point_3d(0, 40, 0));
     _models.load_colors(fr::model_3d_items::shot_colors); // <-- The entire scene shares the same pallette. I'll have to do something about it
@@ -49,14 +49,14 @@ bn::optional<scene_type> test_3d_scene::update()
 {
     bn::optional<scene_type> result;
 
-    if (prepare_to_leave)
+    if (_prepare_to_leave)
     {
         result = scene_type::BUTANO_INTRO;
     }
     else if (bn::keypad::start_pressed())
     {
         _models.destroy_dynamic_model(*_model);
-        prepare_to_leave = true;
+        _prepare_to_leave = true;
     }
     else
     {

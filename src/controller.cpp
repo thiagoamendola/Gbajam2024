@@ -9,7 +9,7 @@
 
 #include "utils.h"
 
-bn::fixed_point Controller::get_norm_directional()
+bn::fixed_point controller::get_norm_directional()
 {
     bn::fixed_point raw_dir_input(0.0, 0.0);
 
@@ -38,42 +38,42 @@ bn::fixed_point Controller::get_norm_directional()
     return raw_dir_input;
 }
 
-bn::fixed_point Controller::get_smooth_directional()
+bn::fixed_point controller::get_smooth_directional()
 {
     bn::fixed_point current_raw_dir_input = get_norm_directional();
 
     bn::fixed interp_step = 0.2;
 
     // Check if it's different from previous one. If so, reset interpolation counter
-    if (current_raw_dir_input != previous_raw_dir_input)
+    if (current_raw_dir_input != _previous_raw_dir_input)
     {
-        interp = 0;
+        _interp = 0;
     }
 
     // Move interpolation counter
-    interp += interp_step;
-    interp = interp > 1 ? 1 : interp;
+    _interp += interp_step;
+    _interp = _interp > 1 ? 1 : _interp;
 
     // Grab diff
-    bn::fixed_point diff_vec = current_raw_dir_input - smooth_dir_input;
+    bn::fixed_point diff_vec = current_raw_dir_input - _smooth_dir_input;
 
     if (bn::keypad::a_held())
     {
         BN_LOG("current: " + bn::to_string<32>(current_raw_dir_input.x()));
-        BN_LOG("smooth: " + bn::to_string<32>(smooth_dir_input.x()));
+        BN_LOG("smooth: " + bn::to_string<32>(_smooth_dir_input.x()));
         BN_LOG("diff: " + bn::to_string<32>(diff_vec.x()));
     }
 
     // Calculate fractional diff
-    diff_vec *= interp;
+    diff_vec *= _interp;
 
     // Update smooth dir
-    smooth_dir_input += diff_vec;
+    _smooth_dir_input += diff_vec;
 
     if (bn::keypad::a_held())
     {
         BN_LOG("diff lerp: " + bn::to_string<32>(diff_vec.x()));
-        BN_LOG("FINAL smooth: " + bn::to_string<32>(smooth_dir_input.x()));
+        BN_LOG("FINAL smooth: " + bn::to_string<32>(_smooth_dir_input.x()));
         BN_LOG("=====================================");
     }
 
@@ -81,7 +81,7 @@ bn::fixed_point Controller::get_smooth_directional()
     There's likely an error on how we progress and subtract the diff but let's check first
     */
 
-    previous_raw_dir_input = current_raw_dir_input;
+    _previous_raw_dir_input = current_raw_dir_input;
 
-    return smooth_dir_input;
+    return _smooth_dir_input;
 }

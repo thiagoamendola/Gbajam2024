@@ -31,28 +31,28 @@ private:
     void ninja_update();
     void bg_upgrade();
 
-    Controller controller;
+    controller _controller;
 
-    bn::bg_palettes_fade_to_action bgs_fade_in_action;
-    bn::vector<bn::sprite_ptr, 32> text_sprites;
+    bn::bg_palettes_fade_to_action _bgs_fade_in_action;
+    bn::vector<bn::sprite_ptr, 32> _text_sprites;
 
-    // Controller sprite
-    bn::sprite_ptr controller_spr;
+    // controller sprite
+    bn::sprite_ptr _controller_spr;
 
     // Set controller effect
-    bn::array<bn::fixed, bn::display::height()> horizontal_deltas;
-    bn::sprite_position_hbe_ptr horizontal_position_hbe;
-    bn::fixed base_degrees_angle;
+    bn::array<bn::fixed, bn::display::height()> _horizontal_deltas;
+    bn::sprite_position_hbe_ptr _horizontal_position_hbe;
+    bn::fixed _base_degrees_angle;
 
     // Arrow sprite
-    bn::sprite_ptr arrow_spr;
+    bn::sprite_ptr _arrow_spr;
 
     // Ninja animated sprite
-    bn::sprite_ptr ninja_spr;
-    bn::sprite_animate_action<4> ninja_action;
+    bn::sprite_ptr _ninja_spr;
+    bn::sprite_animate_action<4> _ninja_action;
 
     // Background
-    bn::regular_bg_ptr floor_bg;
+    bn::regular_bg_ptr _floor_bg;
 };
 
 #endif
