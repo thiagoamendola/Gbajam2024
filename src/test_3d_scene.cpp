@@ -19,13 +19,13 @@
 
 constexpr auto _bush_model =
     static_model_3d_item<fr::model_3d_items::bush_full>(
-        fr::point_3d(20, -250, 40), 100);
+        fr::point_3d(20, 750, 40), 100);
 constexpr auto _bush_model_2 =
     static_model_3d_item<fr::model_3d_items::bush_full>(
-        fr::point_3d(0, -130, 40), 1000);
+        fr::point_3d(0, 870, 40), 1000);
 constexpr auto _bush_model_3 =
     static_model_3d_item<fr::model_3d_items::bush_full>(
-        fr::point_3d(-30, -290, 40), 10000);
+        fr::point_3d(-30, 710, 40), 10000);
 
 constexpr fr::model_3d_item static_model_items[] = {
     _bush_model_3.item(), _bush_model_2.item(), _bush_model.item()};
@@ -35,7 +35,7 @@ test_3d_scene::test_3d_scene()
       _player_ship(&_controller, &_camera, &_models), _prepare_to_leave(false)
 {
     // Stage stup
-    _camera.set_position(fr::point_3d(0, 40, 0));
+    _camera.set_position(fr::point_3d(0, 1040, 0));
     _models.load_colors(
         fr::model_3d_items::shot_colors); // <-- The entire scene shares the
                                           // same pallette. I'll have to do
