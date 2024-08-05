@@ -1,5 +1,4 @@
-
-#include "test_3d_scene.h"
+#include <vector>
 
 #include "bn_bg_palettes_actions.h"
 #include "bn_colors.h"
@@ -10,25 +9,11 @@
 
 #include "fr_model_3d_item.h"
 #include "fr_model_colors.h"
-#include "fr_transformed_model_3d_item.h"
 #include "scene_type.h"
-#include "static_model_3d_item.h"
+#include "test_3d_scene.h"
+#include "test_3d_scene_statics.h"
 
-#include "models/bush.h"
 #include "models/shot.h"
-
-constexpr auto _bush_model =
-    static_model_3d_item<fr::model_3d_items::bush_full>(
-        fr::point_3d(20, 750, 40), 100);
-constexpr auto _bush_model_2 =
-    static_model_3d_item<fr::model_3d_items::bush_full>(
-        fr::point_3d(0, 870, 40), 1000);
-constexpr auto _bush_model_3 =
-    static_model_3d_item<fr::model_3d_items::bush_full>(
-        fr::point_3d(-30, 710, 40), 10000);
-
-constexpr fr::model_3d_item static_model_items[] = {
-    _bush_model_3.item(), _bush_model_2.item(), _bush_model.item()};
 
 test_3d_scene::test_3d_scene()
     : _model_items(static_model_items),
@@ -91,9 +76,8 @@ bn::optional<scene_type> test_3d_scene::update()
     }
 
     // <-- I should separate this into my own rendering selection method
-    const int static_models_count = 3;
-    const fr::model_3d_item *model_items_for_update =
-        _model_items.data(); // <-- Could the error be here?
+    const int static_models_count = ARRAY_SIZE(static_model_items);
+    const fr::model_3d_item *model_items_for_update = _model_items.data();
 
     for (int i = 0; i < static_models_count; i++)
     {

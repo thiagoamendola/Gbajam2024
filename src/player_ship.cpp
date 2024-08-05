@@ -23,9 +23,6 @@ void player_ship::update()
 {
     bn::fixed_point dir_input = _controller->get_smooth_directional();
 
-    bn::fixed MANEUVER_SPEED = 3;
-    bn::fixed FORWARD_SPEED = 1;
-
     {
         fr::point_3d ship_pos = _model->position();
 
