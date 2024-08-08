@@ -17,7 +17,7 @@ class player_ship
 
     void destroy();
 
-    bn::fixed MANEUVER_SPEED = 2;
+    bn::fixed MANEUVER_SPEED = 3;
     bn::fixed FORWARD_SPEED = 2.5;
 
   private:

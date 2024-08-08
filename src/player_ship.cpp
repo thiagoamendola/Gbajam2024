@@ -7,16 +7,20 @@
 
 #include "player_ship.h"
 
-#include "models/shot.h"
+// #include "models/shot.h"
+// #include "models/player_ship_01.h"
+#include "models/player_ship_02.h"
 
 player_ship::player_ship(controller *controller, fr::camera_3d *camera,
                          fr::models_3d *models)
     : _controller(controller), _camera(camera), _models(models)
 {
-    _model = &_models->create_dynamic_model(fr::model_3d_items::shot_full);
+    _model =
+        &_models->create_dynamic_model(fr::model_3d_items::player_ship_02_full);
     // x, y (back/forward), z (down/up)
-    _model->set_position(fr::point_3d(0, 920, 20));
-    _model->set_phi(48000); // 270 degrees
+    _model->set_position(fr::point_3d(0, 860, 20));
+    _model->set_psi(16000); // 90 degrees
+    // _model->set_phi(48000); // 270 degrees
 }
 
 void player_ship::update()

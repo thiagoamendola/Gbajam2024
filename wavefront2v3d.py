@@ -160,10 +160,10 @@ def main(argv):
                 else:
                     wavefacelnormindices.append(str(int(waveobjdata[x][2::].split()[i])-1))
             wavefacels.append(wavefacelnormindices)
-            wavematerialindices.append(wavematerialcurrent)
+            wavematerialindices.append(max(0, wavematerialcurrent))
         if waveobjdata[x-1][0:7] == "usemtl " and wavematerialnames[wavematerialnames.index(waveobjdata[x-1][7::])+1] not in wavematerialnames[:(wavematerialnames.index(waveobjdata[x-1][7::]))]:
             wavematerialcurrent += 1
-            print(wavematerialcurrent)
+            # print(wavematerialcurrent)
 
     # print ("========================")
     # print (wavefacels)
