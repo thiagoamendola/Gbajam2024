@@ -17,6 +17,11 @@ class player_ship
 
     void destroy();
 
+    fr::model_3d *get_model()
+    {
+        return _model;
+    };
+
     bn::fixed MANEUVER_SPEED = 3;
     bn::fixed FORWARD_SPEED = 2.5;
 

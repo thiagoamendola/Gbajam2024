@@ -1,4 +1,3 @@
-#include <vector>
 
 #include "bn_bg_palettes_actions.h"
 #include "bn_colors.h"
@@ -7,6 +6,7 @@
 #include "bn_keypad.h"
 #include "bn_log.h"
 
+#include "collision_detection.h"
 #include "fr_model_3d_item.h"
 #include "fr_model_colors.h"
 #include "scene_type.h"
@@ -70,22 +70,25 @@ bn::optional<scene_type> test_3d_scene::update()
 
         _camera.set_position(new_cam_pos);
 
-        BN_LOG(_camera.position().y());
+        // BN_LOG(_camera.position().y());
 
         _player_ship.update();
     }
 
     // <-- I should separate this into my own rendering selection method
+    // <-- Can I change it to span?
     const int static_models_count = ARRAY_SIZE(static_model_items);
-    const fr::model_3d_item *model_items_for_update = _model_items.data();
 
     for (int i = 0; i < static_models_count; i++)
     {
-        _static_model_items[i] = &model_items_for_update[i];
+        _static_model_items[i] = &_model_items[i];
     }
 
     _models.set_static_model_items(_static_model_items, static_models_count);
     _models.update(_camera);
+
+    BN_LOG(collision_detection::is_colliding_with_static(
+        _player_ship.get_model(), _model_items));
 
     return result;
 }
