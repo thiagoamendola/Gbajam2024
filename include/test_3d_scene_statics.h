@@ -1,9 +1,16 @@
 
+#include "scene_colors_generator.h"
 #include "static_model_3d_item.h"
 
+#include "bn_color.h"
+#include "bn_span.h"
+
 #include "models/bush.h"
+#include "models/shot.h"
 
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
+
+// Static Models
 
 constexpr auto _bush_model =
     static_model_3d_item<fr::model_3d_items::bush_full>(
@@ -57,3 +64,20 @@ constexpr fr::model_3d_item static_model_items[] = {
     _bush_model_6__2.item(), _bush_model_7__2.item()
 
 };
+
+// - Colors
+
+// Add materials here
+constexpr const auto raw_scene_colors = {
+    bn::span<const bn::color>(fr::model_3d_items::bush_colors),
+    bn::span<const bn::color>(fr::model_3d_items::shot_colors),
+
+};
+
+constexpr size_t total_color_count =
+    scene_colors_generator::calculate_total_size(raw_scene_colors);
+
+// Load this
+constexpr auto scene_colors =
+    scene_colors_generator::generate_scene_colors<total_color_count>(
+        raw_scene_colors);
