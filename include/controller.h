@@ -11,6 +11,8 @@ class controller
     bn::fixed_point get_smooth_directional();
 
   private:
+    const bn::fixed INTERP_STEP = 0.1;
+
     bn::fixed_point _previous_raw_dir_input;
     bn::fixed_point _smooth_dir_input;
     bn::fixed _interp;

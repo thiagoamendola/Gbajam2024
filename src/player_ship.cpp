@@ -1,6 +1,7 @@
 #include "bn_fixed.h"
 #include "bn_fixed_point.h"
 #include "bn_log.h"
+#include "bn_math.h"
 #include "bn_string.h"
 
 #include "fr_point_3d.h"
@@ -28,10 +29,14 @@ void player_ship::update()
     bn::fixed_point dir_input = _controller->get_smooth_directional();
 
     {
+        // - Player ship movement
+
         fr::point_3d ship_pos = _model->position();
 
-        // Player movement
+        // Directional movement
+
         ship_pos.set_x(ship_pos.x() + dir_input.x() * MANEUVER_SPEED);
+
         ship_pos.set_z(ship_pos.z() + dir_input.y() * MANEUVER_SPEED);
 
         // Forward movement
@@ -41,6 +46,15 @@ void player_ship::update()
     }
 
     {
+        // - Player ship Yaw/Pitch
+
+        _model->set_phi(YAW_MAX * dir_input.x());
+        _model->set_psi(16000 + -PITCH_MAX * dir_input.y());
+    }
+
+    {
+        // - Camera movement
+
         fr::point_3d camera_pos = _camera->position();
         camera_pos.set_y(camera_pos.y() - FORWARD_SPEED);
         _camera->set_position(camera_pos);

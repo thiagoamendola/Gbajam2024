@@ -6,6 +6,7 @@
 #include "bn_span.h"
 
 #include "models/bush.h"
+#include "models/player_ship_02.h"
 #include "models/shot.h"
 
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
@@ -69,6 +70,7 @@ constexpr fr::model_3d_item static_model_items[] = {
 
 // Add materials here
 constexpr const auto raw_scene_colors = {
+    bn::span<const bn::color>(fr::model_3d_items::player_ship_02_colors),
     bn::span<const bn::color>(fr::model_3d_items::bush_colors),
     bn::span<const bn::color>(fr::model_3d_items::shot_colors),
 

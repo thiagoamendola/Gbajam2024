@@ -22,8 +22,11 @@ class player_ship
         return _model;
     };
 
-    bn::fixed MANEUVER_SPEED = 3;
-    bn::fixed FORWARD_SPEED = 2.5;
+    const bn::fixed MANEUVER_SPEED = 3;
+    const bn::fixed FORWARD_SPEED = 2.5;
+
+    const bn::fixed YAW_MAX = 4000;
+    const bn::fixed PITCH_MAX = 4000;
 
   private:
     controller *_controller;
