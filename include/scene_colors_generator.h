@@ -43,39 +43,6 @@ constexpr size_t calculate_total_size(
     return total_size;
 }
 
-//     // Convert const bn::color* to bn::color* for processing
-//     bn::color *non_const_colors[color_list.size()];
-//     for (std::size_t i = 0; i < color_list.size(); ++i)
-//     {
-//         non_const_colors[i] = const_cast<bn::color *>(color_list[i]);
-//     }
-//     return bn::span<bn::color>(non_const_colors, color_list.size());
-
-// template <typename... ColorArrays>
-//     constexpr auto generate_scene_colors(const ColorArrays&... arrays)
-//     {
-//         // Calculate the total size of all input arrays
-//         constexpr int total_size = (arrays.size() + ...);
-
-//         // Initialize the vector to store the fused colors
-//         bn::vector<bn::color, total_size> fused_colors;
-
-//         // Lambda to insert elements of each array into the vector
-//         auto insert_colors = [&fused_colors](const bn::span<const bn::color>&
-//         colors)
-//         {
-//             for(const bn::color& color : colors)
-//             {
-//                 fused_colors.push_back(color);
-//             }
-//         };
-
-//         // Expand the parameter pack and call the lambda for each array
-//         (insert_colors(arrays), ...);
-
-//         return fused_colors;
-//     }
-
 } // namespace scene_colors_generator
 
 #endif
