@@ -17,8 +17,9 @@ namespace scene_colors_generator
 // constexpr
 template <size_t scene_color_size> struct color_mapping_entry
 {
-    bn::array<const bn::span<const bn::color> *, scene_color_size> colors_span;
-    bn::array<bn::array<int, 16>, scene_color_size> mapping_array;
+    bn::array<const bn::span<const bn::color> *, scene_color_size>
+        colors_span_key;
+    bn::array<bn::array<int, 16>, scene_color_size> mapping_index_array;
 };
 
 // Get full size of final scene color array (does not count for repeated)
@@ -83,11 +84,39 @@ constexpr color_mapping_entry<scene_color_size> generate_scene_color_mapping(
             }
         }
 
-        scene_color_mapping.colors_span[i] = colors_span;
-        scene_color_mapping.mapping_array[i] = mapping_array;
+        scene_color_mapping.colors_span_key[i] = colors_span;
+        scene_color_mapping.mapping_index_array[i] = mapping_array;
     }
 
     return scene_color_mapping;
+}
+
+//
+template <size_t scene_color_size>
+int get_index(int index, const bn::span<const bn::color> *model_color,
+              color_mapping_entry<scene_color_size> color_mapping_entry)
+{
+    int final_index = -1;
+
+    // Find index of model_color in colors_span_key
+    int model_index = -1;
+    for (int i = 0; i < scene_color_size; ++i)
+    {
+        if (color_mapping_entry.colors_span_key[i] == model_color)
+        {
+            model_index = i;
+            break;
+        }
+    }
+
+    // If model_index was found, use it to access the right array in
+    // mapping_array
+    if (model_index != -1 && index >= 0 && index < 16)
+    {
+        final_index = color_mapping_entry.mapping_array[model_index][index];
+    }
+
+    return final_index;
 }
 
 } // namespace scene_colors_generator
