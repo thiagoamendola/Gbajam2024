@@ -11,6 +11,8 @@
 
 #define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
 
+using namespace scene_colors_generator;
+
 // Static Models
 
 constexpr auto _bush_model =
@@ -76,15 +78,12 @@ constexpr const auto raw_scene_colors = {
 
 };
 
-constexpr size_t total_color_count =
-    scene_colors_generator::calculate_total_size(raw_scene_colors);
+constexpr size_t total_color_count = calculate_total_size(raw_scene_colors);
 
 // Load this
-constexpr auto scene_colors =
-    scene_colors_generator::generate_scene_colors<total_color_count>(
-        raw_scene_colors);
+constexpr bn::array<bn::color, total_color_count> scene_colors =
+    generate_scene_colors<total_color_count>(raw_scene_colors);
 
-constexpr auto scene_color_mapping =
-    scene_colors_generator::generate_scene_color_mapping<
-        raw_scene_colors.size(), total_color_count>(raw_scene_colors,
-                                                    scene_colors);
+constexpr color_mapping_entry<raw_scene_colors.size()> scene_color_mapping =
+    generate_scene_color_mapping<raw_scene_colors.size(), total_color_count>(
+        raw_scene_colors, scene_colors);
