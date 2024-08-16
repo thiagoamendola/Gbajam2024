@@ -21,9 +21,10 @@ test_3d_scene::test_3d_scene()
 {
     // Stage stup
     _camera.set_position(fr::point_3d(0, 1040, 0));
-    _models.load_colors(scene_colors); // <-- The entire scene shares the
-                                       // same pallette. I'll have to do
-                                       // something about it
+    _models.load_colors(scene_colors,
+                        scene_color_mapping); // <-- The entire scene shares the
+                                              // same pallette. I'll have to do
+                                              // something about it
     // _models.load_colors(fr::model_3d_items::bush_colors);
     // _models.load_colors(fr::default_model_colors);
 

@@ -6,6 +6,8 @@
 #ifndef FR_MODELS_3D_H
 #define FR_MODELS_3D_H
 
+#include "scene_colors_generator.h"
+
 #include "bn_intrusive_list.h"
 #include "bn_pool.h"
 #include "bn_span.h"
@@ -27,8 +29,19 @@ class models_3d
     void load_colors(const bn::span<const bn::color> &colors)
     {
         _shape_groups.load_colors(colors);
+    }
 
-        mixed_colors = &colors;
+    template <size_t scene_color_size>
+    void load_colors(
+        const bn::span<const bn::color> &colors,
+        const scene_colors_generator::color_mapping_entry<scene_color_size>
+            &color_mapping)
+    {
+        _shape_groups.load_colors(colors);
+
+        // Let's do it here for now and, later, try to split into my own
+        // inheriting class, possibly
+        // mixed_colors = &colors;
         // <-- DO IT HERE
     }
 
@@ -107,7 +120,8 @@ class models_3d
 
     visible_face_info _visible_faces_info[_max_faces];
     shape_groups _shape_groups;
-    bn::span<const bn::color> *mixed_colors = nullptr;
+    // bn::span<const bn::color> *mixed_colors = nullptr;
+    bn::span<bn::color> *scene_colors = nullptr;
 
     int _vertices_count = 0;
     int _faces_count = 0;
