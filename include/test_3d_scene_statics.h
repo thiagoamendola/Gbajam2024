@@ -83,3 +83,8 @@ constexpr size_t total_color_count =
 constexpr auto scene_colors =
     scene_colors_generator::generate_scene_colors<total_color_count>(
         raw_scene_colors);
+
+constexpr auto scene_color_mapping =
+    scene_colors_generator::generate_scene_color_mapping<
+        raw_scene_colors.size(), total_color_count>(raw_scene_colors,
+                                                    scene_colors);
