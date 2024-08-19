@@ -70,9 +70,9 @@ constexpr fr::model_3d_item static_model_items[] = {
 
 // Add model materials here
 constexpr const auto raw_scene_colors = {
+    bn::span<const bn::color>(fr::model_3d_items::shot_colors),
     bn::span<const bn::color>(fr::model_3d_items::player_ship_02_colors),
     bn::span<const bn::color>(fr::model_3d_items::bush_colors),
-    bn::span<const bn::color>(fr::model_3d_items::shot_colors),
 
 };
 
@@ -81,7 +81,7 @@ constexpr size_t scene_palette_size = calculate_total_size(raw_scene_colors);
 constexpr const bn::span<const bn::color> *raw_scene_color_ptr =
     raw_scene_colors.begin();
 
-// Load this
+// Load these:
 constexpr bn::array<bn::color, scene_palette_size> scene_colors =
     generate_scene_colors<scene_palette_size>(raw_scene_colors);
 

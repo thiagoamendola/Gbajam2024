@@ -57,6 +57,8 @@ class models_3d
 
     [[nodiscard]] model_3d &create_dynamic_model(
         const model_3d_item &model_item);
+    [[nodiscard]] model_3d &create_dynamic_model(
+        const model_3d_item &model_item, const bn::color *palette);
 
     void destroy_dynamic_model(model_3d &model);
 
@@ -93,6 +95,7 @@ class models_3d
         const face_3d *face;
         const point_2d *projected_vertices;
         int projected_z;
+        int color_index_override = -1;
     };
 
     struct visible_face_info
