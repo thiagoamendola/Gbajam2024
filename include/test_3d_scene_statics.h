@@ -78,12 +78,13 @@ constexpr const auto raw_scene_colors = {
 
 };
 
-constexpr size_t total_color_count = calculate_total_size(raw_scene_colors);
+constexpr size_t scene_palette_size = calculate_total_size(raw_scene_colors);
+constexpr size_t model_palette_count = raw_scene_colors.size();
 
 // Load this
-constexpr bn::array<bn::color, total_color_count> scene_colors =
-    generate_scene_colors<total_color_count>(raw_scene_colors);
+constexpr bn::array<bn::color, scene_palette_size> scene_colors =
+    generate_scene_colors<scene_palette_size>(raw_scene_colors);
 
-constexpr color_mapping_entry<raw_scene_colors.size()> scene_color_mapping =
-    generate_scene_color_mapping<raw_scene_colors.size(), total_color_count>(
-        raw_scene_colors, scene_colors);
+// constexpr color_mapping_entry<raw_scene_colors.size()> scene_color_mapping =
+//     generate_scene_color_mapping<raw_scene_colors.size(), total_color_count>(
+//         raw_scene_colors, scene_colors);
