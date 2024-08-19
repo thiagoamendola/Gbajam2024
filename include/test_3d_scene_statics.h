@@ -9,8 +9,6 @@
 #include "models/player_ship_02.h"
 #include "models/shot.h"
 
-#define ARRAY_SIZE(a) (sizeof(a) / sizeof(a[0]))
-
 using namespace scene_colors_generator;
 
 // Static Models
@@ -70,7 +68,7 @@ constexpr fr::model_3d_item static_model_items[] = {
 
 // - Colors
 
-// Add materials here
+// Add model materials here
 constexpr const auto raw_scene_colors = {
     bn::span<const bn::color>(fr::model_3d_items::player_ship_02_colors),
     bn::span<const bn::color>(fr::model_3d_items::bush_colors),
@@ -78,13 +76,17 @@ constexpr const auto raw_scene_colors = {
 
 };
 
-constexpr size_t scene_palette_size = calculate_total_size(raw_scene_colors);
 constexpr size_t model_palette_count = raw_scene_colors.size();
+constexpr size_t scene_palette_size = calculate_total_size(raw_scene_colors);
+constexpr const bn::span<const bn::color> *raw_scene_color_ptr =
+    raw_scene_colors.begin();
 
 // Load this
 constexpr bn::array<bn::color, scene_palette_size> scene_colors =
     generate_scene_colors<scene_palette_size>(raw_scene_colors);
 
-// constexpr color_mapping_entry<raw_scene_colors.size()> scene_color_mapping =
-//     generate_scene_color_mapping<raw_scene_colors.size(), total_color_count>(
-//         raw_scene_colors, scene_colors);
+color_mapping_handler *color_mapping()
+{
+    return new color_mapping_handler(model_palette_count, scene_palette_size,
+                                     raw_scene_color_ptr, scene_colors.data());
+};

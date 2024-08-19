@@ -1,7 +1,7 @@
 #ifndef SCENE_COLOR_GENERATOR_H
 #define SCENE_COLOR_GENERATOR_H
 
-#include <initializer_list>
+#include <map>
 
 #include "bn_array.h"
 #include "bn_color.h"
@@ -13,13 +13,54 @@
 namespace scene_colors_generator
 {
 
-// Struct for model color mapping since std::maps are not literal and can't be
-// constexpr
-template <size_t scene_color_size> struct color_mapping_entry
+const int MAX_COLORS = 16;
+const int MAX_MODELS = 16;
+
+//
+struct color_mapping_handler
 {
-    bn::array<const bn::span<const bn::color> *, scene_color_size>
-        colors_span_key;
-    bn::array<bn::array<int, 16>, scene_color_size> mapping_index_array;
+    color_mapping_handler(size_t model_palette_count, size_t scene_palette_size,
+                          const bn::span<const bn::color> *raw_scene_colors,
+                          const bn::color *scene_colors
+
+                          )
+        : _model_palette_count(model_palette_count),
+          _scene_palette_size(scene_palette_size)
+    {
+        for (size_t i = 0; i < model_palette_count; ++i)
+        {
+            const auto *colors_span = &raw_scene_colors[i];
+
+            int color_index = 0;
+
+            for (auto color : *colors_span)
+            {
+                // Find color in scene_colors and add index
+                for (size_t j = 0; j < scene_palette_size; j++)
+                {
+                    if (scene_colors[j] == color)
+                    {
+                        _color_map[colors_span][color_index] = j;
+                        break;
+                    }
+                }
+
+                color_index++;
+            }
+        }
+    }
+
+    int get_index(int index, const bn::span<const bn::color> *model_color)
+    {
+        return _color_map[model_color][index];
+    }
+
+    size_t _model_palette_count;
+    size_t _scene_palette_size;
+
+    bn::unordered_map<const bn::span<const bn::color> *,
+                      bn::array<int, MAX_COLORS>, MAX_MODELS>
+        _color_map;
 };
 
 // Get full size of final scene color array (does not count for repeated)
@@ -54,70 +95,70 @@ constexpr bn::array<bn::color, full_size> generate_scene_colors(
     return color_list_vec;
 }
 
-//
-template <size_t full_size, size_t scene_color_size>
-constexpr color_mapping_entry<scene_color_size> generate_scene_color_mapping(
-    const std::initializer_list<bn::span<const bn::color>> raw_scene_colors,
-    bn::array<bn::color, full_size> scene_colors)
-{
-    color_mapping_entry<scene_color_size> scene_color_mapping = {};
+// //
+// template <size_t full_size, size_t scene_color_size>
+// constexpr color_mapping_entry<scene_color_size> generate_scene_color_mapping(
+//     const std::initializer_list<bn::span<const bn::color>> raw_scene_colors,
+//     bn::array<bn::color, full_size> scene_colors)
+// {
+//     color_mapping_entry<scene_color_size> scene_color_mapping = {};
 
-    for (size_t i = 0; i < scene_color_size; ++i)
-    {
-        const auto *colors_span = &*(raw_scene_colors.begin() + i);
+//     for (size_t i = 0; i < scene_color_size; ++i)
+//     {
+//         const auto *colors_span = &*(raw_scene_colors.begin() + i);
 
-        bn::array<int, 16> mapping_array = {};
+//         bn::array<int, 16> mapping_array = {};
 
-        int aux = 0;
+//         int aux = 0;
 
-        for (auto color : *colors_span)
-        {
-            // Find color in scene_colors and add index
-            for (int j = 0; j < scene_colors.size(); j++)
-            {
-                if (scene_colors[j] == color)
-                {
-                    mapping_array[aux] = j;
-                    aux++;
-                    break;
-                }
-            }
-        }
+//         for (auto color : *colors_span)
+//         {
+//             // Find color in scene_colors and add index
+//             for (int j = 0; j < scene_colors.size(); j++)
+//             {
+//                 if (scene_colors[j] == color)
+//                 {
+//                     mapping_array[aux] = j;
+//                     aux++;
+//                     break;
+//                 }
+//             }
+//         }
 
-        scene_color_mapping.colors_span_key[i] = colors_span;
-        scene_color_mapping.mapping_index_array[i] = mapping_array;
-    }
+//         scene_color_mapping.colors_span_key[i] = colors_span;
+//         scene_color_mapping.mapping_index_array[i] = mapping_array;
+//     }
 
-    return scene_color_mapping;
-}
+//     return scene_color_mapping;
+// }
 
-//
-template <size_t scene_color_size>
-int get_index(int index, const bn::span<const bn::color> *model_color,
-              color_mapping_entry<scene_color_size> color_mapping_entry)
-{
-    int final_index = -1;
+// //
+// template <size_t scene_color_size>
+// int get_index(int index, const bn::span<const bn::color> *model_color,
+//               color_mapping_entry<scene_color_size> color_mapping_entry)
+// {
+//     int final_index = -1;
 
-    // Find index of model_color in colors_span_key
-    int model_index = -1;
-    for (int i = 0; i < scene_color_size; ++i)
-    {
-        if (color_mapping_entry.colors_span_key[i] == model_color)
-        {
-            model_index = i;
-            break;
-        }
-    }
+//     // Find index of model_color in colors_span_key
+//     int model_index = -1;
+//     for (int i = 0; i < scene_color_size; ++i)
+//     {
+//         if (color_mapping_entry.colors_span_key[i] == model_color)
+//         {
+//             model_index = i;
+//             break;
+//         }
+//     }
 
-    // If model_index was found, use it to access the right array in
-    // mapping_array
-    if (model_index != -1 && index >= 0 && index < 16)
-    {
-        final_index = color_mapping_entry.mapping_array[model_index][index];
-    }
+//     // If model_index was found, use it to access the right array in
+//     // mapping_array
+//     if (model_index != -1 && index >= 0 && index < 16)
+//     {
+//         final_index = color_mapping_entry.mapping_array[model_index][index];
+//     }
 
-    return final_index;
-}
+//     return final_index;
+// }
 
 } // namespace scene_colors_generator
 

@@ -31,23 +31,20 @@ class models_3d
         _shape_groups.load_colors(colors);
     }
 
-    template <size_t scene_color_size>
     void load_colors(
         const bn::span<const bn::color> &colors,
-        const scene_colors_generator::color_mapping_entry<scene_color_size>
-            &color_mapping)
+        scene_colors_generator::color_mapping_handler *color_mapping)
     {
         _shape_groups.load_colors(colors);
 
-        // Let's do it here for now and, later, try to split into my own
-        // inheriting class, possibly
-        // mixed_colors = &colors;
-        // <-- DO IT HERE
+        _color_mapping = color_mapping;
+        // <-- make onDestroy for it
     }
 
     void clear_colors()
     {
         _shape_groups.load_colors(bn::span<const bn::color>());
+        delete[] _color_mapping;
     }
 
     void set_fade(bn::color color, bn::fixed intensity)
@@ -120,8 +117,8 @@ class models_3d
 
     visible_face_info _visible_faces_info[_max_faces];
     shape_groups _shape_groups;
-    // bn::span<const bn::color> *mixed_colors = nullptr;
-    bn::span<bn::color> *scene_colors = nullptr;
+
+    scene_colors_generator::color_mapping_handler *_color_mapping;
 
     int _vertices_count = 0;
     int _faces_count = 0;
