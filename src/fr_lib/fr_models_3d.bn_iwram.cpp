@@ -122,9 +122,20 @@ void models_3d::_process_models(const camera_3d &camera)
                 if (vr.safe_dot_product(normal) < 0) [[likely]]
                 {
                     int projected_z = -vr.y().data();
+                    int color_index_override = -1;
+
+                    if (_color_mapping)
+                    {
+                        if (model_item->palette())
+                        {
+                            color_index_override = _color_mapping->get_index(
+                                face.color_index(), model_item->palette());
+                        }
+                    }
 
                     _valid_faces_info[valid_faces_count] = {
-                        &face, projected_vertices, projected_z};
+                        &face, projected_vertices, projected_z,
+                        color_index_override};
 
                     ++valid_faces_count;
                 }

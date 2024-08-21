@@ -12,14 +12,13 @@ template <const fr::model_3d_item &model_3d_item_ref> class static_model_3d_item
 {
   public:
     // x, y (back/forward), z (down/up)
-    constexpr static_model_3d_item(
-        fr::point_3d position, bn::fixed theta,
-        const bn::span<const bn::color> &model_colors)
+    constexpr static_model_3d_item(fr::point_3d position, bn::fixed theta,
+                                   const bn::color *palette)
         : _vertices(_create_array<fr::vertex_3d, vertices_count>(
               model_3d_item_ref.vertices()[0])),
           _faces(_create_array<fr::face_3d, faces_count>(
               model_3d_item_ref.faces()[0])),
-          _colors(model_colors)
+          _palette(palette)
     {
         const bn::span<const fr::vertex_3d> &input_vertices =
             model_3d_item_ref.vertices();
@@ -67,7 +66,9 @@ template <const fr::model_3d_item &model_3d_item_ref> class static_model_3d_item
                 _faces[index] = fr::face_3d(
                     _vertices, rotated_normal, input_face.first_vertex_index(),
                     input_face.second_vertex_index(),
-                    input_face.third_vertex_index(), input_face.color_index(),
+                    input_face.third_vertex_index(),
+                    input_face
+                        .color_index(), // <-- HERE for static models likely
                     input_face.shading());
             }
             else
@@ -88,7 +89,7 @@ template <const fr::model_3d_item &model_3d_item_ref> class static_model_3d_item
         // when building thingy = "); //, input_vertices.size());
         return fr::model_3d_item(_vertices, _faces,
                                  model_3d_item_ref.collision_face(),
-                                 &_vertical_cylinder);
+                                 &_vertical_cylinder, _palette);
     }
 
   private:
@@ -98,7 +99,7 @@ template <const fr::model_3d_item &model_3d_item_ref> class static_model_3d_item
     bn::array<fr::vertex_3d, vertices_count> _vertices;
     bn::array<fr::face_3d, faces_count> _faces;
     fr::model_3d_vertical_cylinder _vertical_cylinder;
-    const bn::span<const bn::color> _colors;
+    const bn::color *_palette;
 
     template <typename Type, unsigned Size>
     [[nodiscard]] static constexpr bn::array<Type, Size> _create_array(
