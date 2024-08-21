@@ -142,7 +142,7 @@ void models_3d::_process_models(const camera_3d &camera)
 
     for (model_3d &model : _dynamic_models_list)
     {
-        const model_3d_item &model_item = model.item(); // <-- HMMMM
+        const model_3d_item &model_item = model.item();
         const vertex_3d *model_vertices = model_item.vertices().data();
         point_2d *projected_vertices =
             _projected_vertices + global_vertex_index;
@@ -202,10 +202,18 @@ void models_3d::_process_models(const camera_3d &camera)
                     int projected_z = -vr.y().data();
                     int color_index_override = -1;
 
-                    if (_color_mapping && model.palette)
+                    if (_color_mapping)
                     {
-                        color_index_override = _color_mapping->get_index(
-                            face.color_index(), model.palette);
+                        if (model.palette)
+                        {
+                            color_index_override = _color_mapping->get_index(
+                                face.color_index(), model.palette);
+                        }
+                        else if (model_item.palette())
+                        {
+                            color_index_override = _color_mapping->get_index(
+                                face.color_index(), model_item.palette());
+                        }
                     }
 
                     _valid_faces_info[valid_faces_count] = {

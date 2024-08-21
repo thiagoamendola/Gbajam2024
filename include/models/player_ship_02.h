@@ -159,6 +159,7 @@ constexpr inline face_3d player_ship_02_faces_full[] = {
             38, 0, 2),
 };
 constexpr inline model_3d_item player_ship_02_full(player_ship_02_vertices,
-                                                   player_ship_02_faces_full);
+                                                   player_ship_02_faces_full,
+                                                   player_ship_02_colors);
 }; // namespace fr::model_3d_items
 #endif
