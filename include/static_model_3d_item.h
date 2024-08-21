@@ -11,6 +11,9 @@
 template <const fr::model_3d_item &model_3d_item_ref> class static_model_3d_item
 {
   public:
+    constexpr static_model_3d_item(fr::point_3d position, bn::fixed theta)
+        : static_model_3d_item(position, theta, nullptr) {};
+
     // x, y (back/forward), z (down/up)
     constexpr static_model_3d_item(fr::point_3d position, bn::fixed theta,
                                    const bn::color *palette)
@@ -85,11 +88,11 @@ template <const fr::model_3d_item &model_3d_item_ref> class static_model_3d_item
 
     [[nodiscard]] constexpr fr::model_3d_item item() const
     {
-        // static_assert(_vertices.size() < -1, "E no compiling time? vertices
-        // when building thingy = "); //, input_vertices.size());
+        const bn::color *color_palette =
+            !!_palette ? _palette : model_3d_item_ref.palette();
         return fr::model_3d_item(_vertices, _faces,
                                  model_3d_item_ref.collision_face(),
-                                 &_vertical_cylinder, _palette);
+                                 &_vertical_cylinder, color_palette);
     }
 
   private:

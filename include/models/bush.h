@@ -27,6 +27,7 @@ constexpr inline face_3d bush_faces_full[] = {
     face_3d(bush_vertices, vertex_3d(0.7071, 0.5848, 0.3975), 0, 2, 3, 0, 6),
     face_3d(bush_vertices, vertex_3d(-0.7071, 0.5848, 0.3975), 3, 2, 1, 0, 5),
 };
-constexpr inline model_3d_item bush_full(bush_vertices, bush_faces_full);
+constexpr inline model_3d_item bush_full(bush_vertices, bush_faces_full,
+                                         bush_colors);
 }; // namespace fr::model_3d_items
 #endif
