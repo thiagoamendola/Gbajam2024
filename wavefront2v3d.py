@@ -201,7 +201,7 @@ def main(argv):
         )
 
     v3dfile.write("""    };\n""")
-    v3dfile.write("""    constexpr inline model_3d_item %s_full(%s_vertices, %s_faces_full);\n""" % (modelname,modelname,modelname))
+    v3dfile.write("""    constexpr inline model_3d_item %s_full(%s_vertices, %s_faces_full, %s_colors);\n""" % (modelname,modelname,modelname,modelname))
     v3dfile.write("""    };\n""")
     v3dfile.write("#endif")
 
