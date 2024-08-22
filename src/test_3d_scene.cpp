@@ -21,8 +21,9 @@ test_3d_scene::test_3d_scene()
 {
     // Stage stup
     _camera.set_position(fr::point_3d(0, 1040, 0));
-    _models.load_colors(scene_colors,
-                        color_mapping()); // <-- The entire scene shares the
+    _models.load_colors(
+        scene_colors,
+        get_scene_color_mapping()); // <-- The entire scene shares the
     // same palette. I'll have to do
     // something about it
     // _models.load_colors(fr::model_3d_items::bush_colors);
