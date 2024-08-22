@@ -1,3 +1,5 @@
+#ifndef TEST_3D_SCENE_STATICS_H
+#define TEST_3D_SCENE_STATICS_H
 
 #include "scene_colors_generator.h"
 #include "static_model_3d_item.h"
@@ -86,8 +88,10 @@ constexpr const bn::span<const bn::color> *raw_scene_color_ptr =
 constexpr bn::array<bn::color, scene_palette_size> scene_colors =
     generate_scene_colors<scene_palette_size>(raw_scene_colors);
 
-color_mapping_handler *color_mapping()
+inline color_mapping_handler *get_scene_color_mapping()
 {
     return new color_mapping_handler(model_palette_count, scene_palette_size,
                                      raw_scene_color_ptr, scene_colors.data());
 };
+
+#endif
