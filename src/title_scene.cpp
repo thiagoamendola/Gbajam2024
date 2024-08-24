@@ -5,6 +5,8 @@
 #include "bn_fixed.h"
 #include "bn_keypad.h"
 #include "bn_log.h"
+// #include "bn_music_items.h"
+#include "bn_sound_items.h"
 #include "bn_sprite_text_generator.h"
 #include "common_variable_8x16_sprite_font.h"
 
@@ -39,6 +41,10 @@ title_scene::title_scene() : _prepare_to_leave(false)
     // Set text
     bn::sprite_text_generator text_generator(common::variable_8x16_sprite_font);
     text_generator.generate(-100, 58, "Press Start", _text_sprites);
+
+    // Set music
+    // bn::music_items::amayadori.play(1);
+    // bn::music_items::title.play(1);
 }
 
 bn::optional<scene_type> title_scene::update()
@@ -47,24 +53,33 @@ bn::optional<scene_type> title_scene::update()
 
     if (_prepare_to_leave)
     {
+        _bgs_fade_out_action->update();
+        _sprites_fade_out_action->update();
         result = scene_type::TEST_3D;
+    }
+    else if (_bgs_fade_out_action)
+    {
+        if (!_bgs_fade_out_action->done())
+        {
+            _bgs_fade_out_action->update();
+            _sprites_fade_out_action->update();
+        }
+        else
+        {
+            _prepare_to_leave = true;
+            _bgs_fade_out_action.emplace(1, 0);
+            _sprites_fade_out_action.emplace(1, 0);
+        }
     }
     else if (bn::keypad::start_pressed())
     {
-        _prepare_to_leave = true;
+        // Start scene transition
+        bn::sound_items::menu_confirm.play();
+        _bgs_fade_out_action.emplace(60, 1);
+        _sprites_fade_out_action.emplace(60, 1);
     }
-    else
-    {
-        bn::fixed old_phi = _model->phi();
-        bn::fixed old_theta = _model->theta();
-        bn::fixed old_psi = _model->psi();
-        // // Remember to avoid Gymball lock with the following
-        // _model->set_psi(0);
-        // _model->set_theta(0);
-        _model->set_phi(old_phi + 300);
-        // _model->set_theta(old_theta);
-        // _model->set_psi(old_psi);
-    }
+
+    _model->set_phi(_model->phi() + 300);
 
     _models.update(_camera);
 

@@ -1,7 +1,9 @@
 #include "bn_fixed.h"
 #include "bn_fixed_point.h"
+#include "bn_keypad.h"
 #include "bn_log.h"
 #include "bn_math.h"
+#include "bn_sound_items.h"
 #include "bn_string.h"
 
 #include "fr_point_3d.h"
@@ -61,6 +63,13 @@ void player_ship::update()
         // BN_LOG("CAMERA POS: " + bn::to_string<32>(camera_pos.y()));
     }
 
+    {
+        // - Player Laser
+        if (bn::keypad::a_pressed())
+        {
+            bn::sound_items::player_laser.play();
+        }
+    }
     // bn::fixed old_phi = _model->phi();
     // // Remember to avoid Gymball lock with the following
     // _model->set_phi(0);

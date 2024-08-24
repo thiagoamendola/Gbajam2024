@@ -1,6 +1,9 @@
 #ifndef TITLE_SCENE_H
 #define TITLE_SCENE_H
 
+#include "bn_bg_palettes_actions.h"
+#include "bn_memory.h"
+#include "bn_sprite_palettes_actions.h"
 #include "bn_sprite_ptr.h"
 #include "bn_vector.h"
 
@@ -32,6 +35,8 @@ class title_scene : public fr::scene
     fr::model_3d *_model;
 
     bool _prepare_to_leave;
+    bn::optional<bn::bg_palettes_fade_to_action> _bgs_fade_out_action;
+    bn::optional<bn::sprite_palettes_fade_to_action> _sprites_fade_out_action;
 };
 
 #endif

@@ -21,22 +21,7 @@ test_3d_scene::test_3d_scene()
 {
     // Stage stup
     _camera.set_position(fr::point_3d(0, 1040, 0));
-    _models.load_colors(
-        scene_colors,
-        get_scene_color_mapping()); // <-- The entire scene shares the
-    // same palette. I'll have to do
-    // something about it
-    // _models.load_colors(fr::model_3d_items::bush_colors);
-    // _models.load_colors(fr::default_model_colors);
-
-    // Element setup
-    // _model = &_models.create_dynamic_model(fr::model_3d_items::shot_full);
-    // _model->set_position(
-    //     fr::point_3d(0, -80, 20)); // x, y (back/forward), z (down/up)
-
-    // _model2 = &_models.create_dynamic_model(fr::model_3d_items::shot_full);
-    // _model2->set_position(fr::point_3d(0, -80, -20)); // x, y (back/forward),
-    // z (down/up)
+    _models.load_colors(scene_colors, get_scene_color_mapping());
 
     bn::bg_palettes::set_transparent_color(bn::color(25, 18, 25));
 }
@@ -56,22 +41,27 @@ bn::optional<scene_type> test_3d_scene::update()
     }
     else
     {
-        fr::point_3d new_cam_pos = _camera.position();
 
-        // if (bn::keypad::up_held())
-        // {
-        //     new_cam_pos.set_y(new_cam_pos.y() + 2); // Max is 1024
-        // }
-        // else if (bn::keypad::down_held())
-        // {
-        //     bn::fixed_t new_value = new_cam_pos.y() - 2;
-        //     new_value = new_value > 2 ? new_value : 2;
-        //     new_cam_pos.set_y(new_value);
-        // }
+        {
+            // <-- Camera old randomness. Likely removable.
 
-        _camera.set_position(new_cam_pos);
+            fr::point_3d new_cam_pos = _camera.position();
 
-        // BN_LOG(_camera.position().y());
+            // if (bn::keypad::up_held())
+            // {
+            //     new_cam_pos.set_y(new_cam_pos.y() + 2); // Max is 1024
+            // }
+            // else if (bn::keypad::down_held())
+            // {
+            //     bn::fixed_t new_value = new_cam_pos.y() - 2;
+            //     new_value = new_value > 2 ? new_value : 2;
+            //     new_cam_pos.set_y(new_value);
+            // }
+
+            _camera.set_position(new_cam_pos);
+
+            // BN_LOG(_camera.position().y());
+        }
 
         _player_ship.update();
     }
