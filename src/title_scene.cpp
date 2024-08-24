@@ -78,6 +78,11 @@ bn::optional<scene_type> title_scene::update()
         _bgs_fade_out_action.emplace(60, 1);
         _sprites_fade_out_action.emplace(60, 1);
     }
+    else if (bn::keypad::any_pressed())
+    {
+        // <-- Remove when menu is dome
+        bn::sound_items::menu_focus.play();
+    }
 
     _model->set_phi(_model->phi() + 300);
 

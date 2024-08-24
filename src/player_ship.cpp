@@ -70,6 +70,23 @@ void player_ship::update()
             bn::sound_items::player_laser.play();
         }
     }
+
+    {
+        // - Sound test // <-- Remove later
+        if (bn::keypad::b_pressed())
+        {
+            bn::sound_items::player_damage.play();
+        }
+        else if (bn::keypad::r_pressed())
+        {
+            bn::sound_items::player_death.play();
+        }
+        else if (bn::keypad::l_pressed())
+        {
+            bn::sound_items::enemy_death.play();
+        }
+    }
+
     // bn::fixed old_phi = _model->phi();
     // // Remember to avoid Gymball lock with the following
     // _model->set_phi(0);
