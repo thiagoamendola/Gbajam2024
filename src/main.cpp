@@ -61,13 +61,15 @@ int main()
     BN_LOG("iwram: ", bn::memory::used_static_iwram());
     BN_LOG("ewram: ", bn::memory::used_static_ewram());
 
+    bn::optional<scene_type> next_scene = scene_type::TITLE;
+
 #else
     bn::core::init();
+    bn::optional<scene_type> next_scene = scene_type::BUTANO_INTRO;
 
 #endif
 
     bn::unique_ptr<fr::common_stuff> common_stuff(new fr::common_stuff());
-    bn::optional<scene_type> next_scene = scene_type::TITLE;
     bn::unique_ptr<fr::scene> scene;
 
     while (true)

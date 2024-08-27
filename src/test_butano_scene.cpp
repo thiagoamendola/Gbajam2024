@@ -62,7 +62,7 @@ bn::optional<scene_type> test_butano_scene::update()
     else
     {
         // result = scene_type::BUTANO_INTRO;
-        result = scene_type::TEST_3D;
+        result = scene_type::TITLE;
     }
 
     return result;

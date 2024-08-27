@@ -8,10 +8,11 @@
 
 #include "bn_common.h"
 
-// <-- ALL OF THE FOLLOWING ARE CONFIGURABLE, MOSTLY FOR DEBUGGING. CHANGE TO USEFUL STUFF FOR ME
+// <-- ALL OF THE FOLLOWING ARE CONFIGURABLE, MOSTLY FOR DEBUGGING. CHANGE TO
+// USEFUL STUFF FOR ME
 
 #ifndef FR_PROFILE
-#define FR_PROFILE false
+#define FR_PROFILE true
 #endif
 
 #ifndef FR_DETAILED_PROFILE
@@ -44,20 +45,20 @@
 
 namespace fr::constants_3d
 {
-    constexpr int focal_length_shift = 8;
+constexpr int focal_length_shift = 8;
 
-    constexpr int max_dynamic_models = 10;
-    constexpr int max_static_models = 32 - max_dynamic_models;
-    constexpr int max_stage_models = 1024;
-    constexpr int max_sprites = 8;
+constexpr int max_dynamic_models = 10;
+constexpr int max_static_models = 32 - max_dynamic_models;
+constexpr int max_stage_models = 1024;
+constexpr int max_sprites = 8;
 
-    constexpr int camera_min_y = 224;
-    constexpr int camera_max_y = 256;
-    constexpr int camera_diff_y = camera_max_y - camera_min_y;
+constexpr int camera_min_y = 224;
+constexpr int camera_max_y = 256;
+constexpr int camera_diff_y = camera_max_y - camera_min_y;
 
-    constexpr int max_rival_cars = 8;
+constexpr int max_rival_cars = 8;
 
-    constexpr int music_volume_data = 1 << 11;
-}
+constexpr int music_volume_data = 1 << 11;
+} // namespace fr::constants_3d
 
 #endif
