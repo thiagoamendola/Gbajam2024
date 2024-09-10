@@ -5,15 +5,15 @@
 
 struct stage_section
 {
+    const fr::model_3d_item *_static_model_items;
     int _starting_pos;
     int _ending_pos;
-    const fr::model_3d_item *_static_model_items;
     // <-- Add dynamic_model_items
 
     constexpr stage_section(const int starting_pos, const int ending_pos,
                             const fr::model_3d_item *static_model_items)
-        : _starting_pos(starting_pos), _ending_pos(ending_pos),
-          _static_model_items(static_model_items)
+        : _static_model_items(static_model_items), _starting_pos(starting_pos),
+          _ending_pos(ending_pos)
     {
     }
 

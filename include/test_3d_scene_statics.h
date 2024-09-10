@@ -2,7 +2,7 @@
 #define TEST_3D_SCENE_STATICS_H
 
 #include "scene_colors_generator.h"
-#include "stage.h"
+#include "stage_section.h"
 #include "static_model_3d_item.h"
 
 #include "bn_color.h"
@@ -76,6 +76,12 @@ constexpr int _section_1_end = 100;
 
 constexpr stage_section section_1(_section_1_start, _section_1_end,
                                   static_model_items);
+
+// # Sections List
+
+constexpr const stage_section *sections[] = {
+    &section_1,
+};
 
 // - Colors
 
