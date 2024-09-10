@@ -2,6 +2,7 @@
 #define TEST_3D_SCENE_STATICS_H
 
 #include "scene_colors_generator.h"
+#include "stage.h"
 #include "static_model_3d_item.h"
 
 #include "bn_color.h"
@@ -14,7 +15,9 @@
 
 using namespace scene_colors_generator;
 
-// Static Models
+// - Sections
+
+// # Section 1
 
 constexpr auto _bush_model =
     static_model_3d_item<fr::model_3d_items::bush_full>(
@@ -37,7 +40,6 @@ constexpr auto _bush_model_6 =
 constexpr auto _bush_model_7 =
     static_model_3d_item<fr::model_3d_items::bush_full>(
         fr::point_3d(30, 150, 40), 16000);
-
 constexpr auto _bush_model__2 =
     static_model_3d_item<fr::model_3d_items::bush_full>(
         fr::point_3d(-30, 750, 40), 0);
@@ -68,6 +70,12 @@ constexpr fr::model_3d_item static_model_items[] = {
     _bush_model_6__2.item(), _bush_model_7__2.item()
 
 };
+
+constexpr int _section_1_start = 750;
+constexpr int _section_1_end = 100;
+
+constexpr stage_section section_1(_section_1_start, _section_1_end,
+                                  static_model_items);
 
 // - Colors
 
