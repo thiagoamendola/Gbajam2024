@@ -14,6 +14,7 @@
 
 #include "collision_detection.h"
 #include "scene_type.h"
+#include "stage_section_renderer.h"
 #include "test_3d_scene.h"
 #include "test_3d_scene_statics.h"
 
@@ -59,19 +60,10 @@ void render_models(fr::camera_3d &_camera, fr::models_3d &_models,
     // _camera->set_position(camera_pos);
 
     const bn::fixed camera_position = _camera.position().y();
-    // BN_LOG("CAMERA POS: " + bn::to_string<32>(camera_position));
+    BN_LOG("CAMERA POS: " + bn::to_string<32>(camera_position));
 
-    // render section
-    const int static_model_count = section_1.static_model_count();
-    BN_LOG("STATICS SIZE: " + bn::to_string<32>(static_model_count));
-
-    // <-- If new section has less models, we might run into an issue
-    for (int i = 0; i < static_model_count; i++)
-    {
-        _static_model_items[i] = &section_1.static_model_items()[i];
-    }
-
-    _models.set_static_model_items(_static_model_items, static_model_count);
+    stage_section_renderer::render_single_section(sections[0], _models,
+                                                  _static_model_items);
 
     // Final models update
     _models.update(_camera);
