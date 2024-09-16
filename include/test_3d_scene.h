@@ -9,6 +9,8 @@
 #include "fr_model_3d_item.h"
 #include "fr_models_3d.h"
 #include "fr_scene.h"
+// #include "fr_sprite_3d.h"
+// #include "fr_sprite_3d_item.h"
 
 class test_3d_scene : public fr::scene
 {
@@ -27,13 +29,17 @@ class test_3d_scene : public fr::scene
     player_ship _player_ship;
 
     fr::model_3d *_model;
-    fr::model_3d *_model2;
 
-    bn::span<const fr::model_3d_item> _model_items;
+    // <-- I'll be replacing this with my stage section list
+    bn::span<const fr::model_3d_item> _model_items; // <-- CAN BEW REMOVED NOW
     const fr::model_3d_item
         *_static_model_items[fr::constants_3d::max_static_models];
 
     bool _prepare_to_leave;
+
+    // <-- 3D SPRITE TEST. REMOVE
+    // fr::sprite_3d *_test_sprite = nullptr;
+    // fr::sprite_3d_item _test_sprite_sprite_3d_item;
 };
 
 #endif

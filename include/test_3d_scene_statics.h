@@ -62,7 +62,8 @@ constexpr auto _bush_model_7__2 =
     static_model_3d_item<fr::model_3d_items::bush_full>(
         fr::point_3d(-30, 150, 40), 0);
 
-constexpr fr::model_3d_item static_model_items[] = {
+// constexpr fr::model_3d_item static_model_items[] = {
+constexpr auto static_model_items = {
     _bush_model.item(),      _bush_model_3.item(),    _bush_model_2.item(),
     _bush_model_4.item(),    _bush_model__2.item(),   _bush_model_2__2.item(),
     _bush_model_3__2.item(), _bush_model_4__2.item(), _bush_model_5.item(),
