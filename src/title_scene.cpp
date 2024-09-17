@@ -1,11 +1,13 @@
 
 #include "bn_bg_palettes_actions.h"
 #include "bn_colors.h"
+#include "bn_config_audio.h"
 #include "bn_core.h"
 #include "bn_fixed.h"
 #include "bn_keypad.h"
 #include "bn_log.h"
-// #include "bn_music_items.h"
+#include "bn_music.h"
+#include "bn_music_items.h"
 #include "bn_sound_items.h"
 #include "bn_sprite_text_generator.h"
 #include "common_variable_8x16_sprite_font.h"
@@ -19,6 +21,40 @@
 
 #include "models/player_ship_02.h"
 #include "models/shot.h"
+
+int mixing_rate()
+{
+    switch (BN_CFG_AUDIO_MIXING_RATE)
+    {
+
+    case BN_AUDIO_MIXING_RATE_8_KHZ:
+        return 8;
+
+    case BN_AUDIO_MIXING_RATE_10_KHZ:
+        return 10;
+
+    case BN_AUDIO_MIXING_RATE_13_KHZ:
+        return 13;
+
+    case BN_AUDIO_MIXING_RATE_16_KHZ:
+        return 16;
+
+    case BN_AUDIO_MIXING_RATE_18_KHZ:
+        return 18;
+
+    case BN_AUDIO_MIXING_RATE_21_KHZ:
+        return 21;
+
+    case BN_AUDIO_MIXING_RATE_27_KHZ:
+        return 27;
+
+    case BN_AUDIO_MIXING_RATE_31_KHZ:
+        return 31;
+
+    default:
+        BN_ERROR("Invalid maxing rate: ", BN_CFG_AUDIO_MIXING_RATE);
+    }
+}
 
 title_scene::title_scene() : _prepare_to_leave(false)
 {
@@ -43,8 +79,14 @@ title_scene::title_scene() : _prepare_to_leave(false)
     text_generator.generate(-100, 58, "Press Start", _text_sprites);
 
     // Set music
-    // bn::music_items::amayadori.play(1);
-    // bn::music_items::title.play(1);
+    // bn::music_items::amayadori2.play(1); // Works flawless (.xm)
+    // bn::music_items::title.play(1); // Freezes the game (.xm)
+    // bn::music_items::gameplay.play(1); // SLOOOOOW (.xm)
+    // bn::music_items::gameplay2.play(1); // Slow, lost some channels (.it)
+    // bn::music_items::gameplay3.play(1); // Starts alright and breaks like
+    // crazy after. Prob a instrument! (.it, BB)
+    bn::music_items::title2.play(0.3); // WORKS!!! (.it, BB)
+    BN_LOG(mixing_rate());
 }
 
 bn::optional<scene_type> title_scene::update()
@@ -69,6 +111,7 @@ bn::optional<scene_type> title_scene::update()
             _prepare_to_leave = true;
             _bgs_fade_out_action.emplace(1, 0);
             _sprites_fade_out_action.emplace(1, 0);
+            bn::music::stop();
         }
     }
     else if (bn::keypad::start_pressed())
