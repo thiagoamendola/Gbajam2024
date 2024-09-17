@@ -60,7 +60,6 @@ void player_ship::update()
         fr::point_3d camera_pos = _camera->position();
         camera_pos.set_y(camera_pos.y() - FORWARD_SPEED);
         _camera->set_position(camera_pos);
-        BN_LOG("CAMERA POS: " + bn::to_string<32>(camera_pos.y()));
     }
 
     {

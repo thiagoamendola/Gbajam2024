@@ -43,4 +43,6 @@ class stage_section
     // <-- Add dynamic_model_items
 };
 
+typedef const stage_section *const *stage_section_list_ptr;
+
 #endif

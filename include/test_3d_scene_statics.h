@@ -15,7 +15,7 @@
 
 using namespace scene_colors_generator;
 
-// - Sections
+// --- Sections
 
 // # Section 1
 
@@ -80,11 +80,16 @@ constexpr stage_section section_1(_section_1_start, _section_1_end,
 
 // # Sections List
 
-constexpr const stage_section *sections[] = {
+// Define sections here:
+constexpr const auto sections_full = {
     &section_1,
 };
 
-// - Colors
+// Import these in your scene
+constexpr stage_section_list_ptr sections = sections_full.begin();
+constexpr size_t sections_count = sections_full.size();
+
+// --- Colors
 
 // Add model materials here
 constexpr const auto raw_scene_colors = {

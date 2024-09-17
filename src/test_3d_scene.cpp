@@ -41,34 +41,6 @@ test_3d_scene::test_3d_scene()
     // _test_sprite->set_theta(32000);
 }
 
-// <-- ADD THIS TO HEADER???
-void render_models(fr::camera_3d &_camera, fr::models_3d &_models,
-                   const fr::model_3d_item **_static_model_items,
-                   bn::span<const fr::model_3d_item> &_model_items)
-{
-    // - Create stage_section_renderer
-    // - it should have a render_section(section) with the imediate code
-    // below
-    // - later, make it start rendering only if camera is below starting_pos
-    // - Make it stop rendering if camera is below ending_pos
-    // - Create another section so we can test some more partial renders
-    // - For now, iterate through all sections in list. We can do something
-    // smarter later.
-
-    // fr::point_3d camera_pos = _camera->position();
-    // camera_pos.set_y(camera_pos.y() - FORWARD_SPEED);
-    // _camera->set_position(camera_pos);
-
-    const bn::fixed camera_position = _camera.position().y();
-    BN_LOG("CAMERA POS: " + bn::to_string<32>(camera_position));
-
-    stage_section_renderer::render_single_section(sections[0], _models,
-                                                  _static_model_items);
-
-    // Final models update
-    _models.update(_camera);
-}
-
 bn::optional<scene_type> test_3d_scene::update()
 {
     bn::optional<scene_type> result;
@@ -109,10 +81,11 @@ bn::optional<scene_type> test_3d_scene::update()
         _player_ship.update();
     }
 
-    // <-- I should separate this into my own rendering selection method
-    // <-- Can I change it to span?
     {
-        render_models(_camera, _models, _static_model_items, _model_items);
+        // - Static object rendering
+
+        stage_section_renderer::manage_section_render(
+            sections, sections_count, _camera, _models, _static_model_items);
     }
 
     // <-- IMPLEMENT COLLISION
