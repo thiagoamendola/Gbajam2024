@@ -19,70 +19,173 @@ using namespace scene_colors_generator;
 
 // # Section 1
 
-constexpr auto _bush_model =
+constexpr auto _s1_bush_model =
     static_model_3d_item<fr::model_3d_items::bush_full>(
         fr::point_3d(30, 750, 40), 16000, fr::model_3d_items::shot_colors);
-constexpr auto _bush_model_2 =
+constexpr auto _s1_bush_model_2 =
     static_model_3d_item<fr::model_3d_items::bush_full>(
         fr::point_3d(30, 650, 40), 16000);
-constexpr auto _bush_model_3 =
+constexpr auto _s1_bush_model_3 =
     static_model_3d_item<fr::model_3d_items::bush_full>(
         fr::point_3d(30, 550, 40), 16000);
-constexpr auto _bush_model_4 =
+constexpr auto _s1_bush_model_4 =
     static_model_3d_item<fr::model_3d_items::bush_full>(
         fr::point_3d(30, 450, 40), 16000);
-constexpr auto _bush_model_5 =
+constexpr auto _s1_bush_model_5 =
     static_model_3d_item<fr::model_3d_items::bush_full>(
         fr::point_3d(30, 350, 40), 16000);
-constexpr auto _bush_model_6 =
+constexpr auto _s1_bush_model_6 =
     static_model_3d_item<fr::model_3d_items::bush_full>(
         fr::point_3d(30, 250, 40), 16000);
-constexpr auto _bush_model_7 =
+constexpr auto _s1_bush_model_7 =
     static_model_3d_item<fr::model_3d_items::bush_full>(
         fr::point_3d(30, 150, 40), 16000);
-constexpr auto _bush_model__2 =
+constexpr auto _s1_bush_model__2 =
     static_model_3d_item<fr::model_3d_items::bush_full>(
         fr::point_3d(-30, 750, 40), 0);
-constexpr auto _bush_model_2__2 =
+constexpr auto _s1_bush_model_2__2 =
     static_model_3d_item<fr::model_3d_items::bush_full>(
         fr::point_3d(-30, 650, 40), 0);
-constexpr auto _bush_model_3__2 =
+constexpr auto _s1_bush_model_3__2 =
     static_model_3d_item<fr::model_3d_items::bush_full>(
         fr::point_3d(-30, 550, 40), 0);
-constexpr auto _bush_model_4__2 =
+constexpr auto _s1_bush_model_4__2 =
     static_model_3d_item<fr::model_3d_items::bush_full>(
         fr::point_3d(-30, 450, 40), 0);
-constexpr auto _bush_model_5__2 =
+constexpr auto _s1_bush_model_5__2 =
     static_model_3d_item<fr::model_3d_items::bush_full>(
         fr::point_3d(-30, 350, 40), 0);
-constexpr auto _bush_model_6__2 =
+constexpr auto _s1_bush_model_6__2 =
     static_model_3d_item<fr::model_3d_items::bush_full>(
         fr::point_3d(-30, 250, 40), 0);
-constexpr auto _bush_model_7__2 =
+constexpr auto _s1_bush_model_7__2 =
     static_model_3d_item<fr::model_3d_items::bush_full>(
         fr::point_3d(-30, 150, 40), 0);
 
-// constexpr fr::model_3d_item static_model_items[] = {
-constexpr auto static_model_items = {
-    _bush_model.item(),      _bush_model_3.item(),    _bush_model_2.item(),
-    _bush_model_4.item(),    _bush_model__2.item(),   _bush_model_2__2.item(),
-    _bush_model_3__2.item(), _bush_model_4__2.item(), _bush_model_5.item(),
-    _bush_model_6.item(),    _bush_model_7.item(),    _bush_model_5__2.item(),
-    _bush_model_6__2.item(), _bush_model_7__2.item()
+constexpr auto _section_1_static_model_items = {
+
+    _s1_bush_model.item(),
+    _s1_bush_model_3.item(),
+    _s1_bush_model_2.item(),
+    _s1_bush_model_4.item(),
+    _s1_bush_model__2.item(),
+    _s1_bush_model_2__2.item(),
+    _s1_bush_model_3__2.item(),
+    _s1_bush_model_4__2.item(),
+    _s1_bush_model_5.item(),
+    _s1_bush_model_6.item(),
+    _s1_bush_model_7.item(),
+    _s1_bush_model_5__2.item(),
+    _s1_bush_model_6__2.item(),
+    _s1_bush_model_7__2.item()
 
 };
 
 constexpr int _section_1_start = 750;
-constexpr int _section_1_end = 100;
+constexpr int _section_1_end = 200;
 
 constexpr stage_section section_1(_section_1_start, _section_1_end,
-                                  static_model_items);
+                                  _section_1_static_model_items);
+
+// # Section 2
+
+constexpr auto _s2_bush_model_1 =
+    static_model_3d_item<fr::model_3d_items::bush_full>(
+        fr::point_3d(30, 50, 40), 16000, fr::model_3d_items::shot_colors);
+constexpr auto _s2_bush_model_1b =
+    static_model_3d_item<fr::model_3d_items::bush_full>(
+        fr::point_3d(-30, 50, 40), 16000, fr::model_3d_items::shot_colors);
+constexpr auto _s2_bush_model_2 =
+    static_model_3d_item<fr::model_3d_items::bush_full>(
+        fr::point_3d(30, -50, 40), 16000, fr::model_3d_items::shot_colors);
+constexpr auto _s2_bush_model_2b =
+    static_model_3d_item<fr::model_3d_items::bush_full>(
+        fr::point_3d(-30, -50, 40), 16000, fr::model_3d_items::shot_colors);
+constexpr auto _s2_bush_model_3 =
+    static_model_3d_item<fr::model_3d_items::bush_full>(
+        fr::point_3d(30, -150, 40), 16000, fr::model_3d_items::shot_colors);
+constexpr auto _s2_bush_model_3b =
+    static_model_3d_item<fr::model_3d_items::bush_full>(
+        fr::point_3d(-30, -150, 40), 16000, fr::model_3d_items::shot_colors);
+constexpr auto _s2_bush_model_4 =
+    static_model_3d_item<fr::model_3d_items::bush_full>(
+        fr::point_3d(30, -250, 40), 16000, fr::model_3d_items::shot_colors);
+constexpr auto _s2_bush_model_4b =
+    static_model_3d_item<fr::model_3d_items::bush_full>(
+        fr::point_3d(-30, -250, 40), 16000, fr::model_3d_items::shot_colors);
+
+constexpr auto _section_2_static_model_items = {
+
+    _s2_bush_model_1.item(),
+    _s2_bush_model_1b.item(),
+    _s2_bush_model_2.item(),
+    _s2_bush_model_2b.item(),
+    _s2_bush_model_3.item(),
+    _s2_bush_model_3b.item(),
+    _s2_bush_model_4.item(),
+    _s2_bush_model_4b.item()
+
+};
+
+constexpr int _section_2_start = 450;
+constexpr int _section_2_end = -150;
+
+constexpr stage_section section_2(_section_2_start, _section_2_end,
+                                  _section_2_static_model_items);
+
+// # Section 3
+
+constexpr auto _s3_bush_model_1 =
+    static_model_3d_item<fr::model_3d_items::bush_full>(
+        fr::point_3d(30, -350, 40), 16000);
+constexpr auto _s3_bush_model_1b =
+    static_model_3d_item<fr::model_3d_items::bush_full>(
+        fr::point_3d(-30, -350, 40), 16000);
+constexpr auto _s3_bush_model_2 =
+    static_model_3d_item<fr::model_3d_items::bush_full>(
+        fr::point_3d(30, -450, 40), 16000);
+constexpr auto _s3_bush_model_2b =
+    static_model_3d_item<fr::model_3d_items::bush_full>(
+        fr::point_3d(-30, -450, 40), 16000);
+constexpr auto _s3_bush_model_3 =
+    static_model_3d_item<fr::model_3d_items::bush_full>(
+        fr::point_3d(30, -550, 40), 16000);
+constexpr auto _s3_bush_model_3b =
+    static_model_3d_item<fr::model_3d_items::bush_full>(
+        fr::point_3d(-30, -550, 40), 16000);
+constexpr auto _s3_bush_model_4 =
+    static_model_3d_item<fr::model_3d_items::bush_full>(
+        fr::point_3d(30, -650, 40), 16000);
+constexpr auto _s3_bush_model_4b =
+    static_model_3d_item<fr::model_3d_items::bush_full>(
+        fr::point_3d(-30, -650, 40), 16000);
+
+constexpr auto _section_3_static_model_items = {
+
+    _s3_bush_model_1.item(),
+    _s3_bush_model_1b.item(),
+    _s3_bush_model_2.item(),
+    _s3_bush_model_2b.item(),
+    _s3_bush_model_3.item(),
+    _s3_bush_model_3b.item(),
+    _s3_bush_model_4.item(),
+    _s3_bush_model_4b.item()
+
+};
+
+constexpr int _section_3_start = 50;
+constexpr int _section_3_end = -700;
+
+constexpr stage_section section_3(_section_3_start, _section_3_end,
+                                  _section_3_static_model_items);
 
 // # Sections List
 
 // Define sections here:
 constexpr const auto sections_full = {
     &section_1,
+    &section_2,
+    &section_3,
 };
 
 // Import these in your scene

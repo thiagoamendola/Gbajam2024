@@ -15,12 +15,12 @@ class stage_section
     {
     }
 
-    constexpr int starting_pos()
+    constexpr int starting_pos() const
     {
         return _starting_pos;
     }
 
-    constexpr int ending_pos()
+    constexpr int ending_pos() const
     {
         return _ending_pos;
     }

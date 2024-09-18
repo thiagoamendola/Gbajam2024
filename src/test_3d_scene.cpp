@@ -33,7 +33,8 @@ test_3d_scene::test_3d_scene()
     bn::bg_palettes::set_transparent_color(bn::color(25, 18, 25));
 
     // Set music
-    // bn::music_items::gameplay.play(1);
+    // bn::music_items::gameplay.play(1); // Very slow
+    // bn::music_items::gameplay3.play(1); // Starts and breaks
 
     // Test sprite 3D
     // _test_sprite = &_models.create_sprite(_test_sprite_sprite_3d_item);

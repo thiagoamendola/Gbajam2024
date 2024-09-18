@@ -45,8 +45,27 @@ void stage_section_renderer::manage_section_render(
     const bn::fixed camera_position = _camera.position().y();
     BN_LOG("CAMERA POS: " + bn::to_string<32>(camera_position));
 
-    stage_section_renderer::render_single_section(sections[0], _models,
-                                                  _static_model_items);
+    // <-- remove this iter cuz its only for a simpler test
+    int current_section = 0;
+    for (int i = 0; i < sections_count; i++)
+    {
+        if (sections[i]->ending_pos() >= camera_position)
+        {
+            current_section++;
+        }
+        else
+        {
+            break;
+        }
+    }
+
+    BN_LOG("Current section: " + bn::to_string<32>(current_section));
+
+    if (current_section < sections_count)
+    {
+        stage_section_renderer::render_single_section(
+            sections[current_section], _models, _static_model_items);
+    }
 
     // Final models update
     _models.update(_camera);
