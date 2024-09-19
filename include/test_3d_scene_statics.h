@@ -81,7 +81,7 @@ constexpr auto _section_1_static_model_items = {
 
 };
 
-constexpr int _section_1_start = 750;
+constexpr int _section_1_start = 1050;
 constexpr int _section_1_end = 200;
 
 constexpr stage_section section_1(_section_1_start, _section_1_end,
@@ -127,7 +127,7 @@ constexpr auto _section_2_static_model_items = {
 
 };
 
-constexpr int _section_2_start = 450;
+constexpr int _section_2_start = 750;
 constexpr int _section_2_end = -150;
 
 constexpr stage_section section_2(_section_2_start, _section_2_end,
@@ -173,7 +173,7 @@ constexpr auto _section_3_static_model_items = {
 
 };
 
-constexpr int _section_3_start = 50;
+constexpr int _section_3_start = 350;
 constexpr int _section_3_end = -700;
 
 constexpr stage_section section_3(_section_3_start, _section_3_end,

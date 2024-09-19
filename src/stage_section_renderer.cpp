@@ -28,10 +28,48 @@ void stage_section_renderer::render_single_section(
     models.set_static_model_items(static_model_items, static_model_count);
 }
 
+void stage_section_renderer::render_sections(
+    const bn::fixed camera_position, stage_section_list_ptr sections,
+    size_t sections_count, fr::models_3d &models,
+    const fr::model_3d_item **static_model_items)
+{
+    int current_model = 0;
+
+    // Iterate through sections.
+    for (size_t section_iter = 0; section_iter < sections_count; section_iter++)
+    {
+        const stage_section *current_section = sections[section_iter];
+        // Check if we should render section.
+        if (camera_position <= current_section->starting_pos() &&
+            camera_position > current_section->ending_pos())
+        {
+            // Render section's models.
+            for (int i = 0; i < current_section->static_model_count(); i++)
+            {
+                // Check if we're rendering more models than we can!
+                if (current_model >= fr::constants_3d::max_static_models)
+                {
+                    BN_LOG(
+                        "Stage Section Renderer: reached static model max "
+                        "limit: " +
+                        bn::to_string<64>(fr::constants_3d::max_static_models));
+                    return;
+                }
+                static_model_items[current_model] =
+                    &current_section->static_model_items()[i];
+                current_model++;
+            }
+        }
+    }
+
+    models.set_static_model_items(static_model_items, current_model);
+    BN_LOG("STATIC MODEL COUNT: " + bn::to_string<32>(current_model));
+}
+
 void stage_section_renderer::manage_section_render(
     stage_section_list_ptr sections, size_t sections_count,
-    fr::camera_3d &_camera, fr::models_3d &_models,
-    const fr::model_3d_item **_static_model_items)
+    fr::camera_3d &camera, fr::models_3d &models,
+    const fr::model_3d_item **static_model_items)
 {
     // - Create stage_section_render
     // - it should have a render_section(section) with the imediate code
@@ -42,31 +80,12 @@ void stage_section_renderer::manage_section_render(
     // - For now, iterate through all sections in list. We can do something
     // smarter later.
 
-    const bn::fixed camera_position = _camera.position().y();
+    const bn::fixed camera_position = camera.position().y();
     BN_LOG("CAMERA POS: " + bn::to_string<32>(camera_position));
 
-    // <-- remove this iter cuz its only for a simpler test
-    int current_section = 0;
-    for (int i = 0; i < sections_count; i++)
-    {
-        if (sections[i]->ending_pos() >= camera_position)
-        {
-            current_section++;
-        }
-        else
-        {
-            break;
-        }
-    }
-
-    BN_LOG("Current section: " + bn::to_string<32>(current_section));
-
-    if (current_section < sections_count)
-    {
-        stage_section_renderer::render_single_section(
-            sections[current_section], _models, _static_model_items);
-    }
+    stage_section_renderer::render_sections(
+        camera_position, sections, sections_count, models, static_model_items);
 
     // Final models update
-    _models.update(_camera);
+    models.update(camera);
 }
