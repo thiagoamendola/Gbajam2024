@@ -22,11 +22,15 @@
 #include "bn_sprite_items_ninja.h"
 #include "models/shot.h"
 
+#include "bn_regular_bg_items_floor.h"
+#include "bn_regular_bg_ptr.h"
+
 test_3d_scene::test_3d_scene()
-    : _player_ship(&_controller, &_camera, &_models), _prepare_to_leave(false)
+    : _player_ship(&_controller, &_camera, &_models), _prepare_to_leave(false),
+      _scene_bg(bn::regular_bg_items::floor.create_bg(0, 0))
 //   _test_sprite_sprite_3d_item(bn::sprite_items::butano_background_2, 0)
 {
-    // Stage stup
+    // Stage setup
     _camera.set_position(fr::point_3d(0, 1040, 0));
     _models.load_colors(scene_colors, get_scene_color_mapping());
 

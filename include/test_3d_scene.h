@@ -1,9 +1,7 @@
 #ifndef TEST_3D_SCENE_H
 #define TEST_3D_SCENE_H
 
-#include "controller.h"
-#include "player_ship.h"
-#include "scene_type.h"
+#include "bn_regular_bg_ptr.h"
 
 #include "fr_camera_3d.h"
 #include "fr_model_3d_item.h"
@@ -11,6 +9,10 @@
 #include "fr_scene.h"
 // #include "fr_sprite_3d.h"
 // #include "fr_sprite_3d_item.h"
+
+#include "controller.h"
+#include "player_ship.h"
+#include "scene_type.h"
 
 class test_3d_scene : public fr::scene
 {
@@ -40,6 +42,9 @@ class test_3d_scene : public fr::scene
     // <-- 3D SPRITE TEST. REMOVE
     // fr::sprite_3d *_test_sprite = nullptr;
     // fr::sprite_3d_item _test_sprite_sprite_3d_item;
+
+    // Background
+    bn::regular_bg_ptr _scene_bg;
 };
 
 #endif
