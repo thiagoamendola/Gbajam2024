@@ -85,7 +85,8 @@ title_scene::title_scene() : _prepare_to_leave(false)
     // bn::music_items::gameplay2.play(1); // Slow, lost some channels (.it)
     // bn::music_items::gameplay3.play(1); // Starts alright and breaks like
     // crazy after. Prob a instrument! (.it, BB)
-    bn::music_items::title2.play(0.3); // WORKS!!! (.it, BB)
+    // bn::music_items::title2.play(0.3); // WORKS!!! (.it, BB)
+    bn::music_items::title3.play(0.3); // WORKS!!! (.it, BB)
     BN_LOG(mixing_rate());
 }
 
