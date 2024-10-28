@@ -69,12 +69,12 @@ bn::fixed_point controller::get_smooth_directional()
     // Update smooth dir
     _smooth_dir_input += diff_vec;
 
-    if (bn::keypad::a_held())
-    {
-        BN_LOG("diff lerp: " + bn::to_string<32>(diff_vec.x()));
-        BN_LOG("FINAL smooth: " + bn::to_string<32>(_smooth_dir_input.x()));
-        BN_LOG("=====================================");
-    }
+    // if (bn::keypad::a_held())
+    // {
+    //     BN_LOG("diff lerp: " + bn::to_string<32>(diff_vec.x()));
+    //     BN_LOG("FINAL smooth: " + bn::to_string<32>(_smooth_dir_input.x()));
+    //     BN_LOG("=====================================");
+    // }
 
     /*
     There's likely an error on how we progress and subtract the diff but let's

@@ -28,7 +28,7 @@ void stage_section_renderer::render_single_section(
     models.set_static_model_items(static_model_items, static_model_count);
 }
 
-void stage_section_renderer::render_sections(
+int stage_section_renderer::render_sections(
     const bn::fixed camera_position, stage_section_list_ptr sections,
     size_t sections_count, fr::models_3d &models,
     const fr::model_3d_item **static_model_items)
@@ -53,7 +53,7 @@ void stage_section_renderer::render_sections(
                         "Stage Section Renderer: reached static model max "
                         "limit: " +
                         bn::to_string<64>(fr::constants_3d::max_static_models));
-                    return;
+                    return current_model;
                 }
                 static_model_items[current_model] =
                     &current_section->static_model_items()[i];
@@ -62,30 +62,18 @@ void stage_section_renderer::render_sections(
         }
     }
 
-    models.set_static_model_items(static_model_items, current_model);
-    BN_LOG("STATIC MODEL COUNT: " + bn::to_string<32>(current_model));
+    return current_model;
 }
 
-void stage_section_renderer::manage_section_render(
+int stage_section_renderer::manage_section_render(
     stage_section_list_ptr sections, size_t sections_count,
     fr::camera_3d &camera, fr::models_3d &models,
     const fr::model_3d_item **static_model_items)
 {
-    // - Create stage_section_render
-    // - it should have a render_section(section) with the imediate code
-    // below
-    // - later, make it start rendering only if camera is below starting_pos
-    // - Make it stop rendering if camera is below ending_pos
-    // - Create another section so we can test some more partial renders
-    // - For now, iterate through all sections in list. We can do something
-    // smarter later.
 
     const bn::fixed camera_position = camera.position().y();
-    BN_LOG("CAMERA POS: " + bn::to_string<32>(camera_position));
+    // BN_LOG("CAMERA POS: " + bn::to_string<32>(camera_position));
 
-    stage_section_renderer::render_sections(
+    return stage_section_renderer::render_sections(
         camera_position, sections, sections_count, models, static_model_items);
-
-    // Final models update
-    models.update(camera);
 }

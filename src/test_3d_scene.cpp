@@ -1,3 +1,5 @@
+#include "test_3d_scene.h"
+#include "test_3d_scene_statics.h"
 
 #include "bn_bg_palettes_actions.h"
 #include "bn_colors.h"
@@ -13,10 +15,9 @@
 #include "fr_model_colors.h"
 
 #include "collision_detection.h"
+#include "player_laser.h"
 #include "scene_type.h"
 #include "stage_section_renderer.h"
-#include "test_3d_scene.h"
-#include "test_3d_scene_statics.h"
 
 #include "bn_sprite_items_butano_background_2.h"
 #include "bn_sprite_items_ninja.h"
@@ -89,8 +90,55 @@ bn::optional<scene_type> test_3d_scene::update()
     {
         // - Static object rendering
 
-        stage_section_renderer::manage_section_render(
+        int static_count = stage_section_renderer::manage_section_render(
             sections, sections_count, _camera, _models, _static_model_items);
+
+        // - Player Laser
+
+        // static_count = player_laser::handle_player_laser(
+        //     &_player_ship, _static_model_items, static_count);
+
+        // I need the model_3d_item instantiated at the time of models.update
+        if (bn::keypad::a_held())
+        {
+            fr::vertex_3d laser_vertices[] = {
+                fr::vertex_3d(_player_ship.get_model()->position()),
+                fr::vertex_3d(_player_ship.get_model()->position() +
+                              fr::point_3d(700, 0, 0)),
+                fr::vertex_3d(0, _player_ship.get_model()->position().y(), 0),
+            };
+
+            fr::face_3d laser_faces[] = {
+                fr::face_3d(laser_vertices, fr::vertex_3d(0, 1, 0), 0, 1, 2, 0,
+                            7),
+                fr::face_3d(laser_vertices, fr::vertex_3d(0, 1, 0), 0, 2, 1, 0,
+                            0),
+            };
+
+            bn::color laser_colors[] = {
+                bn::color(24, 0, 0),
+            };
+
+            fr::model_3d_item laser_full(laser_vertices, laser_faces,
+                                         laser_colors);
+
+            if (static_count >= fr::constants_3d::max_static_models)
+            {
+                BN_LOG("Stage Section Renderer: reached static model max "
+                       "limit: " +
+                       bn::to_string<64>(fr::constants_3d::max_static_models));
+            }
+            else
+            {
+                _static_model_items[static_count] = &laser_full;
+                static_count += 1;
+            }
+        }
+
+        // Final models update
+        // BN_LOG("STATIC MODEL COUNT: " + bn::to_string<32>(static_count));
+        _models.set_static_model_items(_static_model_items, static_count);
+        _models.update(_camera);
     }
 
     // <-- IMPLEMENT COLLISION
