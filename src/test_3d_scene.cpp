@@ -102,9 +102,10 @@ bn::optional<scene_type> test_3d_scene::update()
         if (bn::keypad::a_held())
         {
             fr::vertex_3d laser_vertices[] = {
-                fr::vertex_3d(_player_ship.get_model()->position()),
                 fr::vertex_3d(_player_ship.get_model()->position() +
-                              fr::point_3d(700, 0, 0)),
+                              fr::point_3d(10, 0, 0)),
+                fr::vertex_3d(_player_ship.get_model()->position() +
+                              fr::point_3d(-10, 0, 0)),
                 fr::vertex_3d(0, _player_ship.get_model()->position().y(), 0),
             };
 
