@@ -103,9 +103,14 @@ bn::optional<scene_type> test_3d_scene::update()
         {
             fr::vertex_3d laser_vertices[] = {
                 fr::vertex_3d(_player_ship.get_model()->position() +
-                              fr::point_3d(10, 0, 0)),
+                              fr::point_3d(10, 0, 2)),
                 fr::vertex_3d(_player_ship.get_model()->position() +
-                              fr::point_3d(-10, 0, 0)),
+                              fr::point_3d(10, 0, -2)),
+                fr::vertex_3d(0, _player_ship.get_model()->position().y(), 0),
+                fr::vertex_3d(_player_ship.get_model()->position() +
+                              fr::point_3d(-10, 0, 2)),
+                fr::vertex_3d(_player_ship.get_model()->position() +
+                              fr::point_3d(-10, 0, -2)),
                 fr::vertex_3d(0, _player_ship.get_model()->position().y(), 0),
             };
 
@@ -113,7 +118,11 @@ bn::optional<scene_type> test_3d_scene::update()
                 fr::face_3d(laser_vertices, fr::vertex_3d(0, 1, 0), 0, 1, 2, 0,
                             7),
                 fr::face_3d(laser_vertices, fr::vertex_3d(0, 1, 0), 0, 2, 1, 0,
-                            0),
+                            7),
+                fr::face_3d(laser_vertices, fr::vertex_3d(0, 1, 0), 3, 4, 5, 0,
+                            7),
+                fr::face_3d(laser_vertices, fr::vertex_3d(0, 1, 0), 3, 5, 4, 0,
+                            7),
             };
 
             bn::color laser_colors[] = {
