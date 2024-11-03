@@ -95,55 +95,8 @@ bn::optional<scene_type> test_3d_scene::update()
 
         // - Player Laser
 
-        // static_count = player_laser::handle_player_laser(
-        //     &_player_ship, _static_model_items, static_count);
-
-        // I need the model_3d_item instantiated at the time of models.update
-        if (bn::keypad::a_held())
-        {
-            fr::vertex_3d laser_vertices[] = {
-                fr::vertex_3d(_player_ship.get_model()->position() +
-                              fr::point_3d(10, 0, 2)),
-                fr::vertex_3d(_player_ship.get_model()->position() +
-                              fr::point_3d(10, 0, -2)),
-                fr::vertex_3d(0, _player_ship.get_model()->position().y(), 0),
-                fr::vertex_3d(_player_ship.get_model()->position() +
-                              fr::point_3d(-10, 0, 2)),
-                fr::vertex_3d(_player_ship.get_model()->position() +
-                              fr::point_3d(-10, 0, -2)),
-                fr::vertex_3d(0, _player_ship.get_model()->position().y(), 0),
-            };
-
-            fr::face_3d laser_faces[] = {
-                fr::face_3d(laser_vertices, fr::vertex_3d(0, 1, 0), 0, 1, 2, 0,
-                            7),
-                fr::face_3d(laser_vertices, fr::vertex_3d(0, 1, 0), 0, 2, 1, 0,
-                            7),
-                fr::face_3d(laser_vertices, fr::vertex_3d(0, 1, 0), 3, 4, 5, 0,
-                            7),
-                fr::face_3d(laser_vertices, fr::vertex_3d(0, 1, 0), 3, 5, 4, 0,
-                            7),
-            };
-
-            bn::color laser_colors[] = {
-                bn::color(24, 0, 0),
-            };
-
-            fr::model_3d_item laser_full(laser_vertices, laser_faces,
-                                         laser_colors);
-
-            if (static_count >= fr::constants_3d::max_static_models)
-            {
-                BN_LOG("Stage Section Renderer: reached static model max "
-                       "limit: " +
-                       bn::to_string<64>(fr::constants_3d::max_static_models));
-            }
-            else
-            {
-                _static_model_items[static_count] = &laser_full;
-                static_count += 1;
-            }
-        }
+        static_count =
+            _player_ship.statics_render(_static_model_items, static_count);
 
         // Final models update
         // BN_LOG("STATIC MODEL COUNT: " + bn::to_string<32>(static_count));
