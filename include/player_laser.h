@@ -6,6 +6,15 @@
 #include "fr_model_3d_item.h"
 #include "fr_model_colors.h"
 
+namespace fr::model_3d_items
+{
+
+constexpr inline bn::color laser_colors[] = {
+    bn::color(0, 0, 24),
+};
+
+}
+
 class player_laser
 {
   public:
@@ -42,10 +51,6 @@ class player_laser
         fr::face_3d(laser_vertices, fr::vertex_3d(0, 1, 0), 0, 2, 1, 0, 7),
         fr::face_3d(laser_vertices, fr::vertex_3d(0, 1, 0), 3, 4, 5, 0, 7),
         fr::face_3d(laser_vertices, fr::vertex_3d(0, 1, 0), 3, 5, 4, 0, 7),
-    };
-
-    bn::color laser_colors[1] = {
-        bn::color(24, 0, 0),
     };
 
     fr::model_3d_item laser_full;

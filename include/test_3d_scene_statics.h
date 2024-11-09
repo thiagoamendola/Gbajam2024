@@ -1,6 +1,7 @@
 #ifndef TEST_3D_SCENE_STATICS_H
 #define TEST_3D_SCENE_STATICS_H
 
+#include "player_laser.h"
 #include "scene_colors_generator.h"
 #include "stage_section.h"
 #include "static_model_3d_item.h"
@@ -196,6 +197,7 @@ constexpr size_t sections_count = sections_full.size();
 
 // Add model materials here
 constexpr const auto raw_scene_colors = {
+    bn::span<const bn::color>(fr::model_3d_items::laser_colors),
     bn::span<const bn::color>(fr::model_3d_items::shot_colors),
     bn::span<const bn::color>(fr::model_3d_items::player_ship_02_colors),
     bn::span<const bn::color>(fr::model_3d_items::bush_colors),

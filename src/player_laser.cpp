@@ -15,7 +15,7 @@
 // #include "player_ship.h"
 
 player_laser::player_laser()
-    : laser_full(laser_vertices, laser_faces, laser_colors)
+    : laser_full(laser_vertices, laser_faces, fr::model_3d_items::laser_colors)
 {
 }
 
@@ -37,13 +37,17 @@ int player_laser::render_player_laser(
 {
     if (render_laser)
     {
+        // BN_LOG("[player_laser::render_player_laser] Is this being called?");
+
         // Update vertices.
         laser_vertices[0].reset(player_ship_pos + fr::point_3d(10, 0, 2));
         laser_vertices[1].reset(player_ship_pos + fr::point_3d(10, 0, -2));
-        laser_vertices[2].reset(0, player_ship_pos.y(), 0);
+        // laser_vertices[2].reset(player_ship_pos + fr::point_3d(10, 50, 0));
+        laser_vertices[2].reset(0, player_ship_pos.y() - 500, 0);
         laser_vertices[3].reset(player_ship_pos + fr::point_3d(-10, 0, 2));
         laser_vertices[4].reset(player_ship_pos + fr::point_3d(-10, 0, -2));
-        laser_vertices[5].reset(0, player_ship_pos.y(), 0);
+        // laser_vertices[5].reset(player_ship_pos + fr::point_3d(-10, 50, -2));
+        laser_vertices[5].reset(0, player_ship_pos.y() - 500, 0);
 
         // Update faces.
         laser_faces[0].reset(laser_vertices, fr::vertex_3d(0, 1, 0), 0, 1, 2, 0,
