@@ -45,6 +45,16 @@ int player_laser::render_player_laser(
         laser_vertices[4].reset(player_ship_pos + fr::point_3d(-10, 0, -2));
         laser_vertices[5].reset(0, player_ship_pos.y(), 0);
 
+        // Update faces.
+        laser_faces[0].reset(laser_vertices, fr::vertex_3d(0, 1, 0), 0, 1, 2, 0,
+                             7);
+        laser_faces[1].reset(laser_vertices, fr::vertex_3d(0, 1, 0), 0, 2, 1, 0,
+                             7);
+        laser_faces[2].reset(laser_vertices, fr::vertex_3d(0, 1, 0), 3, 4, 5, 0,
+                             7);
+        laser_faces[3].reset(laser_vertices, fr::vertex_3d(0, 1, 0), 3, 5, 4, 0,
+                             7);
+
         // Add nem mesh as static object
         if (static_count >= fr::constants_3d::max_static_models)
         {

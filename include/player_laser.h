@@ -25,10 +25,7 @@ class player_laser
         fr::vertex_3d(1, 1, 0), fr::vertex_3d(0, 1, 1), fr::vertex_3d(1, 0, 1),
     };
 
-    // // Organize faces
-    // /* How can I define a face
-
-    //     > But I need to make the Normal vector! Check Python
+    //     Maybe I need to define the Normal vector! Check Python
 
     //     def normal(p0, p1, p2):
     //         # cross_product = np.cross(p1 - p0, p2 - p0)

@@ -58,6 +58,41 @@ class face_3d
                   "Invalid color index: ", color_index);
     }
 
+    [[nodiscard]] constexpr void reset(
+        const bn::span<const vertex_3d> &vertices, const vertex_3d &normal,
+        int first_vertex_index, int second_vertex_index, int third_vertex_index,
+        int color_index, int shading)
+    {
+        _centroid =
+            _calculate_centroid(vertices, first_vertex_index,
+                                second_vertex_index, third_vertex_index);
+        _normal = normal;
+        _first_vertex_index = first_vertex_index;
+        _second_vertex_index = second_vertex_index;
+        _third_vertex_index = third_vertex_index;
+        _color_index = color_index;
+        _shading = _calculate_shading(shading, normal.point().y());
+        _triangle = false;
+    }
+
+    [[nodiscard]] constexpr void reset(
+        const bn::span<const vertex_3d> &vertices, const vertex_3d &normal,
+        int first_vertex_index, int second_vertex_index, int third_vertex_index,
+        int fourth_vertex_index, int color_index, int shading)
+    {
+        _centroid = _calculate_centroid(vertices, first_vertex_index,
+                                        second_vertex_index, third_vertex_index,
+                                        fourth_vertex_index);
+        _normal = normal;
+        _first_vertex_index = first_vertex_index;
+        _second_vertex_index = second_vertex_index;
+        _third_vertex_index = third_vertex_index;
+        _fourth_vertex_index = fourth_vertex_index;
+        _color_index = color_index;
+        _shading = _calculate_shading(shading, normal.point().y());
+        _triangle = false;
+    }
+
     [[nodiscard]] constexpr const vertex_3d &centroid() const
     {
         return _centroid;
