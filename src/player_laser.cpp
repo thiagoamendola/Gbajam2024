@@ -8,6 +8,7 @@
 
 #include "fr_constants_3d.h"
 #include "fr_model_3d_item.h"
+#include "fr_sin_cos.h"
 // #include "fr_camera_3d.h"
 // #include "fr_models_3d.h"
 
@@ -32,22 +33,29 @@ void player_laser::handle_player_laser()
 }
 
 int player_laser::render_player_laser(
-    fr::point_3d player_ship_pos, const fr::model_3d_item **static_model_items,
-    int static_count)
+    fr::point_3d player_ship_pos, bn::fixed psi, bn::fixed phi,
+    const fr::model_3d_item **static_model_items, int static_count)
 {
     if (render_laser)
     {
-        // BN_LOG("[player_laser::render_player_laser] Is this being called?");
+        int phi_raw = phi.right_shift_integer();
+        int psi_raw = psi.right_shift_integer();
+
+        // Calculate laser trajectory.
+        fr::point_3d forward_vec = fr::point_3d(0, -400, 0);
+        // use magnitude instead
+        forward_vec.set_x(-forward_vec.y() * fr::sin(phi_raw));
+        forward_vec.set_y(forward_vec.y());
+        forward_vec.set_z(-forward_vec.y() * fr::cos(psi_raw));
 
         // Update vertices.
+        //<-- Make const for these points for easy changing later
         laser_vertices[0].reset(player_ship_pos + fr::point_3d(10, 0, 2));
         laser_vertices[1].reset(player_ship_pos + fr::point_3d(10, 0, -2));
-        // laser_vertices[2].reset(player_ship_pos + fr::point_3d(10, 50, 0));
-        laser_vertices[2].reset(0, player_ship_pos.y() - 500, 0);
+        laser_vertices[2].reset(player_ship_pos + forward_vec);
         laser_vertices[3].reset(player_ship_pos + fr::point_3d(-10, 0, 2));
         laser_vertices[4].reset(player_ship_pos + fr::point_3d(-10, 0, -2));
-        // laser_vertices[5].reset(player_ship_pos + fr::point_3d(-10, 50, -2));
-        laser_vertices[5].reset(0, player_ship_pos.y() - 500, 0);
+        laser_vertices[5].reset(player_ship_pos + forward_vec);
 
         // Update faces.
         laser_faces[0].reset(laser_vertices, fr::vertex_3d(0, 1, 0), 0, 1, 2, 0,
