@@ -64,8 +64,7 @@ model_3d &models_3d::create_dynamic_model(const model_3d_item &model_item,
                                           const bn::color *palette)
 {
     model_3d &result = create_dynamic_model(model_item);
-    // <-- Make this use getter/setter
-    result.palette = palette;
+    result.set_palette(palette);
     return result;
 }
 

@@ -139,6 +139,16 @@ class model_3d : public bn::intrusive_list_node_type
         }
     }
 
+    [[nodiscard]] constexpr const bn::color *palette() const
+    {
+        return _palette;
+    }
+
+    constexpr void set_palette(const bn::color *new_palette)
+    {
+        _palette = new_palette;
+    }
+
     [[nodiscard]] constexpr point_3d rotate(const vertex_3d &vertex) const
     {
         bn::fixed vx = vertex.point().x();
@@ -208,12 +218,9 @@ class model_3d : public bn::intrusive_list_node_type
         _zx_zy = _zx.unsafe_multiplication(_zy);
     }
 
-    // <-- Create getter/setter
-    // const bn::span<const bn::color> *palette;
-    const bn::color *palette;
-
   private:
     const model_3d_item &_item;
+    const bn::color *_palette;
     point_3d _position;
     bn::fixed _scale = 1;
     bn::fixed _phi;

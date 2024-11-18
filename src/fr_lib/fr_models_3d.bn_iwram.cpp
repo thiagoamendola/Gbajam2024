@@ -215,10 +215,10 @@ void models_3d::_process_models(const camera_3d &camera)
 
                     if (_color_mapping)
                     {
-                        if (model.palette)
+                        if (model.palette())
                         {
                             color_index_override = _color_mapping->get_index(
-                                face.color_index(), model.palette);
+                                face.color_index(), model.palette());
                         }
                         else if (model_item.palette())
                         {
