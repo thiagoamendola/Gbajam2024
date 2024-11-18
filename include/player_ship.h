@@ -10,6 +10,15 @@
 #include "controller.h"
 #include "player_laser.h"
 
+namespace fr::model_3d_items
+{
+
+constexpr inline bn::color hurt_colors[] = {
+    bn::color(24, 0, 0),
+};
+
+}
+
 class player_ship
 {
   public:

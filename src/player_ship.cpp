@@ -82,6 +82,18 @@ void player_ship::update()
         }
     }
 
+    {
+        // - Test collision
+        if (bn::keypad::b_held())
+        {
+            _model->set_palette(fr::model_3d_items::hurt_colors);
+        }
+        else
+        {
+            _model->set_palette(fr::model_3d_items::player_ship_02_colors);
+        }
+    }
+
     // bn::fixed old_phi = _model->phi();
     // // Remember to avoid Gymball lock with the following
     // _model->set_phi(0);

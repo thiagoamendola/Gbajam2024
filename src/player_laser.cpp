@@ -4,16 +4,10 @@
 #include "bn_keypad.h"
 #include "bn_log.h"
 #include "bn_string.h"
-// #include "bn_fixed.h"
 
 #include "fr_constants_3d.h"
 #include "fr_model_3d_item.h"
 #include "fr_sin_cos.h"
-// #include "fr_camera_3d.h"
-// #include "fr_models_3d.h"
-
-// #include "stage_section.h"
-// #include "player_ship.h"
 
 player_laser::player_laser()
     : laser_full(laser_vertices, laser_faces, fr::model_3d_items::laser_colors)

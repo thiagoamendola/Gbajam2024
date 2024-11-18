@@ -10,7 +10,7 @@ namespace fr::model_3d_items
 {
 
 constexpr inline bn::color laser_colors[] = {
-    bn::color(0, 5, 24),
+    bn::color(24, 24, 0),
 };
 
 }
