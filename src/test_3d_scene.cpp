@@ -24,11 +24,13 @@
 #include "models/shot.h"
 
 #include "bn_regular_bg_items_floor.h"
+#include "bn_regular_bg_items_moon.h"
 #include "bn_regular_bg_ptr.h"
 
 test_3d_scene::test_3d_scene()
     : _player_ship(&_controller, &_camera, &_models), _prepare_to_leave(false),
       _scene_bg(bn::regular_bg_items::floor.create_bg(0, 0))
+//   _moon_bg(bn::regular_bg_items::moon.create_bg(0, 20))
 //   _test_sprite_sprite_3d_item(bn::sprite_items::butano_background_2, 0)
 {
     // Stage setup

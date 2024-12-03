@@ -7,17 +7,25 @@
 #include "fr_model_3d_item.h"
 #include "fr_models_3d.h"
 
+#include "colliders.h"
 #include "controller.h"
 #include "player_laser.h"
+
+// - Constants
 
 namespace fr::model_3d_items
 {
 
 constexpr inline bn::color hurt_colors[] = {
-    bn::color(24, 0, 0),
+    bn::color(18, 0, 0),
 };
 
-}
+constexpr const sphere_collider ship_colliders[] = {
+    sphere_collider(fr::point_3d(0, 0, 0), 30)};
+
+} // namespace fr::model_3d_items
+
+// - Main class
 
 class player_ship
 {
@@ -51,6 +59,13 @@ class player_ship
     fr::model_3d *_model;
 
     player_laser _player_laser;
+
+    // <-- Make it a constant
+    const sphere_collider_set _sphere_collider_set;
+
+    // const sphere_collider_set _sphere_collider_set(
+    //     {sphere_collider(fr::point_3d(0, 0, 0), 30)});
+    // const sphere_collider_set _sphere_collider_set;
 };
 
 #endif

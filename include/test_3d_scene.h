@@ -45,6 +45,7 @@ class test_3d_scene : public fr::scene
 
     // Background
     bn::regular_bg_ptr _scene_bg;
+    // bn::regular_bg_ptr _moon_bg;
 };
 
 #endif

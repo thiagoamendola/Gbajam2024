@@ -16,7 +16,8 @@
 
 player_ship::player_ship(controller *controller, fr::camera_3d *camera,
                          fr::models_3d *models)
-    : _controller(controller), _camera(camera), _models(models)
+    : _controller(controller), _camera(camera), _models(models),
+      _sphere_collider_set(fr::model_3d_items::ship_colliders)
 {
     _model =
         &_models->create_dynamic_model(fr::model_3d_items::player_ship_02_full);
