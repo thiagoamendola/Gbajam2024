@@ -35,6 +35,13 @@ class player_laser
         fr::vertex_3d(1, 1, 0), fr::vertex_3d(0, 1, 1), fr::vertex_3d(1, 0, 1),
     };
 
+    fr::face_3d laser_faces[4] = {
+        fr::face_3d(laser_vertices, fr::vertex_3d(0, 1, 0), 0, 1, 2, 0, 7),
+        fr::face_3d(laser_vertices, fr::vertex_3d(0, 1, 0), 0, 2, 1, 0, 7),
+        fr::face_3d(laser_vertices, fr::vertex_3d(0, 1, 0), 3, 4, 5, 0, 7),
+        fr::face_3d(laser_vertices, fr::vertex_3d(0, 1, 0), 3, 5, 4, 0, 7),
+    };
+
     //     Python code for Normal calc:
     //     def normal(p0, p1, p2):
     //         # cross_product = np.cross(p1 - p0, p2 - p0)
@@ -45,13 +52,6 @@ class player_laser
     //    magnitude, cross_product[2] / magnitude]
     //
     //     But not necessary for lasers since we want a strong color.
-
-    fr::face_3d laser_faces[4] = {
-        fr::face_3d(laser_vertices, fr::vertex_3d(0, 1, 0), 0, 1, 2, 0, 7),
-        fr::face_3d(laser_vertices, fr::vertex_3d(0, 1, 0), 0, 2, 1, 0, 7),
-        fr::face_3d(laser_vertices, fr::vertex_3d(0, 1, 0), 3, 4, 5, 0, 7),
-        fr::face_3d(laser_vertices, fr::vertex_3d(0, 1, 0), 3, 5, 4, 0, 7),
-    };
 
     fr::model_3d_item laser_full;
 

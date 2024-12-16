@@ -36,11 +36,17 @@
 #endif
 
 #ifndef FR_LOG_POLYGONS_PER_SECOND
-#define FR_LOG_POLYGONS_PER_SECOND false
+#define FR_LOG_POLYGONS_PER_SECOND true // <-- TURN OFF
 #endif
 
 #ifndef FR_SKIP_RACE_INTRO
 #define FR_SKIP_RACE_INTRO false
+#endif
+
+// <-- MY VARS
+
+#ifndef LOG_STATIC_RENDER_STEPS
+#define LOG_STATIC_RENDER_STEPS false
 #endif
 
 namespace fr::constants_3d

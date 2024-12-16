@@ -198,6 +198,7 @@ constexpr size_t sections_count = sections_full.size();
 
 // Add model materials here
 constexpr const auto raw_scene_colors = {
+    bn::span<const bn::color>(fr::model_3d_items::debug_collider_colors),
     bn::span<const bn::color>(fr::model_3d_items::laser_colors),
     bn::span<const bn::color>(fr::model_3d_items::shot_colors),
     bn::span<const bn::color>(fr::model_3d_items::hurt_colors),
