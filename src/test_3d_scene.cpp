@@ -92,7 +92,9 @@ bn::optional<scene_type> test_3d_scene::update()
     {
         // - Static object rendering
 
-        int static_count = stage_section_renderer::manage_section_render(
+        int static_count = 0;
+
+        static_count = stage_section_renderer::manage_section_render(
             sections, sections_count, _camera, _models, _static_model_items);
 
         // - Player Laser

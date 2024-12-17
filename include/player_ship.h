@@ -62,6 +62,8 @@ class player_ship
 
     // <-- Make it a constant
     sphere_collider_set _sphere_collider_set;
+
+    bool enable_collider_display = false;
 };
 
 #endif
