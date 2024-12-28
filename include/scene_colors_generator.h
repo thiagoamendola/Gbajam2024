@@ -76,11 +76,11 @@ constexpr size_t calculate_total_size(
 }
 
 //
-template <size_t full_size>
-constexpr bn::array<bn::color, full_size> generate_scene_colors(
+template <size_t FullSize>
+constexpr bn::array<bn::color, FullSize> generate_scene_colors(
     const std::initializer_list<bn::span<const bn::color>> color_list)
 {
-    bn::array<bn::color, full_size> color_list_vec;
+    bn::array<bn::color, FullSize> color_list_vec;
     int i = 0;
 
     for (auto colors_span : color_list)
