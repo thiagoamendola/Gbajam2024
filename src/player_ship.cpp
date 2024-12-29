@@ -97,11 +97,12 @@ void player_ship::update()
         }
 
         // Toggle collider visibility
+        #if SHOW_COLLIDERS_PLAYER
         if (bn::keypad::select_pressed())
         {
             enable_collider_display = !enable_collider_display;
         }
-
+        #endif
         // <-- check collision
     }
 }

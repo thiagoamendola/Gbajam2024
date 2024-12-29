@@ -49,6 +49,12 @@
 #define LOG_STATIC_RENDER_STEPS false
 #endif
 
+// Enables player collider debug by pressing SELECT
+#ifndef SHOW_COLLIDERS_PLAYER
+#define SHOW_COLLIDERS_PLAYER true
+#endif
+
+
 namespace fr::constants_3d
 {
 constexpr int focal_length_shift = 8;
