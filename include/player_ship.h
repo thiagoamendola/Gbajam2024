@@ -21,10 +21,15 @@ constexpr inline bn::color hurt_colors[] = {
 };
 
 constexpr const sphere_collider ship_colliders[] = {
-    sphere_collider(fr::point_3d(15, 0, 0), 7),
-    sphere_collider(fr::point_3d(0, 0, 0), 7)
+    sphere_collider(fr::point_3d(-15, 0, 7), 4),
+    sphere_collider(fr::point_3d(15, 0, 7), 4),
+    sphere_collider(fr::point_3d(-15, 0, -7), 4),
+    sphere_collider(fr::point_3d(15, 0, -7), 4),
+    sphere_collider(fr::point_3d(0, 0, 0), 8)
     
 };
+
+constexpr size_t ship_colliders_count = sizeof(ship_colliders) / sizeof(ship_colliders[0]);
 
 } // namespace fr::model_3d_items
 
@@ -63,8 +68,8 @@ class player_ship
 
     player_laser _player_laser;
 
-    // <-- Make it a constant
-    sphere_collider_set _sphere_collider_set;
+    sphere_collider_set<fr::model_3d_items::ship_colliders_count>
+        _sphere_collider_set;
 
     bool enable_collider_display = false;
 };

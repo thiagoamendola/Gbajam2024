@@ -1,9 +1,11 @@
 #ifndef COLLIDERS_H
 #define COLLIDERS_H
 
+#include "bn_array.h"
 #include "bn_colors.h"
 #include "bn_fixed.h"
 #include "bn_log.h"
+#include "bn_span.h"
 #include "bn_string.h"
 #include "bn_vector.h"
 
@@ -59,7 +61,7 @@ struct sphere_collider
     }
 };
 
-class sphere_collider_set
+template <size_t ColliderNum> class sphere_collider_set
 {
   public:
     constexpr sphere_collider_set(
@@ -73,7 +75,7 @@ class sphere_collider_set
                        const fr::model_3d_item **static_model_items,
                        int static_count)
     {
-        for (int i = 0; i < 2; i++)
+        for (size_t i = 0; i < ColliderNum; i++)
         {
             auto collider = _sphere_collider_list[i];
 
@@ -98,9 +100,7 @@ class sphere_collider_set
             // Add mesh as static object
             if (static_count >= fr::constants_3d::max_static_models)
             {
-                BN_LOG("[debug_collider] Stage Section Renderer: reached static "
-                    "model max "
-                    "limit: " +
+                BN_LOG("[debug_collider] Stage Section Renderer: reached static model max limit: " +
                     bn::to_string<64>(fr::constants_3d::max_static_models));
                 return static_count;
             }
@@ -116,10 +116,7 @@ class sphere_collider_set
 
   private:
     const bn::span<const sphere_collider> _sphere_collider_list;
-    bn::array<sphere_collider_debugger, 2> _sphere_collider_debuggers;
-
-    // <-- I need to create a list of sphere_collider_debuggers equal to
-    // _sphere_collider_list.
+    bn::array<sphere_collider_debugger, ColliderNum> _sphere_collider_debuggers;
 };
 
 #endif
