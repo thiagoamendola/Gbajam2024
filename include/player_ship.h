@@ -21,7 +21,10 @@ constexpr inline bn::color hurt_colors[] = {
 };
 
 constexpr const sphere_collider ship_colliders[] = {
-    sphere_collider(fr::point_3d(0, 0, 0), 7)};
+    sphere_collider(fr::point_3d(15, 0, 0), 7),
+    sphere_collider(fr::point_3d(0, 0, 0), 7)
+    
+};
 
 } // namespace fr::model_3d_items
 
