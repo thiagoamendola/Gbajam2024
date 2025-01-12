@@ -36,7 +36,7 @@
 #endif
 
 #ifndef FR_LOG_POLYGONS_PER_SECOND
-#define FR_LOG_POLYGONS_PER_SECOND true // <-- TURN OFF
+#define FR_LOG_POLYGONS_PER_SECOND false
 #endif
 
 #ifndef FR_SKIP_RACE_INTRO // <-- Remove FF
@@ -54,6 +54,7 @@
 #define SHOW_COLLIDERS_PLAYER true
 #endif
 
+// <-- Create FF for collision checks
 
 namespace fr::constants_3d
 {

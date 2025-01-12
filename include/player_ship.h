@@ -21,10 +21,10 @@ constexpr inline bn::color hurt_colors[] = {
 };
 
 constexpr const sphere_collider ship_colliders[] = {
-    sphere_collider(fr::point_3d(-15, 0, 7), 4),
-    sphere_collider(fr::point_3d(15, 0, 7), 4),
-    sphere_collider(fr::point_3d(-15, 0, -7), 4),
-    sphere_collider(fr::point_3d(15, 0, -7), 4),
+    // sphere_collider(fr::point_3d(-15, 0, 7), 4),
+    // sphere_collider(fr::point_3d(15, 0, 7), 4),
+    // sphere_collider(fr::point_3d(-15, 0, -7), 4),
+    // sphere_collider(fr::point_3d(15, 0, -7), 4),
     sphere_collider(fr::point_3d(0, 0, 0), 8)
     
 };
@@ -41,7 +41,7 @@ class player_ship
     player_ship(controller *controller, fr::camera_3d *camera,
                 fr::models_3d *models);
 
-    void update();
+    void update(const fr::model_3d_item **static_model_items, size_t static_items_count);
 
     void destroy();
 

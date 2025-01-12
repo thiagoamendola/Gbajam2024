@@ -52,6 +52,7 @@ test_3d_scene::test_3d_scene()
 bn::optional<scene_type> test_3d_scene::update()
 {
     bn::optional<scene_type> result;
+    int static_count = 0; 
 
     if (_prepare_to_leave)
     {
@@ -86,17 +87,16 @@ bn::optional<scene_type> test_3d_scene::update()
             // BN_LOG(_camera.position().y());
         }
 
-        _player_ship.update();
-    }
-
-    {
-        // - Static object rendering
-
-        int static_count = 0;
+        // <-- might need to reorganize things here
 
         static_count = stage_section_renderer::manage_section_render(
             sections, sections_count, _camera, _models, _static_model_items);
 
+        _player_ship.update(_static_model_items, static_count);
+    }
+
+    {
+        // - Static object rendering
         // - Player Laser
 
         static_count =

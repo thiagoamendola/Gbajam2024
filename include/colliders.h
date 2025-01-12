@@ -53,11 +53,15 @@ struct sphere_collider_debugger
 struct sphere_collider
 {
     fr::point_3d position;
-    bn::fixed radius;
+    int radius;
 
-    constexpr sphere_collider(fr::point_3d _position, bn::fixed _radius)
+    constexpr sphere_collider(fr::point_3d _position, int _radius)
         : position(_position), radius(_radius)
     {
+    }
+
+    int squared_radius(){
+        return radius*radius;
     }
 };
 
@@ -71,8 +75,12 @@ template <size_t ColliderNum> class sphere_collider_set
     {
     }
 
-    int debug_collider(fr::point_3d origin_pos,
-                       const fr::model_3d_item **static_model_items,
+    void set_origin(fr::point_3d origin_pos)
+    {
+        _origin_pos = origin_pos;
+    }
+
+    int debug_collider(const fr::model_3d_item **static_model_items,
                        int static_count)
     {
         for (size_t i = 0; i < ColliderNum; i++)
@@ -81,13 +89,13 @@ template <size_t ColliderNum> class sphere_collider_set
 
             // Calc vertices
             _sphere_collider_debuggers[i].debug_vertices[0].reset(
-                origin_pos + collider.position + fr::point_3d(collider.radius, 0, 0));
+                _origin_pos + collider.position + fr::point_3d(collider.radius, 0, 0));
             _sphere_collider_debuggers[i].debug_vertices[1].reset(
-                origin_pos + collider.position + fr::point_3d(0, 0, collider.radius));
+                _origin_pos + collider.position + fr::point_3d(0, 0, collider.radius));
             _sphere_collider_debuggers[i].debug_vertices[2].reset(
-                origin_pos + collider.position + fr::point_3d(-collider.radius, 0, 0));
+                _origin_pos + collider.position + fr::point_3d(-collider.radius, 0, 0));
             _sphere_collider_debuggers[i].debug_vertices[3].reset(
-                origin_pos + collider.position + fr::point_3d(0, 0, -collider.radius));
+                _origin_pos + collider.position + fr::point_3d(0, 0, -collider.radius));
 
             // Calc faces
             _sphere_collider_debuggers[i].debug_faces[0].reset(
@@ -106,17 +114,85 @@ template <size_t ColliderNum> class sphere_collider_set
             }
             static_model_items[static_count] = &_sphere_collider_debuggers[i].debug_model;
             static_count += 1;
-
-            // BN_LOG("[debug_collider] Added collider. Count: " +
-            //        bn::to_string<64>(static_count));
         }
 
         return static_count;
     }
 
+    bool colliding_with_point(fr::point_3d point)
+    {
+        for (size_t i = 0; i < ColliderNum; i++)
+        {
+            auto collider = _sphere_collider_list[i];
+            
+            fr::point_3d collider_center_distance_vec = point - (_origin_pos + collider.position);
+            int xv = collider_center_distance_vec.x().integer();
+            int yv = collider_center_distance_vec.y().integer();
+            int zv = collider_center_distance_vec.z().integer();
+            int collider_center_distance_squared = 
+                (xv * xv) + 
+                (yv * yv) + 
+                (zv * zv);
+
+            if (collider_center_distance_squared <= collider.squared_radius())
+            {
+                BN_LOG("[colliding_with_point] vertex dist (squared): " +
+                    bn::to_string<128>(collider_center_distance_squared) + 
+                    "; squared_radius: "+
+                    bn::to_string<128>(collider.squared_radius()) + 
+                    "; raw dist vec: (" + 
+                    bn::to_string<128>(collider_center_distance_vec.x()) + ", " +
+                    bn::to_string<128>(collider_center_distance_vec.y()) + ", " +
+                    bn::to_string<128>(collider_center_distance_vec.z()) + ")"
+                    );
+                BN_LOG("[colliding_with_point] COLLIDED!!!");
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    // Current Strategy: check if colliding with any vertex.
+    bool colliding_with_static_model(const fr::model_3d_item &model_item)
+    {
+        BN_LOG("[colliding_with_static_model] new model: ");
+
+        const auto _vertices = model_item.vertices();
+
+        // <-- Optimization: skip vertices if too far from model
+
+        for (auto& vertex: _vertices)
+        {
+            if (colliding_with_point(vertex.point()))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    bool colliding_with_statics(const fr::model_3d_item **static_model_items, size_t count)
+    {
+        BN_LOG("[collision] STARTING ----------------- ");
+
+        for (size_t i = 0; i < count ; i++)
+        {
+            if (colliding_with_static_model(*static_model_items[i]))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
   private:
     const bn::span<const sphere_collider> _sphere_collider_list;
     bn::array<sphere_collider_debugger, ColliderNum> _sphere_collider_debuggers;
+    fr::point_3d _origin_pos;
+
 };
 
 #endif
