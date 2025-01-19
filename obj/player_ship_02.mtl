@@ -1,8 +1,8 @@
-# Blender 4.2.0 MTL File: '3D Models.blend'
-# www.blender.org
+# Blender MTL File: 'player_ship_02.blend'
+# Material Count: 1
 
-newmtl Material
-Ns 250.000000
+newmtl Material.001
+Ns 249.999987
 Ka 1.000000 1.000000 1.000000
 Kd 0.800000 0.800000 0.800000
 Ks 0.500000 0.500000 0.500000
