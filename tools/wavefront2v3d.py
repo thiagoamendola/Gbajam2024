@@ -11,6 +11,7 @@
 import os
 import sys
 import math
+from random import randrange
 
 #thanks gvaliente
 def sub(a, b):
@@ -196,7 +197,7 @@ def main(argv):
         + ","
         + "".join("%d" % wavematerialindices[x])
         + ','
-        + "7" #Changed
+        + "".join("%d" % randrange(8)) #"7"
         + '),\n'
         )
 
