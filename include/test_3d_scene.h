@@ -2,6 +2,7 @@
 #define TEST_3D_SCENE_H
 
 #include "bn_regular_bg_ptr.h"
+#include "bn_regular_bg_animate_actions.h"
 
 #include "fr_camera_3d.h"
 #include "fr_model_3d_item.h"
@@ -44,7 +45,9 @@ class test_3d_scene : public fr::scene
     // fr::sprite_3d_item _test_sprite_sprite_3d_item;
 
     // Background
-    bn::regular_bg_ptr _scene_bg;
+    // bn::regular_bg_ptr _scene_bg;
+    bn::regular_bg_ptr _anim_bg;
+    bn::regular_bg_cached_animate_action<5> _anim_bg_action;
     // bn::regular_bg_ptr _moon_bg;
 };
 
