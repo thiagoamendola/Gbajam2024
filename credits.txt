@@ -8,3 +8,9 @@ André Amorim
 
 - Music
 André Tuffo
+
+- Additional Thanks
+GValiente
+
+Made using Butano (C) 2020-2025 Gustavo Valiente
+
