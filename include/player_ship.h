@@ -71,7 +71,6 @@ class player_ship
     sphere_collider_set<fr::model_3d_items::ship_colliders_count>
         _sphere_collider_set;
 
-    bool enable_collider_display = false;
 };
 
 #endif

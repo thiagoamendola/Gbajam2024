@@ -1,3 +1,5 @@
+#include "player_ship.h"
+
 #include "bn_fixed.h"
 #include "bn_fixed_point.h"
 #include "bn_keypad.h"
@@ -7,8 +9,7 @@
 #include "bn_string.h"
 
 #include "fr_point_3d.h"
-
-#include "player_ship.h"
+#include "fr_constants_3d.h"
 
 #include "models/shot.h"
 // #include "models/player_ship_01.h"
@@ -97,13 +98,8 @@ void player_ship::update(const fr::model_3d_item **static_model_items, size_t st
             _model->set_palette(fr::model_3d_items::player_ship_02_colors);
         }
 
-        // Toggle collider visibility
-        #if SHOW_COLLIDERS_PLAYER
-        if (bn::keypad::select_pressed())
-        {
-            enable_collider_display = !enable_collider_display;
-        }
-        #endif
+        // Update general controller input
+        _controller->update();
     }
 }
 
@@ -132,7 +128,7 @@ int player_ship::statics_render(const fr::model_3d_item **static_model_items,
 #endif
 
     // Render debug collider models
-    if (enable_collider_display)
+    if (_controller->is_collider_display_enabled())
     {
         current_static_count = _sphere_collider_set.debug_collider(
             static_model_items, current_static_count);

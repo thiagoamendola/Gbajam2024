@@ -10,12 +10,18 @@ class controller
     bn::fixed_point get_norm_directional();
     bn::fixed_point get_smooth_directional();
 
+    void update();
+
+    bool is_collider_display_enabled();
+
   private:
     const bn::fixed INTERP_STEP = 0.1;
 
     bn::fixed_point _previous_raw_dir_input;
     bn::fixed_point _smooth_dir_input;
     bn::fixed _interp;
+
+    bool enable_collider_display = false; 
 };
 
 #endif

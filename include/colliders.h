@@ -156,7 +156,7 @@ template <size_t ColliderNum> class sphere_collider_set
     // Current Strategy: check if colliding with any vertex.
     bool colliding_with_static_model(const fr::model_3d_item &model_item)
     {
-        BN_LOG("[colliding_with_static_model] new model: ");
+        // BN_LOG("[colliding_with_static_model] new model: ");
 
         const auto _vertices = model_item.vertices();
 
@@ -175,7 +175,7 @@ template <size_t ColliderNum> class sphere_collider_set
 
     bool colliding_with_statics(const fr::model_3d_item **static_model_items, size_t count)
     {
-        BN_LOG("[collision] STARTING ----------------- ");
+        // BN_LOG("[collision] STARTING ----------------- ");
 
         for (size_t i = 0; i < count ; i++)
         {

@@ -3,9 +3,9 @@
 #include "bn_fixed.h"
 #include "bn_fixed_point.h"
 #include "bn_keypad.h"
-
 #include "bn_log.h"
 #include "bn_string.h"
+#include "fr_constants_3d.h"
 
 #include "utils.h"
 
@@ -84,4 +84,20 @@ bn::fixed_point controller::get_smooth_directional()
     _previous_raw_dir_input = current_raw_dir_input;
 
     return _smooth_dir_input;
+}
+
+void controller::update()
+{
+    // Toggle collider visibility
+    #if SHOW_COLLIDERS_PLAYER
+    if (bn::keypad::select_pressed())
+    {
+        enable_collider_display = !enable_collider_display;
+    }
+    #endif
+}
+
+bool controller::is_collider_display_enabled()
+{
+    return enable_collider_display;
 }
