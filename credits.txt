@@ -5,12 +5,17 @@ Thiago Amendola
 
 - 3D Assets
 André Amorim
+Thiago Amendola
 
 - Music
 André Tuffo
 
 - Additional Thanks
 GValiente
+nikku4211
+simon-paris
+
 
 Made using Butano (C) 2020-2025 Gustavo Valiente
 
+VisualBoyAdvance - Nintendo Gameboy/GameboyAdvance (TM) emulator. Copyright (C) 1999-2018 VBA & VBA-M Contributors
