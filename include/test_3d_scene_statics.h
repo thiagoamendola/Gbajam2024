@@ -14,6 +14,7 @@
 #include "models/bush.h"
 #include "models/player_ship_02.h"
 #include "models/shot.h"
+#include "models/asteroid1.h"
 
 using namespace scene_colors_generator;
 
@@ -93,28 +94,28 @@ constexpr stage_section section_1(_section_1_start, _section_1_end,
 
 constexpr auto _s2_bush_model_1 =
     static_model_3d_item<fr::model_3d_items::bush_full>(
-        fr::point_3d(30, 50, 40), 16000, fr::model_3d_items::shot_colors);
+        fr::point_3d(50, 50, 0), 16000, fr::model_3d_items::shot_colors);
 constexpr auto _s2_bush_model_1b =
     static_model_3d_item<fr::model_3d_items::bush_full>(
-        fr::point_3d(-30, 50, 40), 16000, fr::model_3d_items::shot_colors);
+        fr::point_3d(-10, 50, 0), 16000, fr::model_3d_items::shot_colors);
 constexpr auto _s2_bush_model_2 =
     static_model_3d_item<fr::model_3d_items::bush_full>(
-        fr::point_3d(30, -50, 40), 16000, fr::model_3d_items::shot_colors);
+        fr::point_3d(50, -50, 0), 16000, fr::model_3d_items::shot_colors);
 constexpr auto _s2_bush_model_2b =
     static_model_3d_item<fr::model_3d_items::bush_full>(
-        fr::point_3d(-30, -50, 40), 16000, fr::model_3d_items::shot_colors);
+        fr::point_3d(-10, -50, 0), 16000, fr::model_3d_items::shot_colors);
 constexpr auto _s2_bush_model_3 =
     static_model_3d_item<fr::model_3d_items::bush_full>(
-        fr::point_3d(30, -150, 40), 16000, fr::model_3d_items::shot_colors);
+        fr::point_3d(50, -150, 0), 16000, fr::model_3d_items::shot_colors);
 constexpr auto _s2_bush_model_3b =
     static_model_3d_item<fr::model_3d_items::bush_full>(
-        fr::point_3d(-30, -150, 40), 16000, fr::model_3d_items::shot_colors);
+        fr::point_3d(-10, -150, 0), 16000, fr::model_3d_items::shot_colors);
 constexpr auto _s2_bush_model_4 =
     static_model_3d_item<fr::model_3d_items::bush_full>(
-        fr::point_3d(30, -250, 40), 16000, fr::model_3d_items::shot_colors);
+        fr::point_3d(50, -250, 0), 16000, fr::model_3d_items::shot_colors);
 constexpr auto _s2_bush_model_4b =
     static_model_3d_item<fr::model_3d_items::bush_full>(
-        fr::point_3d(-30, -250, 40), 16000, fr::model_3d_items::shot_colors);
+        fr::point_3d(-10, -250, 0), 16000, fr::model_3d_items::shot_colors);
 
 constexpr auto _section_2_static_model_items = {
 
@@ -139,28 +140,28 @@ constexpr stage_section section_2(_section_2_start, _section_2_end,
 
 constexpr auto _s3_bush_model_1 =
     static_model_3d_item<fr::model_3d_items::bush_full>(
-        fr::point_3d(30, -350, 40), 16000);
+        fr::point_3d(30, -350, -15), 16000);
 constexpr auto _s3_bush_model_1b =
     static_model_3d_item<fr::model_3d_items::bush_full>(
-        fr::point_3d(-30, -350, 40), 16000);
+        fr::point_3d(-30, -350, -15), 16000);
 constexpr auto _s3_bush_model_2 =
     static_model_3d_item<fr::model_3d_items::bush_full>(
-        fr::point_3d(30, -450, 40), 16000);
+        fr::point_3d(30, -450, -15), 16000);
 constexpr auto _s3_bush_model_2b =
     static_model_3d_item<fr::model_3d_items::bush_full>(
-        fr::point_3d(-30, -450, 40), 16000);
+        fr::point_3d(-30, -450, -15), 16000);
 constexpr auto _s3_bush_model_3 =
     static_model_3d_item<fr::model_3d_items::bush_full>(
-        fr::point_3d(30, -550, 40), 16000);
+        fr::point_3d(30, -550, -15), 16000);
 constexpr auto _s3_bush_model_3b =
     static_model_3d_item<fr::model_3d_items::bush_full>(
-        fr::point_3d(-30, -550, 40), 16000);
+        fr::point_3d(-30, -550, -15), 16000);
 constexpr auto _s3_bush_model_4 =
     static_model_3d_item<fr::model_3d_items::bush_full>(
-        fr::point_3d(30, -650, 40), 16000);
+        fr::point_3d(30, -650, -15), 16000);
 constexpr auto _s3_bush_model_4b =
     static_model_3d_item<fr::model_3d_items::bush_full>(
-        fr::point_3d(-30, -650, 40), 16000);
+        fr::point_3d(-30, -650, -15), 16000);
 
 constexpr auto _section_3_static_model_items = {
 
@@ -204,7 +205,7 @@ constexpr const auto raw_scene_colors = {
     bn::span<const bn::color>(fr::model_3d_items::hurt_colors),
     bn::span<const bn::color>(fr::model_3d_items::player_ship_02_colors),
     bn::span<const bn::color>(fr::model_3d_items::bush_colors),
-
+    bn::span<const bn::color>(fr::model_3d_items::asteroid1_colors),
 };
 
 constexpr size_t model_palette_count = raw_scene_colors.size();

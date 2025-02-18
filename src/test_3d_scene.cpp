@@ -30,7 +30,9 @@
 #include "bn_regular_bg_ptr.h"
 
 test_3d_scene::test_3d_scene()
-    : _player_ship(&_controller, &_camera, &_models), _prepare_to_leave(false),
+    : _player_ship(&_controller, &_camera, &_models),
+      _asteroid(fr::point_3d(6, 450, -10), fr::point_3d(0, 50, 0), &_models, &_controller),
+      _prepare_to_leave(false),
       _anim_bg(bn::regular_bg_items::bg_anim.create_bg(0, 0)),
       _anim_bg_action(bn::create_regular_bg_cached_animate_action_forever(
             _anim_bg, 6, bn::regular_bg_items::bg_anim.map_item(), 0, 1, 2, 3))
@@ -105,11 +107,20 @@ bn::optional<scene_type> test_3d_scene::update()
     }
 
     {
+        // - Enemies
+
+        _asteroid.update();
+    }
+
+    {
         // - Static object rendering
-        // - Player Laser
+        // Player Laser
 
         static_count =
             _player_ship.statics_render(_static_model_items, static_count);
+
+        // Enemies
+        static_count = _asteroid.statics_render(_static_model_items, static_count);
 
         // Final models update
         // BN_LOG("STATIC MODEL COUNT: " + bn::to_string<32>(static_count));

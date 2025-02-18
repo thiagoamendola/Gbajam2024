@@ -13,6 +13,7 @@
 
 #include "controller.h"
 #include "player_ship.h"
+#include "asteroid.h"
 #include "scene_type.h"
 
 class test_3d_scene : public fr::scene
@@ -30,6 +31,8 @@ class test_3d_scene : public fr::scene
     fr::models_3d _models;
 
     player_ship _player_ship;
+
+    asteroid _asteroid;
 
     fr::model_3d *_model;
 
