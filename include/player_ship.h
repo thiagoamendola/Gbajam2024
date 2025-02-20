@@ -18,6 +18,7 @@ namespace fr::model_3d_items
 
 constexpr inline bn::color hurt_colors[] = {
     bn::color(18, 0, 0),
+    bn::color(18, 0, 0),
 };
 
 constexpr const sphere_collider ship_colliders[] = {
