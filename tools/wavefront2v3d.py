@@ -148,12 +148,13 @@ def main(argv):
     #if we're not recalculating the vertex normals, take them as specified in the obj
     #and in either case, take the face vertex indices as specified in the obj
     for x in range(len(waveobjdata)):
+        # print(waveobjdata[x])
         if waveobjdata[x][0:3] == "vn " and recalcvertexnorms == False:
             wavevertexnormssub = []
             for i in range(len(waveobjdata[x][3::].split())):
                 wavevertexnormssub.append(waveobjdata[x][3::].split()[i])
             wavevertexnorms.append(wavevertexnormssub)
-        if waveobjdata[x][0:2] == "f ":
+        elif waveobjdata[x][0:2] == "f ":
             wavefacelnormindices = []
             for i in range(len(waveobjdata[x][2::].split())):
                 if waveobjdata[x][2::].find('/'):
@@ -162,20 +163,18 @@ def main(argv):
                     wavefacelnormindices.append(str(int(waveobjdata[x][2::].split()[i])-1))
             wavefacels.append(wavefacelnormindices)
             wavematerialindices.append(max(0, wavematerialcurrent))
-        if waveobjdata[x-1][0:7] == "usemtl " and wavematerialnames[wavematerialnames.index(waveobjdata[x-1][7::])+1] not in wavematerialnames[:(wavematerialnames.index(waveobjdata[x-1][7::]))]:
-            wavematerialcurrent += 1
-            # print(wavematerialcurrent)
+        elif waveobjdata[x][0:7] == "usemtl ":
+            if wavematerialnames[wavematerialnames.index(waveobjdata[x][7::])] not in wavematerialnames[:(wavematerialnames.index(waveobjdata[x][7::]))]:
+                wavematerialcurrent += 1
 
-    # print ("========================")
-    # print (wavefacels)
-    # print (wavematerialindices)
-
+    # print ("wavefacels ("+ str(len(wavefacels)) +"): " + str(wavefacels))
+    # print ("wavematerialindices ("+ str(len(wavematerialindices)) +"): " + str(wavematerialindices))
 
     #if we're recalculating the vertex normals, take the sum of the cross product of all the vertices
     if recalcvertexnorms == True:
         for x in range(len(wavefacels)):
             p0 = wavevertices[int(wavefacels[x][0])]
-            p1 = wavevertices[int(wavefacels[x][1])]
+            p1 = wavevertices[int(wavefacels[x][1])] 
             p2 = wavevertices[int(wavefacels[x][2])]
             # print(wavevertices[int(wavefacels[x][0])])
             # print(wavevertices[int(wavefacels[x][1])])
@@ -183,6 +182,12 @@ def main(argv):
             wavevertexnormssub = normal(p0, p1, p2)
             wavevertexnorms.append(wavevertexnormssub)
             # print(wavevertexnorms[x])
+
+    # print ("wavevertexnorms ("+ str(len(wavevertexnorms)) +"): " + str(wavevertexnorms))
+
+    if (recalcvertexnorms == False and len(wavevertexnorms) != len(wavefacels)):
+        print ("ERROR: Normals list doesn't match faces list sizing. Please use --recalcnorms parameter.")
+        return
 
     #then put all the vertex normals, face indices, and material indices together in the v3d header file
     for x in range(len(wavevertexnorms)):
