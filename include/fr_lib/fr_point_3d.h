@@ -261,7 +261,7 @@ class vertex_3d
     {
     }
 
-    [[nodiscard]] constexpr void reset(bn::fixed x, bn::fixed y, bn::fixed z)
+    constexpr void reset(bn::fixed x, bn::fixed y, bn::fixed z)
     {
         _point.set_x(x);
         _point.set_y(y);
@@ -269,7 +269,7 @@ class vertex_3d
         _xy = x.safe_multiplication(y);
     }
 
-    [[nodiscard]] constexpr void reset(const point_3d &point)
+    constexpr void reset(const point_3d &point)
     {
         _point.set_x(point.x());
         _point.set_y(point.y());

@@ -58,7 +58,7 @@ class face_3d
                   "Invalid color index: ", color_index);
     }
 
-    [[nodiscard]] constexpr void reset(
+    constexpr void reset(
         const bn::span<const vertex_3d> &vertices, const vertex_3d &normal,
         int first_vertex_index, int second_vertex_index, int third_vertex_index,
         int color_index, int shading)
@@ -75,7 +75,7 @@ class face_3d
         _triangle = false;
     }
 
-    [[nodiscard]] constexpr void reset(
+    constexpr void reset(
         const bn::span<const vertex_3d> &vertices, const vertex_3d &normal,
         int first_vertex_index, int second_vertex_index, int third_vertex_index,
         int fourth_vertex_index, int color_index, int shading)

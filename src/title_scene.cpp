@@ -16,12 +16,13 @@
 #include "fr_model_colors.h"
 
 #include "scene_type.h"
-#include "test_3d_scene_statics.h"
+#include "test_3d_scene_defs.h"
 #include "title_scene.h"
 
 #include "models/player_ship_02.h"
 #include "models/shot.h"
 
+// <-- Likely need to move this to somewhere else
 int mixing_rate()
 {
     switch (BN_CFG_AUDIO_MIXING_RATE)
@@ -137,7 +138,7 @@ bn::optional<scene_type> title_scene::update()
         bn::sound_items::menu_focus.play();
     }
 
-    _model->set_phi(_model->phi() + 300);
+    _model->set_phi(_model->phi() + 300); // <-- Magic number
 
     _models.update(_camera);
 

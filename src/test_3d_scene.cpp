@@ -1,5 +1,5 @@
 #include "test_3d_scene.h"
-#include "test_3d_scene_statics.h"
+#include "test_3d_scene_defs.h"
 
 #include "bn_bg_palettes_actions.h"
 #include "bn_regular_bg_animate_actions.h"
@@ -101,7 +101,7 @@ bn::optional<scene_type> test_3d_scene::update()
         // <-- might need to reorganize things here
 
         static_count = stage_section_renderer::manage_section_render(
-            sections, sections_count, _camera, _models, _static_model_items);
+            sections, sections_count, _camera, _static_model_items);
 
         _player_ship.update(_static_model_items, static_count);
     }

@@ -30,8 +30,7 @@ void stage_section_renderer::render_single_section(
 
 int stage_section_renderer::render_sections(
     const bn::fixed camera_position, stage_section_list_ptr sections,
-    size_t sections_count, fr::models_3d &models,
-    const fr::model_3d_item **static_model_items)
+    size_t sections_count, const fr::model_3d_item **static_model_items)
 {
     int current_model = 0;
 
@@ -67,13 +66,12 @@ int stage_section_renderer::render_sections(
 
 int stage_section_renderer::manage_section_render(
     stage_section_list_ptr sections, size_t sections_count,
-    fr::camera_3d &camera, fr::models_3d &models,
-    const fr::model_3d_item **static_model_items)
+    fr::camera_3d &camera, const fr::model_3d_item **static_model_items)
 {
 
     const bn::fixed camera_position = camera.position().y();
     // BN_LOG("CAMERA POS: " + bn::to_string<32>(camera_position));
 
     return stage_section_renderer::render_sections(
-        camera_position, sections, sections_count, models, static_model_items);
+        camera_position, sections, sections_count, static_model_items);
 }

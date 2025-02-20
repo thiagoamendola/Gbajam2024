@@ -30,7 +30,7 @@ class stage_section
         return _static_model_items;
     }
 
-    constexpr const int static_model_count() const
+    constexpr int static_model_count() const
     {
         return _static_model_count;
     }

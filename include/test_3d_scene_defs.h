@@ -1,5 +1,5 @@
-#ifndef TEST_3D_SCENE_STATICS_H
-#define TEST_3D_SCENE_STATICS_H
+#ifndef TEST_3D_SCENE_DEFS_H
+#define TEST_3D_SCENE_DEFS_H
 
 #include "player_laser.h"
 #include "player_ship.h"
