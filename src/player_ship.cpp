@@ -70,28 +70,29 @@ void player_ship::update(const fr::model_3d_item **static_model_items, size_t st
 
     {
         // - Sound test // <-- Remove later
-        if (bn::keypad::b_pressed())
-        {
-            bn::sound_items::player_damage.play();
-        }
-        else if (bn::keypad::r_pressed())
-        {
-            bn::sound_items::player_death.play();
-        }
-        else if (bn::keypad::l_pressed())
-        {
-            bn::sound_items::enemy_death.play();
-        }
+        // if (bn::keypad::b_pressed())
+        // {
+        //     bn::sound_items::player_damage.play();
+        // }
+        // else if (bn::keypad::r_pressed())
+        // {
+        //     bn::sound_items::player_death.play();
+        // }
+        // else if (bn::keypad::l_pressed())
+        // {
+        //     bn::sound_items::enemy_death.play();
+        // }
     }
 
     {
-        // - Test collision
+        // - Collision with statics
 
         _sphere_collider_set.set_origin(get_model()->position());
 
         if (_sphere_collider_set.colliding_with_statics(static_model_items, static_items_count))
         {
             _model->set_palette(fr::model_3d_items::hurt_colors);
+            // <-- Start getting hurt
         }
         else
         {

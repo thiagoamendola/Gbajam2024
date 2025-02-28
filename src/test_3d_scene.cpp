@@ -82,17 +82,6 @@ bn::optional<scene_type> test_3d_scene::update()
 
             fr::point_3d new_cam_pos = _camera.position();
 
-            // if (bn::keypad::up_held())
-            // {
-            //     new_cam_pos.set_y(new_cam_pos.y() + 2); // Max is 1024
-            // }
-            // else if (bn::keypad::down_held())
-            // {
-            //     bn::fixed_t new_value = new_cam_pos.y() - 2;
-            //     new_value = new_value > 2 ? new_value : 2;
-            //     new_cam_pos.set_y(new_value);
-            // }
-
             _camera.set_position(new_cam_pos);
 
             // BN_LOG(_camera.position().y());

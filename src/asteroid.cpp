@@ -14,7 +14,7 @@
 // <-- Implement definition from header
 
 asteroid::asteroid(fr::point_3d position, fr::point_3d movement, fr::models_3d *models, controller *controller)
-    : _position(position), _movement(movement), _controller(controller), _models(models),
+    : _position(position), _movement(movement), _models(models), _controller(controller),
       _sphere_collider_set(fr::model_3d_items::asteroid_colliders)
 {
     _model =
@@ -35,7 +35,7 @@ void asteroid::update()
 
 void asteroid::destroy()
 {
-    // <-- IMPLEMENT
+    _models->destroy_dynamic_model(*_model);
 }
 
 int asteroid::statics_render(const fr::model_3d_item **static_model_items,

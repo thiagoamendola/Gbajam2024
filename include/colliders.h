@@ -119,6 +119,26 @@ template <size_t ColliderNum> class sphere_collider_set
         return static_count;
     }
 
+    bool colliding_with_statics(const fr::model_3d_item **static_model_items, size_t count)
+    {
+        // BN_LOG("[collision] STARTING ----------------- ");
+
+        for (size_t i = 0; i < count ; i++)
+        {
+            if (colliding_with_static_model(*static_model_items[i]))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+  private:
+    const bn::span<const sphere_collider> _sphere_collider_list;
+    bn::array<sphere_collider_debugger, ColliderNum> _sphere_collider_debuggers;
+    fr::point_3d _origin_pos;
+    
     bool colliding_with_point(fr::point_3d point)
     {
         for (size_t i = 0; i < ColliderNum; i++)
@@ -173,25 +193,6 @@ template <size_t ColliderNum> class sphere_collider_set
         return false;
     }
 
-    bool colliding_with_statics(const fr::model_3d_item **static_model_items, size_t count)
-    {
-        // BN_LOG("[collision] STARTING ----------------- ");
-
-        for (size_t i = 0; i < count ; i++)
-        {
-            if (colliding_with_static_model(*static_model_items[i]))
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-  private:
-    const bn::span<const sphere_collider> _sphere_collider_list;
-    bn::array<sphere_collider_debugger, ColliderNum> _sphere_collider_debuggers;
-    fr::point_3d _origin_pos;
 
 };
 
