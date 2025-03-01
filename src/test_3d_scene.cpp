@@ -11,6 +11,7 @@
 #include "bn_music.h"
 #include "bn_music_items.h"
 #include "bn_string.h"
+#include "bn_sprite_text_generator.h"
 
 #include "fr_model_3d_item.h"
 #include "fr_model_colors.h"
@@ -23,6 +24,7 @@
 // #include "bn_sprite_items_butano_background_2.h"
 #include "bn_sprite_items_ninja.h"
 #include "models/shot.h"
+#include "common_variable_8x16_sprite_font.h"
 
 #include "bn_regular_bg_items_floor.h"
 // #include "bn_regular_bg_items_moon.h"
@@ -31,11 +33,12 @@
 
 test_3d_scene::test_3d_scene()
     : _player_ship(&_controller, &_camera, &_models),
-      _asteroid(fr::point_3d(6, 450, -10), fr::point_3d(0, 50, 0), &_models, &_controller),
+      _enemy_manager(&_models, &_controller),
       _prepare_to_leave(false),
       _anim_bg(bn::regular_bg_items::bg_anim.create_bg(0, 0)),
       _anim_bg_action(bn::create_regular_bg_cached_animate_action_forever(
-            _anim_bg, 6, bn::regular_bg_items::bg_anim.map_item(), 0, 1, 2, 3))
+            _anim_bg, 6, bn::regular_bg_items::bg_anim.map_item(), 0, 1, 2, 3)),
+      _text_generator(common::variable_8x16_sprite_font)
     //   _scene_bg(bn::regular_bg_items::floor.create_bg(0, 0)),
 //   _moon_bg(bn::regular_bg_items::moon.create_bg(0, 20))
 //   _test_sprite_sprite_3d_item(bn::sprite_items::butano_background_2, 0)
@@ -55,6 +58,7 @@ test_3d_scene::test_3d_scene()
     // _test_sprite = &_models.create_sprite(_test_sprite_sprite_3d_item);
     // _test_sprite->set_position(fr::point_3d(0, 760, -20));
     // _test_sprite->set_theta(32000);
+
 }
 
 bn::optional<scene_type> test_3d_scene::update()
@@ -74,19 +78,23 @@ bn::optional<scene_type> test_3d_scene::update()
         // <-- Create destroy method and call all of these
         _prepare_to_leave = true;
         _player_ship.destroy();
-        _asteroid.destroy();
+        _enemy_manager.destroy();
     }
     else
     {
+        // <-- Move to debug UI
+        // text generators should be created only once
+        _text_sprites.clear();
+        _text_generator.generate(-7 * 16, -72, "Location (Y): " + 
+            bn::to_string<64>(int(_camera.position().y())),
+            _text_sprites);
 
-        // BN_LOG(_camera.position().y());
-        
         _player_ship.update();
     }
 
     {
         // - Enemies
-        _asteroid.update();
+        _enemy_manager.update();
     }
 
     {
@@ -94,7 +102,7 @@ bn::optional<scene_type> test_3d_scene::update()
         static_count = stage_section_renderer::manage_section_render(
             sections, sections_count, _camera, _static_model_items);
 
-        _player_ship.collision_update(_static_model_items, static_count, _asteroid);
+        _player_ship.collision_update(_static_model_items, static_count, _enemy_manager);
     }
 
     {
@@ -105,7 +113,7 @@ bn::optional<scene_type> test_3d_scene::update()
             _player_ship.statics_render(_static_model_items, static_count);
 
         // Enemies
-        static_count = _asteroid.statics_render(_static_model_items, static_count);
+        static_count = _enemy_manager.statics_render(_static_model_items, static_count);
 
         // Final models update
         // BN_LOG("STATIC MODEL COUNT: " + bn::to_string<32>(static_count));

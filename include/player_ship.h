@@ -10,7 +10,7 @@
 #include "colliders.h"
 #include "controller.h"
 #include "player_laser.h"
-#include "asteroid.h"
+#include "enemy_manager.h"
 
 // - Constants
 
@@ -48,7 +48,7 @@ class player_ship
     void update();
 
     void collision_update(const fr::model_3d_item **static_model_items, size_t static_items_count,
-      asteroid enemy_asteroid);
+      enemy_manager enemies);
 
     int statics_render(const fr::model_3d_item **static_model_items,
                        int static_count);

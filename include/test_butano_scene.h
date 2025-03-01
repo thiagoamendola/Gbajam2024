@@ -34,6 +34,8 @@ private:
     controller _controller;
 
     bn::bg_palettes_fade_to_action _bgs_fade_in_action;
+
+    // Text
     bn::vector<bn::sprite_ptr, 32> _text_sprites;
 
     // controller sprite

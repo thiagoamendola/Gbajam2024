@@ -32,10 +32,10 @@ class asteroid
 {
   public:
     asteroid(fr::point_3d position, fr::point_3d movement, fr::models_3d *models, controller *controller);
+    
+    void destroy();
 
     void update(); // <-- receive player?
-
-    void destroy();
 
     int statics_render(const fr::model_3d_item **static_model_items,
       int static_count);
