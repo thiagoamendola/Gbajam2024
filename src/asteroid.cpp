@@ -23,19 +23,20 @@ asteroid::asteroid(fr::point_3d position, fr::point_3d movement, fr::models_3d *
 
 }
 
+void asteroid::destroy()
+{
+    _models->destroy_dynamic_model(*_model);
+}
+
 void asteroid::update()
 {
-    // <-- IMPLEMENT
+    // <-- IMPLEMENT MOVE?
 
     // Rotate.
     _model->set_phi(_model->phi() + 600); // <-- Magic number
 
+    // Update colliders.
     _sphere_collider_set.set_origin(get_model()->position());
-}
-
-void asteroid::destroy()
-{
-    _models->destroy_dynamic_model(*_model);
 }
 
 int asteroid::statics_render(const fr::model_3d_item **static_model_items,

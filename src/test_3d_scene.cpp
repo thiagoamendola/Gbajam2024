@@ -71,34 +71,30 @@ bn::optional<scene_type> test_3d_scene::update()
     }
     else if (bn::keypad::start_pressed())
     {
-        _player_ship.destroy();
+        // <-- Create destroy method and call all of these
         _prepare_to_leave = true;
+        _player_ship.destroy();
+        _asteroid.destroy();
     }
     else
     {
 
-        {
-            // <-- Camera old randomness. Likely removable.
-
-            fr::point_3d new_cam_pos = _camera.position();
-
-            _camera.set_position(new_cam_pos);
-
-            // BN_LOG(_camera.position().y());
-        }
-
-        // <-- might need to reorganize things here
-
-        static_count = stage_section_renderer::manage_section_render(
-            sections, sections_count, _camera, _static_model_items);
-
-        _player_ship.update(_static_model_items, static_count);
+        // BN_LOG(_camera.position().y());
+        
+        _player_ship.update();
     }
 
     {
         // - Enemies
-
         _asteroid.update();
+    }
+
+    {
+        // - Collisions
+        static_count = stage_section_renderer::manage_section_render(
+            sections, sections_count, _camera, _static_model_items);
+
+        _player_ship.collision_update(_static_model_items, static_count, _asteroid);
     }
 
     {
@@ -123,3 +119,5 @@ bn::optional<scene_type> test_3d_scene::update()
 
     return result;
 }
+
+// <-- Make Destroy
