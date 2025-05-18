@@ -108,9 +108,10 @@ bn::optional<scene_type> test_3d_scene::update()
         static_count = _enemy_manager.statics_render(_static_model_items, static_count);
 
         // Final models update
-        // BN_LOG("STATIC MODEL COUNT: " + bn::to_string<32>(static_count));
+        BN_LOG("STATIC MODEL COUNT: " + bn::to_string<32>(static_count));
         _models.set_static_model_items(_static_model_items, static_count);
         _models.update(_camera);
+        _ui_manager.statics_update(static_count);
     }
 
     // <-- IMPLEMENT COLLISION

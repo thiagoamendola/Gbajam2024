@@ -16,6 +16,7 @@ public:
     void destroy();
 
     void update(); 
+    void statics_update(int static_count);
 
 private:
     controller *_controller;
