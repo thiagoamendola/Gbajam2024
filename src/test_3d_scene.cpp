@@ -10,8 +10,6 @@
 #include "bn_log.h"
 #include "bn_music.h"
 #include "bn_music_items.h"
-#include "bn_string.h"
-#include "bn_sprite_text_generator.h"
 
 #include "fr_model_3d_item.h"
 #include "fr_model_colors.h"
@@ -24,7 +22,6 @@
 // #include "bn_sprite_items_butano_background_2.h"
 #include "bn_sprite_items_ninja.h"
 #include "models/shot.h"
-#include "common_variable_8x16_sprite_font.h"
 
 #include "bn_regular_bg_items_floor.h"
 // #include "bn_regular_bg_items_moon.h"
@@ -34,11 +31,11 @@
 test_3d_scene::test_3d_scene()
     : _player_ship(&_controller, &_camera, &_models),
       _enemy_manager(&_models, &_controller),
+      _ui_manager(&_controller, &_camera),
       _prepare_to_leave(false),
       _anim_bg(bn::regular_bg_items::bg_anim.create_bg(0, 0)),
       _anim_bg_action(bn::create_regular_bg_cached_animate_action_forever(
-            _anim_bg, 6, bn::regular_bg_items::bg_anim.map_item(), 0, 1, 2, 3)),
-      _text_generator(common::variable_8x16_sprite_font)
+            _anim_bg, 6, bn::regular_bg_items::bg_anim.map_item(), 0, 1, 2, 3))
     //   _scene_bg(bn::regular_bg_items::floor.create_bg(0, 0)),
 //   _moon_bg(bn::regular_bg_items::moon.create_bg(0, 20))
 //   _test_sprite_sprite_3d_item(bn::sprite_items::butano_background_2, 0)
@@ -82,15 +79,7 @@ bn::optional<scene_type> test_3d_scene::update()
     }
     else
     {
-        // <-- Move to debug UI
-        // text generators should be created only once
-        if (_controller.is_debug_text_enabled())
-        {
-            _text_sprites.clear();
-            _text_generator.generate(-7 * 16, -72, "Location (Y): " + 
-                bn::to_string<64>(int(_camera.position().y())),
-                _text_sprites);
-        }
+        _ui_manager.update();
 
         _player_ship.update();
     }

@@ -3,6 +3,7 @@
 
 #include "fr_models_3d.h"
 
+#include "controller.h"
 #include "asteroid.h"
 
 class enemy_manager
