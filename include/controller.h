@@ -13,6 +13,7 @@ class controller
     void update();
 
     bool is_collider_display_enabled();
+    bool is_debug_text_enabled();
 
   private:
     const bn::fixed INTERP_STEP = 0.1;
@@ -22,6 +23,7 @@ class controller
     bn::fixed _interp;
 
     bool enable_collider_display = false; 
+    bool enable_debug_text = false; 
 };
 
 #endif

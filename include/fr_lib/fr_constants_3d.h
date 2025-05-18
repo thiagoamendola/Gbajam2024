@@ -54,7 +54,11 @@
 #define SHOW_COLLIDERS_PLAYER true
 #endif
 
-// <-- Create FF for collision checks
+// Enables debug text by pressing SELECT
+#ifndef SHOW_DEBUG_TEXT
+#define SHOW_DEBUG_TEXT true
+#endif
+
 
 namespace fr::constants_3d
 {

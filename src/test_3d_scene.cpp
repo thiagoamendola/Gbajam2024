@@ -84,10 +84,13 @@ bn::optional<scene_type> test_3d_scene::update()
     {
         // <-- Move to debug UI
         // text generators should be created only once
-        _text_sprites.clear();
-        _text_generator.generate(-7 * 16, -72, "Location (Y): " + 
-            bn::to_string<64>(int(_camera.position().y())),
-            _text_sprites);
+        if (_controller.is_debug_text_enabled())
+        {
+            _text_sprites.clear();
+            _text_generator.generate(-7 * 16, -72, "Location (Y): " + 
+                bn::to_string<64>(int(_camera.position().y())),
+                _text_sprites);
+        }
 
         _player_ship.update();
     }

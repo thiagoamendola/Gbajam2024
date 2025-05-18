@@ -95,9 +95,23 @@ void controller::update()
         enable_collider_display = !enable_collider_display;
     }
     #endif
+
+    // Toggle debug text
+    #if SHOW_DEBUG_TEXT
+    if (bn::keypad::select_pressed())
+    {
+        enable_debug_text = !enable_debug_text;
+    }
+    #endif
 }
 
 bool controller::is_collider_display_enabled()
 {
     return enable_collider_display;
 }
+
+bool controller::is_debug_text_enabled()
+{
+    return enable_debug_text;
+}
+
