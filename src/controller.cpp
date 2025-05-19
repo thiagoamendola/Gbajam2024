@@ -3,6 +3,7 @@
 #include "bn_fixed.h"
 #include "bn_fixed_point.h"
 #include "bn_keypad.h"
+#include "bn_math.h"
 #include "bn_log.h"
 #include "bn_string.h"
 #include "fr_constants_3d.h"
@@ -43,8 +44,10 @@ bn::fixed_point controller::get_smooth_directional()
     bn::fixed_point current_raw_dir_input = get_norm_directional();
 
     // Check if it's different from previous one. If so, reset interpolation
-    // counter
-    if (current_raw_dir_input != _previous_raw_dir_input)
+    // counter.
+    if (current_raw_dir_input != _previous_raw_dir_input
+        //  || (current_raw_dir_input.x() == 0 && current_raw_dir_input.y() == 0)
+    )
     {
         _interp = 0;
     }
@@ -68,18 +71,20 @@ bn::fixed_point controller::get_smooth_directional()
 
     // Update smooth dir
     _smooth_dir_input += diff_vec;
-
+    
+    // Make it zero when raw input is zero
+    if (abs(_smooth_dir_input.x()) < 0.02 && abs(_smooth_dir_input.y()) < 0.02)
+    {
+        _smooth_dir_input.set_x(0);
+        _smooth_dir_input.set_y(0);
+    }
+    
     // if (bn::keypad::a_held())
     // {
     //     BN_LOG("diff lerp: " + bn::to_string<32>(diff_vec.x()));
     //     BN_LOG("FINAL smooth: " + bn::to_string<32>(_smooth_dir_input.x()));
     //     BN_LOG("=====================================");
     // }
-
-    /*
-    There's likely an error on how we progress and subtract the diff but let's
-    check first
-    */
 
     _previous_raw_dir_input = current_raw_dir_input;
 
@@ -88,21 +93,21 @@ bn::fixed_point controller::get_smooth_directional()
 
 void controller::update()
 {
-    // Toggle collider visibility
-    #if SHOW_COLLIDERS_PLAYER
+// Toggle collider visibility
+#if SHOW_COLLIDERS_PLAYER
     if (bn::keypad::select_pressed())
     {
         enable_collider_display = !enable_collider_display;
     }
-    #endif
+#endif
 
-    // Toggle debug text
-    #if SHOW_DEBUG_TEXT
+// Toggle debug text
+#if SHOW_DEBUG_TEXT
     if (bn::keypad::select_pressed())
     {
         enable_debug_text = !enable_debug_text;
     }
-    #endif
+#endif
 }
 
 bool controller::is_collider_display_enabled()
@@ -114,4 +119,3 @@ bool controller::is_debug_text_enabled()
 {
     return enable_debug_text;
 }
-
