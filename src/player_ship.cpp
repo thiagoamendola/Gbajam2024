@@ -46,7 +46,6 @@ void player_ship::update()
         // Directional movement
 
         ship_pos.set_x(ship_pos.x() + dir_input.x() * MANEUVER_SPEED);
-
         ship_pos.set_z(ship_pos.z() + dir_input.y() * MANEUVER_SPEED);
 
         // Forward movement

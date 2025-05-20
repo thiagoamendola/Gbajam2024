@@ -8,6 +8,8 @@
 
 #include "bn_common.h"
 
+// <-- Separate into my own file to decouple from fr_lib
+
 // <-- ALL OF THE FOLLOWING ARE CONFIGURABLE, MOSTLY FOR DEBUGGING. CHANGE TO
 // USEFUL STUFF FOR ME
 
@@ -39,10 +41,6 @@
 #define FR_LOG_POLYGONS_PER_SECOND false
 #endif
 
-#ifndef FR_SKIP_RACE_INTRO // <-- Remove FF
-#define FR_SKIP_RACE_INTRO false
-#endif
-
 // == GAME VARS
 
 #ifndef LOG_STATIC_RENDER_STEPS
@@ -51,7 +49,7 @@
 
 // Enables player collider debug by pressing SELECT
 #ifndef SHOW_COLLIDERS_PLAYER
-#define SHOW_COLLIDERS_PLAYER true
+#define SHOW_COLLIDERS_PLAYER false
 #endif
 
 // Enables debug text by pressing SELECT
@@ -59,6 +57,7 @@
 #define SHOW_DEBUG_TEXT true
 #endif
 
+// <-- Create FF for stage skips
 
 namespace fr::constants_3d
 {
@@ -69,13 +68,12 @@ constexpr int max_static_models = 64 - max_dynamic_models; // Original: 32
 constexpr int max_stage_models = 1024;
 constexpr int max_sprites = 8;
 
+// <-- What are these?
 constexpr int camera_min_y = 224;
 constexpr int camera_max_y = 256;
 constexpr int camera_diff_y = camera_max_y - camera_min_y;
 
-constexpr int max_rival_cars = 8;
-
-constexpr int music_volume_data = 1 << 11;
+constexpr int music_volume_data = 1 << 11; // <-- why this?
 } // namespace fr::constants_3d
 
 #endif
