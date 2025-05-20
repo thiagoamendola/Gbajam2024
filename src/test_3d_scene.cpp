@@ -65,10 +65,10 @@ test_3d_scene::test_3d_scene()
     // _test_sprite->set_theta(32000);
 
     // Setup target sprite
-    _target_spr.set_horizontal_scale(1.8);
-    _target_spr.set_vertical_scale(1.8);
+    _target_spr.set_horizontal_scale(1.2);
+    _target_spr.set_vertical_scale(1.2);
     _target_growth_action = bn::sprite_scale_loop_action(
-        _target_spr, 15, 2.3);
+        _target_spr, 15, 2.0);
 }
 
 bn::optional<scene_type> test_3d_scene::update()
