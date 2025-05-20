@@ -4,6 +4,9 @@
 #include "bn_regular_bg_ptr.h"
 #include "bn_regular_bg_animate_actions.h"
 #include "bn_vector.h"
+#include "bn_sprite_ptr.h"
+#include "bn_sprite_animate_actions.h"
+#include "bn_sprite_actions.h"
 
 #include "fr_camera_3d.h"
 #include "fr_model_3d_item.h"
@@ -48,6 +51,12 @@ class test_3d_scene : public fr::scene
     // <-- 3D SPRITE TEST. REMOVE
     // fr::sprite_3d *_test_sprite = nullptr;
     // fr::sprite_3d_item _test_sprite_sprite_3d_item;
+    
+    // TEST SPRITE // <-- REMOVE
+    // Target animated sprite
+    bn::sprite_ptr _target_spr;
+    // bn::sprite_animate_action<4> _target_action;
+    bn::optional<bn::sprite_scale_loop_action> _target_growth_action;
 
     // Background
     // bn::regular_bg_ptr _scene_bg;

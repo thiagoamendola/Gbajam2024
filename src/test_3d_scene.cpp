@@ -10,6 +10,9 @@
 #include "bn_log.h"
 #include "bn_music.h"
 #include "bn_music_items.h"
+#include "bn_sprite_ptr.h"
+#include "bn_sprite_animate_actions.h"
+#include "bn_sprite_actions.h"
 
 #include "fr_model_3d_item.h"
 #include "fr_model_colors.h"
@@ -20,7 +23,8 @@
 #include "stage_section_renderer.h"
 
 // #include "bn_sprite_items_butano_background_2.h"
-#include "bn_sprite_items_ninja.h"
+// #include "bn_sprite_items_ninja.h"
+#include "bn_sprite_items_target_ui.h"
 #include "models/shot.h"
 
 #include "bn_regular_bg_items_floor.h"
@@ -33,6 +37,10 @@ test_3d_scene::test_3d_scene()
       _enemy_manager(&_models, &_controller),
       _ui_manager(&_controller, &_camera),
       _prepare_to_leave(false),
+      _target_spr(bn::sprite_items::target_ui.create_sprite(0, 0)),
+      _target_growth_action(), // _target_spr, 30, 2.0
+    //   _ninja_action(bn::create_sprite_animate_action_forever(
+    //       _ninja_spr, 16, bn::sprite_items::ninja.tiles_item(), 0, 1, 2, 3)),
       _anim_bg(bn::regular_bg_items::bg_anim.create_bg(0, 0)),
       _anim_bg_action(bn::create_regular_bg_cached_animate_action_forever(
             _anim_bg, 6, bn::regular_bg_items::bg_anim.map_item(), 0, 1, 2, 3))
@@ -56,6 +64,11 @@ test_3d_scene::test_3d_scene()
     // _test_sprite->set_position(fr::point_3d(0, 760, -20));
     // _test_sprite->set_theta(32000);
 
+    // Setup target sprite
+    _target_spr.set_horizontal_scale(1.8);
+    _target_spr.set_vertical_scale(1.8);
+    _target_growth_action = bn::sprite_scale_loop_action(
+        _target_spr, 15, 2.3);
 }
 
 bn::optional<scene_type> test_3d_scene::update()
@@ -79,14 +92,28 @@ bn::optional<scene_type> test_3d_scene::update()
     }
     else
     {
+        // - UI
         _ui_manager.update();
 
+        // - Player
         _player_ship.update();
+
+        // - Enemies
+        _enemy_manager.update();
     }
 
     {
-        // - Enemies
-        _enemy_manager.update();
+        // <-- REMOVE LATER
+        // Get raw input vector
+        bn::fixed_point dir_input = _controller.get_smooth_directional();
+
+        
+
+        _target_spr.set_y(_target_spr.y() + dir_input.y() * 10);
+        _target_spr.set_x(_target_spr.x() + dir_input.x() * 10);
+
+
+        _target_growth_action->update();
     }
 
     {
@@ -99,8 +126,8 @@ bn::optional<scene_type> test_3d_scene::update()
 
     {
         // - Static object rendering
-        // Player Laser
 
+        // Player Laser
         static_count =
             _player_ship.statics_render(_static_model_items, static_count);
 
@@ -108,15 +135,10 @@ bn::optional<scene_type> test_3d_scene::update()
         static_count = _enemy_manager.statics_render(_static_model_items, static_count);
 
         // Final models update
-        BN_LOG("STATIC MODEL COUNT: " + bn::to_string<32>(static_count));
         _models.set_static_model_items(_static_model_items, static_count);
         _models.update(_camera);
         _ui_manager.statics_update(static_count);
     }
-
-    // <-- IMPLEMENT COLLISION
-    // BN_LOG(collision_detection::is_colliding_with_static(
-    //     _player_ship.get_model(), _model_items));
 
     return result;
 }
