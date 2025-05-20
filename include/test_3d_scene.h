@@ -15,6 +15,7 @@
 // #include "fr_sprite_3d.h"
 // #include "fr_sprite_3d_item.h"
 
+#include "common_game_scene.h"
 #include "controller.h"
 #include "player_ship.h"
 #include "ui_manager.h"
@@ -30,21 +31,10 @@ class test_3d_scene : public fr::scene
     [[nodiscard]] bn::optional<scene_type> update() final;
 
   private:
-    controller _controller;
 
-    fr::camera_3d _camera;
-    fr::models_3d _models;
+    common_game_scene _common_game_scene;
 
-    player_ship _player_ship;
-
-    enemy_manager _enemy_manager;
-    ui_manager _ui_manager;
-
-    fr::model_3d *_model;
-
-    bn::span<const fr::model_3d_item> _model_items; // <-- CAN BEW REMOVED NOW
-    const fr::model_3d_item
-        *_static_model_items[fr::constants_3d::max_static_models];
+    // fr::model_3d *_model; // <-- RETURN FOR TEST
 
     bool _prepare_to_leave;
 

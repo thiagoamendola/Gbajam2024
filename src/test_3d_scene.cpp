@@ -18,9 +18,8 @@
 #include "fr_model_colors.h"
 
 #include "collision_detection.h"
-#include "player_laser.h"
 #include "scene_type.h"
-#include "stage_section_renderer.h"
+#include "common_game_scene.h"
 
 // #include "bn_sprite_items_butano_background_2.h"
 // #include "bn_sprite_items_ninja.h"
@@ -33,12 +32,13 @@
 #include "bn_regular_bg_ptr.h"
 
 test_3d_scene::test_3d_scene()
-    : _player_ship(&_controller, &_camera, &_models),
-      _enemy_manager(&_models, &_controller),
-      _ui_manager(&_controller, &_camera),
+    : _common_game_scene(scene_colors, get_scene_color_mapping(), sections, sections_count),
+    //   _player_ship(&_controller, &_camera, &_models),
+    //   _enemy_manager(&_models, &_controller),
+    //   _ui_manager(&_controller, &_camera),
       _prepare_to_leave(false),
       _target_spr(bn::sprite_items::target_ui.create_sprite(0, 0)),
-      _target_growth_action(), // _target_spr, 30, 2.0
+      _target_growth_action(),
     //   _ninja_action(bn::create_sprite_animate_action_forever(
     //       _ninja_spr, 16, bn::sprite_items::ninja.tiles_item(), 0, 1, 2, 3)),
       _anim_bg(bn::regular_bg_items::bg_anim.create_bg(0, 0)),
@@ -48,9 +48,6 @@ test_3d_scene::test_3d_scene()
 //   _moon_bg(bn::regular_bg_items::moon.create_bg(0, 20))
 //   _test_sprite_sprite_3d_item(bn::sprite_items::butano_background_2, 0)
 {
-    // Stage setup
-    _camera.set_position(fr::point_3d(0, 1040, 0));
-    _models.load_colors(scene_colors, get_scene_color_mapping());
 
     // Scenario setup
     // bn::bg_palettes::set_transparent_color(bn::color(25, 18, 25));
@@ -74,70 +71,30 @@ test_3d_scene::test_3d_scene()
 bn::optional<scene_type> test_3d_scene::update()
 {
     bn::optional<scene_type> result;
-    int static_count = 0; 
 
     // <-- move
     _anim_bg_action.update();
 
-    if (_prepare_to_leave)
+    bool change_scene = _common_game_scene.update();
+    
+    if (change_scene)
     {
+        _target_growth_action.reset();
+
         result = scene_type::BUTANO_INTRO;
-    }
-    else if (bn::keypad::start_pressed())
-    {
-        // <-- Create destroy method and call all of these
-        _prepare_to_leave = true;
-        _player_ship.destroy();
-        _enemy_manager.destroy();
-    }
-    else
-    {
-        // - UI
-        _ui_manager.update();
-
-        // - Player
-        _player_ship.update();
-
-        // - Enemies
-        _enemy_manager.update();
+        return result;
     }
 
     {
         // <-- REMOVE LATER
+        // TARGET CODE
         // Get raw input vector
-        bn::fixed_point dir_input = _controller.get_smooth_directional();
-
-        
+        bn::fixed_point dir_input = _common_game_scene.get_controller()->get_smooth_directional();
 
         _target_spr.set_y(_target_spr.y() + dir_input.y() * 10);
         _target_spr.set_x(_target_spr.x() + dir_input.x() * 10);
 
-
         _target_growth_action->update();
-    }
-
-    {
-        // - Collisions
-        static_count = stage_section_renderer::manage_section_render(
-            sections, sections_count, _camera, _static_model_items);
-
-        _player_ship.collision_update(_static_model_items, static_count, _enemy_manager);
-    }
-
-    {
-        // - Static object rendering
-
-        // Player Laser
-        static_count =
-            _player_ship.statics_render(_static_model_items, static_count);
-
-        // Enemies
-        static_count = _enemy_manager.statics_render(_static_model_items, static_count);
-
-        // Final models update
-        _models.set_static_model_items(_static_model_items, static_count);
-        _models.update(_camera);
-        _ui_manager.statics_update(static_count);
     }
 
     return result;
