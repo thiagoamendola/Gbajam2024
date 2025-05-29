@@ -35,7 +35,7 @@ test_3d_scene::test_3d_scene()
     : _common_game_scene(scene_colors, get_scene_color_mapping(), sections, sections_count),
     //   _player_ship(&_controller, &_camera, &_models),
     //   _enemy_manager(&_models, &_controller),
-    //   _ui_manager(&_controller, &_camera),
+    //   _hud_manager(&_controller, &_camera),
       _prepare_to_leave(false),
       _target_spr(bn::sprite_items::target_ui.create_sprite(0, 0)),
       _target_growth_action(),

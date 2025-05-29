@@ -10,7 +10,7 @@
 #include "controller.h"
 #include "enemy_manager.h"
 #include "player_ship.h"
-#include "ui_manager.h"
+#include "hud_manager.h"
 #include "stage_section.h"
 #include "stage_section_renderer.h"
 
@@ -41,7 +41,7 @@ class common_game_scene // : public fr::scene
 
     player_ship _player_ship;
     enemy_manager _enemy_manager;
-    ui_manager _ui_manager;
+    hud_manager _hud_manager;
 
     bn::span<const fr::model_3d_item> _model_items; // <-- CAN BEW REMOVED NOW?
     const fr::model_3d_item *_static_model_items[fr::constants_3d::max_static_models];

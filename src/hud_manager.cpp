@@ -1,4 +1,4 @@
-#include "ui_manager.h"
+#include "hud_manager.h"
 
 #include "bn_sprite_text_generator.h"
 #include "bn_string.h"
@@ -9,16 +9,16 @@
 
 #include "common_variable_8x16_sprite_font.h"
 
-ui_manager::ui_manager(controller *controller, fr::camera_3d *camera)
+hud_manager::hud_manager(controller *controller, fr::camera_3d *camera)
     : _controller(controller), _camera(camera), _text_generator(common::variable_8x16_sprite_font)
 {
 }
 
-void ui_manager::destroy()
+void hud_manager::destroy()
 {
 }
 
-void ui_manager::update()
+void hud_manager::update()
 {
     // Clear texts.
     _text_sprites.clear();
@@ -34,7 +34,7 @@ void ui_manager::update()
 }
 
 
-void ui_manager::statics_update(int static_count)
+void hud_manager::statics_update(int static_count)
 {
     // Display static count debug text.
     if (_controller->is_debug_text_enabled())

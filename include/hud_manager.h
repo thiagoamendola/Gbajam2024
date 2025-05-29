@@ -1,5 +1,5 @@
-#ifndef UI_MANAGER_H
-#define UI_MANAGER_H
+#ifndef HUD_MANAGER_H
+#define HUD_MANAGER_H
 
 #include "bn_sprite_ptr.h"
 #include "bn_sprite_text_generator.h"
@@ -8,10 +8,10 @@
 
 #include "controller.h"
 
-class ui_manager
+class hud_manager
 {
 public:
-    ui_manager(controller *controller, fr::camera_3d *camera);
+    hud_manager(controller *controller, fr::camera_3d *camera);
 
     void destroy();
 

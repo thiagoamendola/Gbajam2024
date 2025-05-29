@@ -18,7 +18,7 @@
 #include "common_game_scene.h"
 #include "controller.h"
 #include "player_ship.h"
-#include "ui_manager.h"
+#include "hud_manager.h"
 #include "enemy_manager.h"
 #include "scene_type.h"
 

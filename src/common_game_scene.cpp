@@ -6,7 +6,7 @@ common_game_scene::common_game_scene(const bn::span<const bn::color> &scene_colo
                                      scene_colors_generator::color_mapping_handler *color_mapping,
                                      stage_section_list_ptr sections, size_t sections_count)
     : _sections(sections), _sections_count(sections_count), _player_ship(&_controller, &_camera, &_models),
-      _enemy_manager(&_models, &_controller), _ui_manager(&_controller, &_camera), _prepare_to_leave(false)
+      _enemy_manager(&_models, &_controller), _hud_manager(&_controller, &_camera), _prepare_to_leave(false)
 {
     // Initialize camera position.
     _camera.set_position(fr::point_3d(0, 1040, 0));
@@ -32,7 +32,7 @@ bool common_game_scene::update()
     else
     {
         // - UI
-        _ui_manager.update();
+        _hud_manager.update();
 
         // - Player
         _player_ship.update();
@@ -61,7 +61,7 @@ bool common_game_scene::update()
         // Final models update
         _models.set_static_model_items(_static_model_items, static_count);
         _models.update(_camera);
-        _ui_manager.statics_update(static_count);
+        _hud_manager.statics_update(static_count);
     }
 
     return false;
