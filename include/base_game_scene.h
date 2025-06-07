@@ -14,10 +14,10 @@
 #include "stage_section.h"
 #include "stage_section_renderer.h"
 
-class common_game_scene // : public fr::scene
+class base_game_scene // : public fr::scene
 {
   public:
-    common_game_scene(const bn::span<const bn::color> &scene_colors,
+    base_game_scene(const bn::span<const bn::color> &scene_colors,
                       scene_colors_generator::color_mapping_handler *color_mapping, stage_section_list_ptr sections,
                       size_t sections_count);
 

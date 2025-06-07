@@ -15,7 +15,7 @@
 // #include "fr_sprite_3d.h"
 // #include "fr_sprite_3d_item.h"
 
-#include "common_game_scene.h"
+#include "base_game_scene.h"
 #include "controller.h"
 #include "player_ship.h"
 #include "hud_manager.h"
@@ -32,7 +32,7 @@ class test_3d_scene : public fr::scene
 
   private:
 
-    common_game_scene _common_game_scene;
+    base_game_scene _base_game_scene;
 
     // fr::model_3d *_model; // <-- RETURN FOR TEST
 

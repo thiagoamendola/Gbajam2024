@@ -1,8 +1,8 @@
-#include "common_game_scene.h"
+#include "base_game_scene.h"
 
 #include "bn_keypad.h"
 
-common_game_scene::common_game_scene(const bn::span<const bn::color> &scene_colors,
+base_game_scene::base_game_scene(const bn::span<const bn::color> &scene_colors,
                                      scene_colors_generator::color_mapping_handler *color_mapping,
                                      stage_section_list_ptr sections, size_t sections_count)
     : _sections(sections), _sections_count(sections_count), _player_ship(&_controller, &_camera, &_models),
@@ -15,7 +15,7 @@ common_game_scene::common_game_scene(const bn::span<const bn::color> &scene_colo
     _models.load_colors(scene_colors, color_mapping);
 }
 
-bool common_game_scene::update()
+bool base_game_scene::update()
 {
     int static_count = 0;
 
@@ -67,7 +67,7 @@ bool common_game_scene::update()
     return false;
 }
 
-void common_game_scene::destroy()
+void base_game_scene::destroy()
 {
     _prepare_to_leave = true;
 

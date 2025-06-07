@@ -19,7 +19,7 @@
 
 #include "collision_detection.h"
 #include "scene_type.h"
-#include "common_game_scene.h"
+#include "base_game_scene.h"
 
 // #include "bn_sprite_items_butano_background_2.h"
 // #include "bn_sprite_items_ninja.h"
@@ -32,7 +32,7 @@
 #include "bn_regular_bg_ptr.h"
 
 test_3d_scene::test_3d_scene()
-    : _common_game_scene(scene_colors, get_scene_color_mapping(), sections, sections_count),
+    : _base_game_scene(scene_colors, get_scene_color_mapping(), sections, sections_count),
     //   _player_ship(&_controller, &_camera, &_models),
     //   _enemy_manager(&_models, &_controller),
     //   _hud_manager(&_controller, &_camera),
@@ -75,7 +75,7 @@ bn::optional<scene_type> test_3d_scene::update()
     // <-- move
     _anim_bg_action.update();
 
-    bool change_scene = _common_game_scene.update();
+    bool change_scene = _base_game_scene.update();
     
     if (change_scene)
     {
@@ -89,7 +89,7 @@ bn::optional<scene_type> test_3d_scene::update()
         // <-- REMOVE LATER
         // TARGET CODE
         // Get raw input vector
-        bn::fixed_point dir_input = _common_game_scene.get_controller()->get_smooth_directional();
+        bn::fixed_point dir_input = _base_game_scene.get_controller()->get_smooth_directional();
 
         _target_spr.set_y(_target_spr.y() + dir_input.y() * 10);
         _target_spr.set_x(_target_spr.x() + dir_input.x() * 10);
