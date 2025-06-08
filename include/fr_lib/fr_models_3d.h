@@ -29,6 +29,8 @@ class models_3d
     void load_colors(const bn::span<const bn::color> &colors)
     {
         _shape_groups.load_colors(colors);
+
+        _color_mapping = nullptr;
     }
 
     void load_colors(
@@ -38,7 +40,7 @@ class models_3d
         _shape_groups.load_colors(colors);
 
         _color_mapping = color_mapping;
-        // <-- make onDestroy for it
+        // <-- TODO: make onDestroy for it
     }
 
     void clear_colors()
