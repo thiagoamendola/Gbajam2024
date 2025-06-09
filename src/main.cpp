@@ -61,7 +61,7 @@ int main()
     BN_LOG("iwram: ", bn::memory::used_static_iwram());
     BN_LOG("ewram: ", bn::memory::used_static_ewram());
 
-    bn::optional<scene_type> next_scene = scene_type::TITLE;
+    bn::optional<scene_type> next_scene = scene_type::BUTANO_INTRO;
 
 #else
     bn::core::init();
@@ -116,61 +116,5 @@ int main()
         common_stuff->update();
         bn::core::update();
     }
-    //         test_butano_scene.update(); // <-- Remove later
-
-    //         bn::core::update();
-    //     }
-
-    //     // TEST 3D SCENE
-
-    //     // scene.reset(new test_butano_scene());
-    //     // next_scene.reset();
-    //     // common_stuff->update();
-    //     // bn::core::update();
-
-    //     // while (!next_scene)
-    //     // {
-    //     //     next_scene = scene->update();
-    //     //     common_stuff->update();
-    //     //     bn::core::update();
-    //     // }
-
-    //     // scene.reset();
-    //     // common_stuff->update();
-    //     // bn::core::update();
-
-    //     // // BUTANO INTRO
-    //     // scene.reset(new fr::butano_intro_scene(*common_stuff));
-    //     // next_scene.reset();
-    //     // common_stuff->update();
-    //     // bn::core::update();
-
-    //     // while (!next_scene)
-    //     // {
-    //     //     next_scene = scene->update();
-    //     //     common_stuff->update();
-    //     //     bn::core::update();
-    //     // }
-
-    //     // scene.reset();
-    //     // common_stuff->update();
-    //     // bn::core::update();
-
-    //     // // GBA JAM INTRO
-    //     // scene.reset(new fr::jam_intro_scene());
-    //     // next_scene.reset();
-    //     // common_stuff->update();
-    //     // bn::core::update();
-
-    //     // while (!next_scene)
-    //     // {
-    //     //     next_scene = scene->update();
-    //     //     common_stuff->update();
-    //     //     bn::core::update();
-    //     // }
-
-    //     // scene.reset();
-    //     // common_stuff->update();
-    //     // bn::core::update();
-    // }
+    
 }

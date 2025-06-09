@@ -102,19 +102,15 @@ bn::optional<scene_type> butano_intro_scene::update()
                 {
                     if (_butano_model)
                     {
+                        // Pre-destroy
                         _text_sprites.clear();
-                        bn::sprite_palettes::set_fade(bn::color(31, 31, 31), 0);
                         _models.destroy_dynamic_model(*_butano_model);
-                        _bgs_fade_out_action.emplace(1, 0);
-                        _sprites_fade_out_action.emplace(1, 0);
-
                         _butano_model = nullptr;
-                        // Wait one frame for model destruction
                     }
                     else
                     {
-                        _bgs_fade_out_action->update();
-                        _sprites_fade_out_action->update();
+                        bn::sprite_palettes::set_fade(bn::color(0, 0, 0), 0);
+                        bn::bg_palettes::set_fade(bn::color(0, 0, 0), 0);
                         result = scene_type::TITLE;
                     }
                 }

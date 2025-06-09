@@ -12,6 +12,7 @@
 #include "fr_constants_3d.h"
 
 #include "enemy_manager.h"
+#include "controller.h"
 
 #include "models/shot.h"
 // #include "models/player_ship_01.h"
@@ -107,7 +108,7 @@ void player_ship::collision_update(const fr::model_3d_item **static_model_items,
         if (_sphere_collider_set.colliding_with_statics(static_model_items, static_items_count))
         {
             _model->set_palette(fr::model_3d_items::hurt_colors);
-            // bn::sound_items::player_damage.play();
+            bn::sound_items::player_damage.play();
             // <-- Start getting hurt properly
             return;
         }
@@ -115,7 +116,7 @@ void player_ship::collision_update(const fr::model_3d_item **static_model_items,
         else if (_sphere_collider_set.colliding_with_dynamic(enemies._asteroid.get_collider())) // <-- Improve
         {
             _model->set_palette(fr::model_3d_items::hurt_colors);
-            // bn::sound_items::player_damage.play();
+            bn::sound_items::player_damage.play();
             // <-- Start getting hurt properly
         }
         else
