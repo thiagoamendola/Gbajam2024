@@ -21,6 +21,7 @@ class title_scene : public fr::scene
 
   public:
     title_scene();
+    ~title_scene();
 
     [[nodiscard]] bn::optional<scene_type> update() final;
 

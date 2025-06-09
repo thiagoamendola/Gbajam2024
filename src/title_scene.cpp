@@ -106,6 +106,7 @@ bn::optional<scene_type> title_scene::update()
 
     if (_prepare_to_leave)
     {
+        // <-- Can be moved to pre-destroy???
         _bgs_fade_out_action->update();
         _sprites_fade_out_action->update();
         result = scene_type::TEST_3D;
@@ -120,9 +121,11 @@ bn::optional<scene_type> title_scene::update()
         else
         {
             _prepare_to_leave = true;
+            // Pre-destroy
             _bgs_fade_out_action.emplace(1, 0);
             _sprites_fade_out_action.emplace(1, 0);
             bn::music::stop();
+            _text_sprites.clear();
         }
     }
     else if (bn::keypad::start_pressed())
@@ -134,7 +137,7 @@ bn::optional<scene_type> title_scene::update()
     }
     else if (bn::keypad::any_pressed())
     {
-        // <-- Remove when menu is dome
+        // <-- Remove when menu is done
         bn::sound_items::menu_focus.play();
     }
 
@@ -144,3 +147,13 @@ bn::optional<scene_type> title_scene::update()
 
     return result;
 }
+
+title_scene::~title_scene()
+{
+    if (_model)
+    {
+        _models.destroy_dynamic_model(*_model);
+        _model = nullptr;
+    }
+}
+
