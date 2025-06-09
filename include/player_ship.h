@@ -58,11 +58,19 @@ class player_ship
         return _model;
     };
 
+    int get_health() const
+    {
+        return health;
+    }
+
+    // - Movement
     const bn::fixed MANEUVER_SPEED = 3;
     const bn::fixed FORWARD_SPEED = 2.5;
-
     const bn::fixed YAW_MAX = 4000;
     const bn::fixed PITCH_MAX = 4000;
+
+    // - Cooldowns
+    const int DAMAGE_COOLDOWN = 60; // 1 second
 
   private:
     controller *_controller;
@@ -76,6 +84,8 @@ class player_ship
     sphere_collider_set<fr::model_3d_items::ship_colliders_count>
         _sphere_collider_set;
 
+    int health = 3;
+    int damage_cooldown = 0;
 };
 
 #endif

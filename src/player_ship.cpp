@@ -104,12 +104,25 @@ void player_ship::collision_update(const fr::model_3d_item **static_model_items,
     size_t static_items_count, enemy_manager enemies)
 {
     {
+        if (damage_cooldown > 0)
+        {
+            damage_cooldown--;
+            // Blink ship
+            if (damage_cooldown % 6 < 3) {
+                _model->set_palette(fr::model_3d_items::hurt_colors);
+            } else {
+                _model->set_palette(fr::model_3d_items::player_ship_02_colors);
+            }
+            return;
+        }
+
         // - Collision with statics
         if (_sphere_collider_set.colliding_with_statics(static_model_items, static_items_count))
         {
             _model->set_palette(fr::model_3d_items::hurt_colors);
             bn::sound_items::player_damage.play();
-            // <-- Start getting hurt properly
+            damage_cooldown = DAMAGE_COOLDOWN;
+            health--;
             return;
         }
         // - Collision with dynamics
@@ -117,7 +130,8 @@ void player_ship::collision_update(const fr::model_3d_item **static_model_items,
         {
             _model->set_palette(fr::model_3d_items::hurt_colors);
             bn::sound_items::player_damage.play();
-            // <-- Start getting hurt properly
+            damage_cooldown = DAMAGE_COOLDOWN;
+            health--;
         }
         else
         {
