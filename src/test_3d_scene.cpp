@@ -91,8 +91,30 @@ bn::optional<scene_type> test_3d_scene::update()
         // Get raw input vector
         bn::fixed_point dir_input = _base_game_scene.get_controller()->get_smooth_directional();
 
-        _target_spr.set_y(_target_spr.y() + dir_input.y() * 10);
-        _target_spr.set_x(_target_spr.x() + dir_input.x() * 10);
+        const int TARGET_SPEED = 10;
+
+        bn::point target_pos(int(_target_spr.x() + dir_input.x() * TARGET_SPEED),
+                             int(_target_spr.y() + dir_input.y() * TARGET_SPEED));
+
+        if (target_pos.x() < -110)
+        {
+            target_pos.set_x(-110);
+        }
+        else if (target_pos.x() > 110)
+        {
+            target_pos.set_x(110);
+        }
+        if (target_pos.y() < -75)
+        {
+            target_pos.set_y(-75);
+        }
+        else if (target_pos.y() > 75)
+        {
+            target_pos.set_y(75);
+        }
+
+        _target_spr.set_y(target_pos.y());
+        _target_spr.set_x(target_pos.x());
 
         _target_growth_action->update();
     }
