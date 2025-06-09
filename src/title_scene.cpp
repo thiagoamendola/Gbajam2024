@@ -22,6 +22,8 @@
 #include "models/player_ship_02.h"
 #include "models/shot.h"
 
+#define BN_CFG_AUDIO_MIXING_RATE BN_AUDIO_MIXING_RATE_8_KHZ
+
 // <-- Likely need to move this to somewhere else
 int mixing_rate()
 {
@@ -87,16 +89,11 @@ title_scene::title_scene() : _prepare_to_leave(false)
     // bn::music_items::gameplay3.play(1); // Starts alright and breaks like
     // crazy after. Prob a instrument! (.it, BB)
     // bn::music_items::title2.play(0.3); // WORKS!!! (.it, BB)
-    bn::music_items::title3.play(0.3); // WORKS!!! With lower HH (.it, BB)
-    // bn::music_items::gameplay4.play(0.3); // BREAKS AFTER A WHILE
-    // bn::music_items::gameplay4even.play(0.3); // BREAKS AFTER A WHILE BUT
-    // LESS??
-    // bn::music_items::gameplay4odd.play(0.3); // BREAKS A LOT
-    // bn::music_items::gameplay4q1.play(0.3); // CRASHES
-    // bn::music_items::gameplay4none.play(0.3); // BREAKS TOO (even with no
-    // sound)
-    // bn::music_items::gameplay4shorter.play(
-    //     0.3); // BREAKS TOO (even with no sound) but not shorter file yet
+    
+    bn::music_items::title3.play(0.5); // WORKS!!! With lower HH (.it, BB)
+    // bn::music_items::gameplay2.play(0.3); 
+    // bn::music_items::gameplay2c1.play(0.3); // WORKS!!!
+
     BN_LOG(mixing_rate());
 }
 

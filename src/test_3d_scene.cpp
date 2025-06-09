@@ -33,9 +33,7 @@
 
 test_3d_scene::test_3d_scene()
     : _base_game_scene(scene_colors, get_scene_color_mapping(), sections, sections_count),
-    //   _player_ship(&_controller, &_camera, &_models),
     //   _enemy_manager(&_models, &_controller),
-    //   _hud_manager(&_controller, &_camera),
       _prepare_to_leave(false),
       _target_spr(bn::sprite_items::target_ui.create_sprite(0, 0)),
       _target_growth_action(),
@@ -53,8 +51,7 @@ test_3d_scene::test_3d_scene()
     // bn::bg_palettes::set_transparent_color(bn::color(25, 18, 25));
 
     // Set music
-    // bn::music_items::gameplay.play(1); // Very slow
-    // bn::music_items::gameplay3.play(1); // Starts and breaks
+    bn::music_items::gameplay2c1.play(0.5); // WORKS!!!
 
     // Test sprite 3D
     // _test_sprite = &_models.create_sprite(_test_sprite_sprite_3d_item);
