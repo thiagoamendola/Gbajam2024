@@ -58,6 +58,11 @@ class player_ship
         return _model;
     };
 
+    fr::point_3d get_position() const
+    {
+        return _model->position();
+    }
+
     int get_health() const
     {
         return health;

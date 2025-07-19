@@ -26,7 +26,7 @@ player_ship::player_ship(controller *controller, fr::camera_3d *camera,
     _model =
         &_models->create_dynamic_model(fr::model_3d_items::player_ship_02_full);
     // x, y (back/forward), z (down/up)
-    _model->set_position(fr::point_3d(0, 860, 20));
+    _model->set_position(fr::point_3d(0, 860, 0));
     _model->set_psi(16383); // 90 degrees
 }
 
@@ -48,6 +48,25 @@ void player_ship::update()
 
         ship_pos.set_x(ship_pos.x() + dir_input.x() * MANEUVER_SPEED);
         ship_pos.set_z(ship_pos.z() + dir_input.y() * MANEUVER_SPEED);
+
+        if (ship_pos.x() < -65)
+        {
+            ship_pos.set_x(-65);
+        }
+        else if (ship_pos.x() > 65)
+        {
+            ship_pos.set_x(65);
+        }
+        if (ship_pos.z() < -45)
+        {
+            ship_pos.set_z(-45);
+        }
+        else if (ship_pos.z() > 45)
+        {
+            ship_pos.set_z(45);
+        }
+
+        BN_LOG("[player_ship] position: " + bn::to_string<64>(ship_pos.x()) + ", " + bn::to_string<64>(ship_pos.z()));
 
         // Forward movement
         ship_pos.set_y(ship_pos.y() - FORWARD_SPEED);
