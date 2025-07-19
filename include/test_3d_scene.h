@@ -42,12 +42,6 @@ class test_3d_scene : public fr::scene
     // fr::sprite_3d *_test_sprite = nullptr;
     // fr::sprite_3d_item _test_sprite_sprite_3d_item;
     
-    // TEST SPRITE // <-- REMOVE
-    // Target animated sprite
-    bn::sprite_ptr _target_spr;
-    // bn::sprite_animate_action<4> _target_action;
-    bn::optional<bn::sprite_scale_loop_action> _target_growth_action;
-
     // Background
     // bn::regular_bg_ptr _scene_bg;
     bn::regular_bg_ptr _anim_bg;

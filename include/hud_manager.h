@@ -3,6 +3,9 @@
 
 #include "bn_sprite_ptr.h"
 #include "bn_sprite_text_generator.h"
+#include "bn_sprite_ptr.h"
+#include "bn_sprite_animate_actions.h"
+#include "bn_sprite_actions.h"
 
 #include "fr_camera_3d.h"
 
@@ -27,6 +30,14 @@ private:
     // UI
     bn::sprite_text_generator _text_generator; // <-- move to common stuff
     bn::vector<bn::sprite_ptr, 32> _text_sprites;
+
+    // Target animated sprite
+    // bn::sprite_animate_action<4> _target_action;
+    bn::sprite_ptr _target_spr;
+    bn::optional<bn::sprite_scale_loop_action> _target_growth_action;
+
+    void _move_target();
+
 };
 
 #endif

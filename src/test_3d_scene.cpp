@@ -23,7 +23,6 @@
 
 // #include "bn_sprite_items_butano_background_2.h"
 // #include "bn_sprite_items_ninja.h"
-#include "bn_sprite_items_target_ui.h"
 #include "models/shot.h"
 
 #include "bn_regular_bg_items_floor.h"
@@ -35,8 +34,6 @@ test_3d_scene::test_3d_scene()
     : _base_game_scene(scene_colors, get_scene_color_mapping(), sections, sections_count),
     //   _enemy_manager(&_models, &_controller),
       _prepare_to_leave(false),
-      _target_spr(bn::sprite_items::target_ui.create_sprite(0, 0)),
-      _target_growth_action(),
     //   _ninja_action(bn::create_sprite_animate_action_forever(
     //       _ninja_spr, 16, bn::sprite_items::ninja.tiles_item(), 0, 1, 2, 3)),
       _anim_bg(bn::regular_bg_items::bg_anim.create_bg(0, 0)),
@@ -51,18 +48,15 @@ test_3d_scene::test_3d_scene()
     // bn::bg_palettes::set_transparent_color(bn::color(25, 18, 25));
 
     // Set music
-    bn::music_items::gameplay2c1.play(0.5); // WORKS!!!
+    bn::music_items::gameplay_p1.play(0.5); // WORKS!!!
+    // bn::music_items::gameplay_p2.play(0.5); // DOESN'T WORK =(!!!
 
     // Test sprite 3D
     // _test_sprite = &_models.create_sprite(_test_sprite_sprite_3d_item);
     // _test_sprite->set_position(fr::point_3d(0, 760, -20));
     // _test_sprite->set_theta(32000);
 
-    // Setup target sprite
-    _target_spr.set_horizontal_scale(1.2);
-    _target_spr.set_vertical_scale(1.2);
-    _target_growth_action = bn::sprite_scale_loop_action(
-        _target_spr, 15, 2.0);
+
 }
 
 bn::optional<scene_type> test_3d_scene::update()
@@ -76,44 +70,8 @@ bn::optional<scene_type> test_3d_scene::update()
     
     if (change_scene)
     {
-        _target_growth_action.reset();
-
         result = scene_type::BUTANO_INTRO;
         return result;
-    }
-
-    {
-        // <-- REMOVE LATER
-        // TARGET CODE
-        // Get raw input vector
-        bn::fixed_point dir_input = _base_game_scene.get_controller()->get_smooth_directional();
-
-        const int TARGET_SPEED = 10;
-
-        bn::point target_pos(int(_target_spr.x() + dir_input.x() * TARGET_SPEED),
-                             int(_target_spr.y() + dir_input.y() * TARGET_SPEED));
-
-        if (target_pos.x() < -110)
-        {
-            target_pos.set_x(-110);
-        }
-        else if (target_pos.x() > 110)
-        {
-            target_pos.set_x(110);
-        }
-        if (target_pos.y() < -75)
-        {
-            target_pos.set_y(-75);
-        }
-        else if (target_pos.y() > 75)
-        {
-            target_pos.set_y(75);
-        }
-
-        _target_spr.set_y(target_pos.y());
-        _target_spr.set_x(target_pos.x());
-
-        _target_growth_action->update();
     }
 
     return result;
