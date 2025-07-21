@@ -7,16 +7,20 @@
 #include "bn_math.h"
 #include "bn_sound_items.h"
 #include "bn_string.h"
+#include "bn_profiler.h"
 
 #include "fr_point_3d.h"
 #include "fr_constants_3d.h"
 
 #include "enemy_manager.h"
 #include "controller.h"
+#include "utils.h"
 
 #include "models/shot.h"
 // #include "models/player_ship_01.h"
 #include "models/player_ship_02.h"
+#include "models/asteroid1.h"
+
 
 player_ship::player_ship(controller *controller, fr::camera_3d *camera,
                          fr::models_3d *models)
@@ -27,7 +31,10 @@ player_ship::player_ship(controller *controller, fr::camera_3d *camera,
         &_models->create_dynamic_model(fr::model_3d_items::player_ship_02_full);
     // x, y (back/forward), z (down/up)
     _model->set_position(fr::point_3d(0, 860, 0));
-    _model->set_psi(16383); // 90 degrees
+    _model->set_psi(16383); // 90 degrees // <-- Magic number
+
+    _test =
+        &_models->create_dynamic_model(fr::model_3d_items::asteroid1_full);
 }
 
 void player_ship::destroy()
@@ -49,7 +56,7 @@ void player_ship::update()
         ship_pos.set_x(ship_pos.x() + dir_input.x() * MANEUVER_SPEED);
         ship_pos.set_z(ship_pos.z() + dir_input.y() * MANEUVER_SPEED);
 
-        if (ship_pos.x() < -65)
+        if (ship_pos.x() < -65) // <-- Magic number
         {
             ship_pos.set_x(-65);
         }
@@ -57,7 +64,7 @@ void player_ship::update()
         {
             ship_pos.set_x(65);
         }
-        if (ship_pos.z() < -45)
+        if (ship_pos.z() < -45) // <-- Magic number
         {
             ship_pos.set_z(-45);
         }
@@ -65,8 +72,6 @@ void player_ship::update()
         {
             ship_pos.set_z(45);
         }
-
-        BN_LOG("[player_ship] position: " + bn::to_string<64>(ship_pos.x()) + ", " + bn::to_string<64>(ship_pos.z()));
 
         // Forward movement
         ship_pos.set_y(ship_pos.y() - FORWARD_SPEED);
@@ -77,8 +82,59 @@ void player_ship::update()
     {
         // - Player ship Yaw/Pitch
 
-        _model->set_phi(YAW_MAX * dir_input.x());
-        _model->set_psi(16383 + -PITCH_MAX * dir_input.y());
+        // _model->set_phi(YAW_MAX * dir_input.x());
+        // _model->set_psi(16383 + -PITCH_MAX * dir_input.y());
+
+        // > Point ship to target position
+        constexpr int focal_length_shift = fr::constants_3d::focal_length_shift;
+        bn::fixed depth_position = _model->position().y() - 200; // Setup distance in front of ship
+        bn::fixed depth_to_camera = _camera->position().y() - depth_position;
+
+        fr::point_3d cam_pos = _camera->position();
+        bn::fixed cam_u_x = _camera->u().x();
+        bn::fixed cam_u_z = _camera->u().z();
+        bn::fixed cam_v_x = _camera->v().x();
+        bn::fixed cam_v_z = _camera->v().z();
+
+        BN_LOG("[player_ship] --------------------");
+
+        // Build direction vector in camera space
+        bn::fixed dir_x = cam_u_x * target_position.x() + cam_v_x * target_position.y();
+        bn::fixed dir_z = cam_u_z * target_position.x() + cam_v_z * target_position.y();
+
+        // Compute target world position.
+        fr::point_3d target_world_pos(
+            int((dir_x - cam_pos.x()) * depth_to_camera) >> focal_length_shift, //c + dir_x * t,
+            depth_position,
+            -int((dir_z - cam_pos.z()) * depth_to_camera) >> focal_length_shift // cam_pos.z() + dir_z * t
+        );
+
+        _test->set_position(target_world_pos);
+
+        BN_LOG("[player_ship] target_world_pos position: " + bn::to_string<64>(target_world_pos.x()) + ", " + bn::to_string<64>(target_world_pos.y()) + ", " + bn::to_string<64>(target_world_pos.z()));
+
+        // > Make ship face the target position
+        // <-- Here onwards seems to be wrong. FIX
+        
+        bn::fixed dx = target_world_pos.x() - _model->position().x();
+        bn::fixed dz = target_world_pos.z() - _model->position().z();
+        BN_LOG("[player_ship] angles dx: " + bn::to_string<64>(dx) + ", dz " + bn::to_string<64>(dz));
+        
+        bn::fixed angle_psi_degrees = bn::degrees_atan2(-dz.integer(), depth_to_camera.integer());
+        bn::fixed angle_phi_degrees = bn::degrees_atan2(dx.integer(), depth_to_camera.integer());
+        
+        BN_LOG("[player_ship] angles_degrees psi: " + bn::to_string<64>(angle_psi_degrees) + ", phi " + bn::to_string<64>(angle_phi_degrees));
+
+        bn::rule_of_three_approximation rotation_units(360, 65536); // <-- Define as constant
+
+        bn::fixed angle_psi = rotation_units.calculate(angle_psi_degrees);
+        bn::fixed angle_phi = rotation_units.calculate(angle_phi_degrees);
+
+        _model->set_psi(0);
+        _model->set_phi(angle_phi); // Invert
+        _model->set_psi(16383 + angle_psi); // <-- MAGIC NUMBER
+        BN_LOG("[player_ship] angles psi: " + bn::to_string<64>(angle_psi) + ", phi " + bn::to_string<64>(angle_phi));
+
     }
 
     {

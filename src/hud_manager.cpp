@@ -8,6 +8,7 @@
 #include "bn_log.h"
 
 #include "fr_camera_3d.h"
+#include "fr_point_3d.h"
 
 #include "controller.h"
 #include "player_ship.h"
@@ -69,10 +70,21 @@ void hud_manager::_move_target()
 
     const int TARGET_SPEED = 10;
 
-    BN_LOG("[target] dir_input: " + bn::to_string<64>(dir_input.x()) + ", " + bn::to_string<64>(dir_input.y()));
+    // BN_LOG("[target] dir_input: " + bn::to_string<64>(dir_input.x()) + ", " + bn::to_string<64>(dir_input.y()));
 
     bn::point target_pos;
+
+    // if (dir_input.x() == 0 && dir_input.y() == 0)
+    // {
+    //     // Return to center of ship.
+    //     fr::point_3d ship_pos = _player_ship->get_position();
+    //     ship_pos.set_y(ship_pos.y() - 200); // Add some distance in front of ship for rest position.
+    //     // Now I need to find a way to project that point to 2D screen coordinates.
+
+    // }
+    // else
     {
+        // Move target sprite based on input.
         target_pos.set_x(int(_target_spr.x() + dir_input.x() * TARGET_SPEED));
         target_pos.set_y(int(_target_spr.y() + dir_input.y() * TARGET_SPEED));
 
@@ -96,6 +108,8 @@ void hud_manager::_move_target()
 
     _target_spr.set_y(target_pos.y());
     _target_spr.set_x(target_pos.x());
+
+    _player_ship->set_target_position(target_pos);
 
     _target_growth_action->update();
 }
