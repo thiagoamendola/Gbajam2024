@@ -85,7 +85,7 @@ bn::optional<scene_type> butano_intro_scene::update()
     {
         if (_counter)
         {
-            if (bn::keypad::a_pressed())
+            if (bn::keypad::any_pressed())
             {
                 _counter = 0;
             }
