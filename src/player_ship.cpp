@@ -53,8 +53,8 @@ void player_ship::update()
 
         // Directional movement
 
-        ship_pos.set_x(ship_pos.x() + dir_input.x() * MANEUVER_SPEED);
-        ship_pos.set_z(ship_pos.z() + dir_input.y() * MANEUVER_SPEED);
+        // ship_pos.set_x(ship_pos.x() + dir_input.x() * MANEUVER_SPEED);
+        // ship_pos.set_z(ship_pos.z() + dir_input.y() * MANEUVER_SPEED);
 
         if (ship_pos.x() < -65) // <-- Magic number
         {
@@ -102,7 +102,7 @@ void player_ship::update()
         bn::fixed dir_x = cam_u_x * target_position.x() + cam_v_x * target_position.y();
         bn::fixed dir_z = cam_u_z * target_position.x() + cam_v_z * target_position.y();
 
-        // Compute target world position.
+        // Compute target world position. Dividing using focal shift for optimization.
         fr::point_3d target_world_pos(
             int((dir_x - cam_pos.x()) * depth_to_camera) >> focal_length_shift, //c + dir_x * t,
             depth_position,
@@ -113,26 +113,28 @@ void player_ship::update()
 
         BN_LOG("[player_ship] target_world_pos position: " + bn::to_string<64>(target_world_pos.x()) + ", " + bn::to_string<64>(target_world_pos.y()) + ", " + bn::to_string<64>(target_world_pos.z()));
 
-        // > Make ship face the target position
-        // <-- Here onwards seems to be wrong. FIX
-        
+        // Calculate direction vector from ship to target
         bn::fixed dx = target_world_pos.x() - _model->position().x();
+        bn::fixed dy = target_world_pos.y() - _model->position().y();
         bn::fixed dz = target_world_pos.z() - _model->position().z();
-        BN_LOG("[player_ship] angles dx: " + bn::to_string<64>(dx) + ", dz " + bn::to_string<64>(dz));
-        
-        bn::fixed angle_psi_degrees = bn::degrees_atan2(-dz.integer(), depth_to_camera.integer());
-        bn::fixed angle_phi_degrees = bn::degrees_atan2(dx.integer(), depth_to_camera.integer());
-        
+
+        BN_LOG("[player_ship] angles dx: " + bn::to_string<64>(dx) + ", dy: " + bn::to_string<64>(dy) + ", dz: " + bn::to_string<64>(dz));
+
+        // Yaw (phi): rotate around Z axis, atan2(dx, -dy) to account for inverted Y
+        bn::fixed angle_phi_degrees = bn::degrees_atan2(dx.integer(), -dy.integer());
+        // Pitch (psi): tilt up/down, atan2(-dz, sqrt(dx^2 + dy^2))
+        bn::fixed horizontal_dist = bn::sqrt(dx * dx + dy * dy);
+        bn::fixed angle_psi_degrees = bn::degrees_atan2(-dz.integer(), horizontal_dist.integer());
+
         BN_LOG("[player_ship] angles_degrees psi: " + bn::to_string<64>(angle_psi_degrees) + ", phi " + bn::to_string<64>(angle_phi_degrees));
 
-        bn::rule_of_three_approximation rotation_units(360, 65536); // <-- Define as constant
-
+        bn::rule_of_three_approximation rotation_units(360, 65536); // <-- Reutilize this for entire project
         bn::fixed angle_psi = rotation_units.calculate(angle_psi_degrees);
         bn::fixed angle_phi = rotation_units.calculate(angle_phi_degrees);
 
-        _model->set_psi(0);
-        _model->set_phi(angle_phi); // Invert
-        _model->set_psi(16383 + angle_psi); // <-- MAGIC NUMBER
+        _model->set_psi(0); // Avoid gimbal lock
+        _model->set_phi(angle_phi); // Yaw (around Z)
+        _model->set_psi(16383 + angle_psi); // Pitch (centered)
         BN_LOG("[player_ship] angles psi: " + bn::to_string<64>(angle_psi) + ", phi " + bn::to_string<64>(angle_phi));
 
     }

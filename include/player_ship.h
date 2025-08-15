@@ -68,6 +68,12 @@ class player_ship
         return health;
     }
 
+    void set_target_position(const bn::point target_pos)
+    {
+        target_position.set_x(target_pos.x());
+        target_position.set_y(target_pos.y());
+    }
+
     // - Movement
     const bn::fixed MANEUVER_SPEED = 3;
     const bn::fixed FORWARD_SPEED = 2.5;
@@ -83,6 +89,7 @@ class player_ship
 
     fr::models_3d *_models;
     fr::model_3d *_model;
+    fr::model_3d *_test;
 
     player_laser _player_laser;
 
@@ -91,6 +98,7 @@ class player_ship
 
     int health = 3;
     int damage_cooldown = 0;
+    bn::point target_position;
 };
 
 #endif

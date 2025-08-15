@@ -36,15 +36,15 @@ int player_laser::render_player_laser(
         int psi_raw = psi.right_shift_integer();
 
         // Calculate laser trajectory.
-        fr::point_3d forward_vec = fr::point_3d(0, -400, 0);
-        // use magnitude instead
+        fr::point_3d forward_vec = fr::point_3d(0, -200, 0); // <-- magic number
+        // use magnitude instead???
         forward_vec.set_x(-forward_vec.y() * fr::sin(phi_raw));
         forward_vec.set_y(forward_vec.y());
         forward_vec.set_z(-forward_vec.y() * fr::cos(psi_raw));
 
         // Update vertices.
         //<-- Make const for these points for easy changing later
-        laser_vertices[0].reset(player_ship_pos + fr::point_3d(10, 0, 2));
+        laser_vertices[0].reset(player_ship_pos + fr::point_3d(10, 0, 2)); // <-- magic numbers
         laser_vertices[1].reset(player_ship_pos + fr::point_3d(10, 0, -2));
         laser_vertices[2].reset(player_ship_pos + forward_vec);
         laser_vertices[3].reset(player_ship_pos + fr::point_3d(-10, 0, 2));
