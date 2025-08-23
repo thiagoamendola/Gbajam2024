@@ -6,6 +6,7 @@
 #include "bn_sprite_text_generator.h"
 #include "bn_string.h"
 #include "bn_log.h"
+#include "bn_math.h"
 
 #include "fr_camera_3d.h"
 #include "fr_point_3d.h"
@@ -70,22 +71,91 @@ void hud_manager::_move_target()
 
     const int TARGET_SPEED = 10;
 
-    // BN_LOG("[target] dir_input: " + bn::to_string<64>(dir_input.x()) + ", " + bn::to_string<64>(dir_input.y()));
+    BN_LOG("[target] dir_input: " + bn::to_string<64>(dir_input.x()) + ", " + bn::to_string<64>(dir_input.y()));
 
     bn::point target_pos;
 
-    // if (dir_input.x() == 0 && dir_input.y() == 0)
-    // {
-    //     // Return to center of ship.
-    //     fr::point_3d ship_pos = _player_ship->get_position();
-    //     ship_pos.set_y(ship_pos.y() - 200); // Add some distance in front of ship for rest position.
-    //     // Now I need to find a way to project that point to 2D screen coordinates.
+    if (bn::abs(dir_input.x()) < 0.15 && bn::abs(dir_input.y()) < 0.15)
+    {
+        // // Return to center of ship.
+        
+        // Use integer parts to stay consistent with earlier int() casts in forward step.
+        constexpr int focal_length_shift = fr::constants_3d::focal_length_shift;
+        fr::point_3d target_world_pos = _player_ship->get_position();
+        fr::point_3d cam_pos = _camera->position();
+        fr::point_3d cam_u = _camera->u();
+        fr::point_3d cam_v = _camera->v();
+        bn::fixed depth_position = target_world_pos.y() - 200; // Setup distance in front of ship
+        bn::fixed depth_to_camera = _camera->position().y() - depth_position;
 
-    // }
-    // else
+        int cam_x_i = cam_pos.x().integer();
+        int cam_z_i = cam_pos.z().integer();
+        int world_x_i = target_world_pos.x().integer();
+        int world_z_i = target_world_pos.z().integer();
+        int depth_to_camera_i = depth_to_camera.integer();
+
+        // Reconstruct dir_x and dir_z (integer approximation):
+        // (dir_x - cam_x) = (world_x << f_shift) / depth_to_camera
+        int dir_x_i = cam_x_i + ((world_x_i << focal_length_shift) / depth_to_camera_i);
+        // (dir_z - cam_z) = -(world_z << f_shift) / depth_to_camera
+        int dir_z_i = cam_z_i - ((world_z_i << focal_length_shift) / depth_to_camera_i);
+
+        // Solve 2x2 linear system:
+        // [ ux  vx ] [sx] = dir_x
+        // [ uz  vz ] [sy]   dir_z
+        int ux_i = cam_u.x().integer();
+        int vx_i = cam_v.x().integer();
+        int uz_i = cam_u.z().integer();
+        int vz_i = cam_v.z().integer();
+        int det = ux_i * vz_i - vx_i * uz_i;
+
+        int sx_i = 0;
+        int sy_i = 0;
+        if(det != 0)
+        {
+            sx_i = (dir_x_i * vz_i - vx_i * dir_z_i) / det; // <-- OPTIMIZE: REPLACE DIVISION
+            sy_i = (ux_i * dir_z_i - dir_x_i * uz_i) / det; // <-- OPTIMIZE: REPLACE DIVISION
+        }
+
+        bn::point rest_pos {int16_t(sx_i), int16_t(sy_i)};
+
+        // <-- Review code below for any optimization or fine-tuning
+        // Move towards rest_pos gradually, capped by TARGET_SPEED per axis to avoid overshoot.
+        int cur_x = _target_spr.x().integer();
+        int cur_y = _target_spr.y().integer();
+        int dx = rest_pos.x() - cur_x;
+        int dy = rest_pos.y() - cur_y;
+
+        // Step towards rest position on X.
+        if(dx > 0)
+        {
+            cur_x += (dx > TARGET_SPEED) ? TARGET_SPEED : dx;
+        }
+        else if(dx < 0)
+        {
+            int adx = -dx;
+            cur_x -= (adx > TARGET_SPEED) ? TARGET_SPEED : adx;
+        }
+
+        // Step towards rest position on Y.
+        if(dy > 0)
+        {
+            cur_y += (dy > TARGET_SPEED) ? TARGET_SPEED : dy;
+        }
+        else if(dy < 0)
+        {
+            int ady = -dy;
+            cur_y -= (ady > TARGET_SPEED) ? TARGET_SPEED : ady;
+        }
+
+        target_pos.set_x(cur_x);
+        target_pos.set_y(cur_y);
+
+    }
+    else
     {
         // Move target sprite based on input.
-        target_pos.set_x(int(_target_spr.x() + dir_input.x() * TARGET_SPEED));
+        target_pos.set_x(int(_target_spr.x() + dir_input.x() * TARGET_SPEED)); // StarFox 64 multiplies this during barrel roll
         target_pos.set_y(int(_target_spr.y() + dir_input.y() * TARGET_SPEED));
 
         if (target_pos.x() < -110)
