@@ -23,9 +23,9 @@ hud_manager::hud_manager(controller *controller, fr::camera_3d *camera, player_s
       _target_growth_action()
 {
     // Setup target sprite
-    _target_spr.set_horizontal_scale(1.2);
-    _target_spr.set_vertical_scale(1.2);
-    _target_growth_action = bn::sprite_scale_loop_action(_target_spr, 15, 2.0);
+    _target_spr.set_horizontal_scale(TARGET_INITIAL_SCALE);
+    _target_spr.set_vertical_scale(TARGET_INITIAL_SCALE);
+    _target_growth_action = bn::sprite_scale_loop_action(_target_spr, TARGET_GROWTH_STEPS, TARGET_GROWTH_MAX_SCALE);
 }
 
 void hud_manager::destroy()
@@ -73,7 +73,7 @@ void hud_manager::_move_target()
 
     bn::point target_pos;
 
-    if (bn::abs(dir_input.x()) < 0.15 && bn::abs(dir_input.y()) < 0.15)
+    if (bn::abs(dir_input.x()) < DIRECTION_DEADZONE && bn::abs(dir_input.y()) < DIRECTION_DEADZONE)
     {
         target_pos = _compute_target_return();
     }
@@ -98,7 +98,9 @@ bn::point hud_manager::_compute_target_return()
     fr::point_3d cam_pos = _camera->position();
     fr::point_3d cam_u = _camera->u();
     fr::point_3d cam_v = _camera->v();
-    bn::fixed depth_position = target_world_pos.y() - 200; // Setup distance in front of ship
+    
+    // Setup distance in front of ship
+    bn::fixed depth_position = target_world_pos.y() - _player_ship->FOCUS_DISTANCE; 
     bn::fixed depth_to_camera = _camera->position().y() - depth_position;
 
     int cam_x_i = cam_pos.x().integer();
@@ -129,7 +131,6 @@ bn::point hud_manager::_compute_target_return()
     bn::point rest_pos {int16_t(sx_i), int16_t(sy_i)};
 
     // Move towards rest_pos gradually, capped per axis to avoid overshoot.
-    const int TARGET_SPEED = 10; // same speed constant used in caller
     int cur_x = _target_spr.x().integer();
     int cur_y = _target_spr.y().integer();
     int dx = rest_pos.x() - cur_x;
@@ -161,27 +162,26 @@ bn::point hud_manager::_compute_target_return()
 bn::point hud_manager::_compute_target_move(const bn::fixed_point& dir_input)
 {
     // Move target sprite based on input.
-    constexpr int TARGET_SPEED = 10; // <-- Magic number
     bn::point target_pos;
     target_pos.set_x(int(_target_spr.x() + dir_input.x() * TARGET_SPEED)); // StarFox 64 multiplies this during barrel roll
     target_pos.set_y(int(_target_spr.y() + dir_input.y() * TARGET_SPEED));
 
     // Clamp to screen bounds.
-    if (target_pos.x() < -110)
+    if (target_pos.x() < TARGET_MIN_X)
     {
-        target_pos.set_x(-110);
+        target_pos.set_x(TARGET_MIN_X);
     }
-    else if (target_pos.x() > 110)
+    else if (target_pos.x() > TARGET_MAX_X)
     {
-        target_pos.set_x(110);
+        target_pos.set_x(TARGET_MAX_X);
     }
-    if (target_pos.y() < -75)
+    if (target_pos.y() < TARGET_MIN_Y)
     {
-        target_pos.set_y(-75);
+        target_pos.set_y(TARGET_MIN_Y);
     }
-    else if (target_pos.y() > 75)
+    else if (target_pos.y() > TARGET_MAX_Y)
     {
-        target_pos.set_y(75);
+        target_pos.set_y(TARGET_MAX_Y);
     }
 
     return target_pos;

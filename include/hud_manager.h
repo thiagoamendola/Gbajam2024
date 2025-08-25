@@ -7,6 +7,7 @@
 #include "bn_sprite_animate_actions.h"
 #include "bn_sprite_actions.h"
 #include "bn_point.h"
+#include "bn_fixed.h"
 
 #include "fr_camera_3d.h"
 
@@ -22,6 +23,21 @@ public:
 
     void update(); 
     void statics_update(int static_count);
+
+    // Neutral stick threshold
+    const bn::fixed DIRECTION_DEADZONE = 0.15;
+
+    // Target location constraints
+    const int TARGET_SPEED = 10;
+    const int TARGET_MIN_X = -110;           
+    const int TARGET_MAX_X = 110;
+    const int TARGET_MIN_Y = -75;            
+    const int TARGET_MAX_Y = 75;
+
+    // Target animation constants
+    const bn::fixed TARGET_INITIAL_SCALE = 1.2;
+    const int TARGET_GROWTH_STEPS = 15;
+    const bn::fixed TARGET_GROWTH_MAX_SCALE = 2.0;
 
 private:
     controller *_controller; // <-- move to common stuff

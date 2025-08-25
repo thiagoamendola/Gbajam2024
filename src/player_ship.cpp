@@ -33,9 +33,6 @@ player_ship::player_ship(controller *controller, fr::camera_3d *camera,
     // x, y (back/forward), z (down/up)
     _model->set_position(fr::point_3d(0, 860, 0));
     _model->set_psi(16383); // 90 degrees // <-- Magic number
-
-    _test =
-        &_models->create_dynamic_model(fr::model_3d_items::asteroid1_full);
 }
 
 void player_ship::destroy()
@@ -88,7 +85,7 @@ void player_ship::update()
 
         // > Point ship to target position
         constexpr int focal_length_shift = fr::constants_3d::focal_length_shift;
-        bn::fixed depth_position = _model->position().y() - 200; // Setup distance in front of ship
+        bn::fixed depth_position = _model->position().y() - FOCUS_DISTANCE; // Setup distance in front of ship
         bn::fixed depth_to_camera = _camera->position().y() - depth_position;
 
         fr::point_3d cam_pos = _camera->position();
@@ -108,8 +105,6 @@ void player_ship::update()
             depth_position,
             -int((dir_z - cam_pos.z()) * depth_to_camera) >> focal_length_shift
         );
-
-        _test->set_position(target_world_pos); // <-- REMOVE
 
         // BN_LOG("[player_ship] target_world_pos position: " + bn::to_string<64>(target_world_pos.x()) + ", " + bn::to_string<64>(target_world_pos.y()) + ", " + bn::to_string<64>(target_world_pos.z()));
 
