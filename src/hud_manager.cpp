@@ -71,7 +71,7 @@ void hud_manager::_move_target()
 
     BN_LOG("[target] dir_input: " + bn::to_string<64>(dir_input.x()) + ", " + bn::to_string<64>(dir_input.y()));
 
-    bn::point target_pos;
+    bn::fixed_point target_pos;
 
     if (bn::abs(dir_input.x()) < DIRECTION_DEADZONE && bn::abs(dir_input.y()) < DIRECTION_DEADZONE)
     {

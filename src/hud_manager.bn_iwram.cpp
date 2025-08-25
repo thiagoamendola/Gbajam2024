@@ -1,9 +1,10 @@
 #include "hud_manager.h"
-
 #include "fr_camera_3d.h"
 #include "fr_point_3d.h"
+#include "bn_math.h"
+#include "utils.h"
 
-bn::point hud_manager::_compute_target_return()
+bn::fixed_point hud_manager::_compute_target_return()
 {
     constexpr int focal_length_shift = fr::constants_3d::focal_length_shift;
     fr::point_3d target_world_pos = _player_ship->get_position();
@@ -37,39 +38,49 @@ bn::point hud_manager::_compute_target_return()
         sy_i = (ux_i * dir_z_i - dir_x_i * uz_i) / det; // TODO: optimize division
     }
 
-    bn::point rest_pos {int16_t(sx_i), int16_t(sy_i)};
+    bn::fixed_point rest_pos { int16_t(sx_i), int16_t(sy_i) };
 
-    int cur_x = _target_spr.x().integer();
-    int cur_y = _target_spr.y().integer();
-    int dx = rest_pos.x() - cur_x;
-    int dy = rest_pos.y() - cur_y;
+    // Current position in screen space (sprite coordinates)
+    bn::fixed_point current_pos(_target_spr.x(), _target_spr.y());
+    bn::fixed_point dist_vec = rest_pos - current_pos;          // Remaining vector
 
-    if(dx > 0)
+    // Early out if already there
+    if(dist_vec.x() == 0 && dist_vec.y() == 0)
     {
-        cur_x += (dx > TARGET_SPEED) ? TARGET_SPEED : dx;
-    }
-    else if(dx < 0)
-    {
-        int adx = -dx;
-        cur_x -= (adx > TARGET_SPEED) ? TARGET_SPEED : adx;
+        return current_pos;
     }
 
-    if(dy > 0)
+    // Normalized direction vector (unit). Assumes unit_vector handles zero safely.
+    bn::fixed_point norm_dist_vec = unit_vector(dist_vec);
+
+    // Desired per-axis movement this frame:
+    // min( remaining distance on that axis, TARGET_SPEED * |axis_unit_component| ) preserving sign.
+    bn::fixed abs_dx = bn::abs(dist_vec.x());
+    bn::fixed abs_dy = bn::abs(dist_vec.y());
+    bn::fixed max_step_x = bn::abs(norm_dist_vec.x() * TARGET_SPEED);
+    bn::fixed max_step_y = bn::abs(norm_dist_vec.y() * TARGET_SPEED);
+
+    // Clamp so we don't exceed remaining distance.
+    bn::fixed step_x = (abs_dx < max_step_x) ? abs_dx : max_step_x;
+    bn::fixed step_y = (abs_dy < max_step_y) ? abs_dy : max_step_y;
+
+    // Reapply original signs.
+    if(dist_vec.x() < 0)
     {
-        cur_y += (dy > TARGET_SPEED) ? TARGET_SPEED : dy;
+        step_x = -step_x;
     }
-    else if(dy < 0)
+    if(dist_vec.y() < 0)
     {
-        int ady = -dy;
-        cur_y -= (ady > TARGET_SPEED) ? TARGET_SPEED : ady;
+        step_y = -step_y;
     }
 
-    return bn::point(cur_x, cur_y);
+    bn::fixed_point new_pos(current_pos.x() + step_x, current_pos.y() + step_y);
+    return new_pos;
 }
 
-bn::point hud_manager::_compute_target_move(const bn::fixed_point& dir_input)
+bn::fixed_point hud_manager::_compute_target_move(const bn::fixed_point& dir_input)
 {
-    bn::point target_pos;
+    bn::fixed_point target_pos;
     target_pos.set_x(int(_target_spr.x() + dir_input.x() * TARGET_SPEED));
     target_pos.set_y(int(_target_spr.y() + dir_input.y() * TARGET_SPEED));
 

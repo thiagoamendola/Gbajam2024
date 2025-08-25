@@ -68,7 +68,7 @@ class player_ship
         return health;
     }
 
-    void set_target_position(const bn::point target_pos)
+    void set_target_position(const bn::fixed_point target_pos)
     {
         target_position.set_x(target_pos.x());
         target_position.set_y(target_pos.y());
@@ -97,7 +97,7 @@ class player_ship
 
     int health = 3;
     int damage_cooldown = 0;
-    bn::point target_position;
+    bn::fixed_point target_position;
 };
 
 #endif

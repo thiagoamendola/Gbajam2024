@@ -54,8 +54,8 @@ private:
     bn::optional<bn::sprite_scale_loop_action> _target_growth_action;
 
     void _move_target();
-    bn::point _compute_target_return();
-    bn::point _compute_target_move(const bn::fixed_point& dir_input);
+    bn::fixed_point _compute_target_return();
+    bn::fixed_point _compute_target_move(const bn::fixed_point& dir_input);
 
 };
 
